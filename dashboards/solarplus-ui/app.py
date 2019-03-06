@@ -99,6 +99,15 @@ def extractData(startDate, endDate):
     #print(dataInRange)
 
     return dataInRange.to_json(orient = 'records')
+
+@app.route('setpoints', methods['POST'])
+def saveSetpoints():
+    modes = request.get_json().get('data')
+    df = pd.DataFrame(modes)
+    df.to_csv('./sample_data/setpoints.csv',encoding='utf-8',index=False)
+
+    response = {'status': 'csv created successfully'}
+    return jsonify(response)
   
 if __name__ == '__main__':
     app.run()
