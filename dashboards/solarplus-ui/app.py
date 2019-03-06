@@ -1,6 +1,7 @@
 from flask import Flask, request, send_from_directory
 from flask import make_response, request, current_app
 from flask import jsonify, redirect, url_for
+from flask_cors import CORS
 from datetime import timedelta
 from functools import update_wrapper 
 import pandas as pd 
@@ -100,7 +101,7 @@ def extractData(startDate, endDate):
 
     return dataInRange.to_json(orient = 'records')
 
-@app.route('setpoints', methods['POST'])
+@app.route('/setpoints', methods=['POST'])
 def saveSetpoints():
     modes = request.get_json().get('data')
     df = pd.DataFrame(modes)
@@ -109,5 +110,6 @@ def saveSetpoints():
     response = {'status': 'csv created successfully'}
     return jsonify(response)
   
+
 if __name__ == '__main__':
     app.run()
