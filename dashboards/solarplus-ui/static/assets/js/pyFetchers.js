@@ -11,7 +11,7 @@ export const fetchFromURI = uri => {
 // send a JSON object to the Flask server
 // using HTTP POST
  
-export const portToFlask = (endpoint, data) => {
+export const postToFlask = (endpoint, data) => {
   let uri = BASE_URL + endpoint;
   let options = {
     headers: {'Content-Type':'application/json' },
