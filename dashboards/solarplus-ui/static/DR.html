@@ -12,6 +12,7 @@
 	<link href="https://fonts.googleapis.com/css?family=Roboto" rel="stylesheet">
 </head>
 <body id="body">
+		
 	<div class="navbar-fixed">
 		<nav>
 			<div class="nav-wrapper tp-blue">
@@ -35,6 +36,7 @@
 	<div class="row"></div>
 	<div class="row"></div>
 
+
 	<div class="container">
 		<div id="my-div" class="switch">
 			<label id="label" class="valign-wrapper" style="cursor: default;">
@@ -47,7 +49,16 @@
 
 		<div class="row"></div>
 
-		<div id="bldng-chart" class="section z-depth-1">
+		<button id="renderBtn">
+				Click for Graph
+			</button>
+			<div class="container">
+				<canvas id="myChart"></canvas>
+			</div>
+
+		
+
+		<!--<div id="bldng-chart" class="section z-depth-1"> 2
 			<div class="row valign-wrapper">
 				<div id="bldng-DR" class="col s12"></div>
 			</div>
@@ -59,7 +70,9 @@
 				<div id="zone-DR" class="col s12"></div>
 			</div>
 			<div class="center-align"><a id="zone-reset" class="waves-effect waves-light btn">Reset Zoom</a></div>
-		</div>
+		</div> -->
+
+		<!--upto this point it's the DR tab (starting from bldng-chart)-->
 
 		<!-- <a class="btn tooltipped" data-position="top" data-tooltip="jkbvkghjhkjg">Hover me!</a> -->
 
@@ -207,10 +220,28 @@
 <script type="text/javascript" src="assets/js/lib/jquery.js"></script>
 <script type="text/javascript" src="assets/js/script.js"></script>
 <script type="text/javascript" src="assets/js/lib/highcharts.js"></script>
+<script type="text/javascript" src="assets/js/lib/lineChart.js"></script>
 <!-- <script type="text/javascript" src="assets/js/lib/drilldown.js"></script> -->
 <!-- <script type="text/javascript" src="assets/js/lib/highcharts-more.js"></script> -->
 <script type="text/javascript" src="assets/js/DR/DR.js"></script>
 <script type="text/javascript" src="assets/js/DR/zone-chart.js"></script>
 <script type="text/javascript" src="assets/js/DR/bldng-chart.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/2.7.2/Chart.js"></script>
+
+
+</html></body>
+
+<script type="text/javascript" src="assets/js/lib/materialize.js"></script>
+<script type="text/javascript" src="assets/js/lib/jquery.js"></script>
+<script type="text/javascript" src="assets/js/script.js"></script>
+<script type="text/javascript" src="assets/js/lib/highcharts.js"></script>
+<script type="text/javascript" src="assets/js/lib/lineChart.js"></script>
+<!-- <script type="text/javascript" src="assets/js/lib/drilldown.js"></script> -->
+<!-- <script type="text/javascript" src="assets/js/lib/highcharts-more.js"></script> -->
+<!-- script type="text/javascript" src="assets/js/DR/DR.js"></script> -->
+<script type="text/javascript" src="assets/js/DR/zone-chart.js"></script>
+<script type="text/javascript" src="assets/js/DR/bldng-chart.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/2.7.2/Chart.js"></script>
+
 
 </html>
