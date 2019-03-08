@@ -20,13 +20,14 @@ var data = [
 
 
 function download_csv() {
+    console.log(data);
     var csv = 'lowSetpoint,highSetpoint\n';
     data.forEach(function (row) {
         csv += row.join(',');
         csv += "\n";
     });
 
-    console.log(csv);
+    console.log(eCSV);
     var hiddenElement = document.createElement('a');
     hiddenElement.href = 'data:text/csv;charset=utf-8,' + encodeURI(csv);
     hiddenElement.target = '_blank';

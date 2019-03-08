@@ -47,7 +47,8 @@
 					<h4 style="margin-bottom: 0;">Current Modes</h4>
 				</div>
 				<div class="col s6 right-align">
-					<a id="save-modes" onclick="download_csv()" class="waves-effect waves-light btn">save<i  class="material-icons right"  >save</i></a>
+					<!-- <a id="save-modes" onClick="download_csv()" class="waves-effect waves-light btn">save<i  class="material-icons right"  >save</i></a> -->
+					<a id="save-modes" class="waves-effect waves-light btn">save<i  class="material-icons right"  >save</i></a>
 				</div>
 			</div>
 			<div id="mode-div" class="row center-align valign-wrapper">
@@ -331,35 +332,8 @@
 <script type="text/javascript" src="assets/js/script.js"></script>
 <script type="text/javascript" src="assets/js/lib/nouislider.js"></script>
 <script type="text/javascript" src="assets/js/schedule/schedule-groupings.js"></script>
-
 <script type="text/javascript" src="assets/js/pyFetchers.js"></script>
 
 
-<!-- <script>
-var data = [
-    ['55', '85'],
-    ['70', '75'],
-    ['55', '85'],
-    ['85', '55'],
-    ['85', '55']
-];
-
-
-function download_csv() {
-    var csv = 'lowSetpoint,highSetpoint\n';
-    data.forEach(function (row) {
-        csv += row.join(',');
-        csv += "\n";
-    });
-
-    console.log(csv);
-    var hiddenElement = document.createElement('a');
-    hiddenElement.href = 'data:text/csv;charset=utf-8,' + encodeURI(csv);
-    hiddenElement.target = '_blank';
-    hiddenElement.download = 'setpoint.csv';
-    hiddenElement.click();
-}
-
-</script> -->
 
 </html>
