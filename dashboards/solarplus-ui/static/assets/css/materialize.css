@@ -2795,6 +2795,33 @@ a {
           box-shadow: 0 8px 17px 0 rgba(0, 0, 0, 0.2), 0 6px 20px 0 rgba(0, 0, 0, 0.19);
 }
 
+.hoverable-special {
+  -webkit-transition: -webkit-box-shadow .25s;
+  -webkit-transform: scale(1.15);
+  opacity: 0.9;
+  -webkit-transition: opacity 0.5s, -webkit-transform 0.5s;
+    transition: transform 0.5s, opacity 0.5s;
+  -ms-transform: scale(1.15);
+  transform: scale(1.15);
+}
+
+.hoverable-special:hover {
+  -webkit-box-shadow: 0 8px 17px 0 rgba(0, 0, 0, 0.2), 0 6px 20px 0 rgba(0, 0, 0, 0.19);
+          box-shadow: 0 8px 17px 0 rgba(0, 0, 0, 0.2), 0 6px 20px 0 rgba(0, 0, 0, 0.19);
+          -webkit-transform: scale(1.05);
+    -ms-transform: scale(1.05);
+            transform: scale(1.05);
+    opacity: 1;
+}
+
+.hoverable-text {
+
+}
+
+.hoverable-text:hover{
+
+}
+
 .divider {
   height: 1px;
   overflow: hidden;
@@ -4580,6 +4607,7 @@ nav .brand-logo {
   display: inline-block;
   font-size: 2.1rem;
   padding: 0;
+  margin-left: 0.85%;
 }
 
 nav .brand-logo.center {
