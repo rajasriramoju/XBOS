@@ -28,7 +28,7 @@ function renderChart(data, labels) {
         data: {
             labels: labels,
             datasets: [{
-                label: '2017-12-31',
+                label: 'Power consumption values',
                 data: data,
                 borderColor: 'rgba(75, 192, 192, 1)',
                 fill: false,
@@ -68,13 +68,18 @@ function Get(yourUrl){
 
 $("#renderBtn").click(
     function () {
-        var res = JSON.parse(Get("http://localhost:5000/cieeData"));
+        var startDate = document.getElementById("Date1").value;
+        var endDate = document.getElementById("Date2").value;
+
+        const uri = `http://localhost:5000/cieeData/${startDate}/${endDate}`;
+        
+        var res = JSON.parse(Get(uri)); //"http://localhost:5000/cieeData/2018-01-04/2018-01-05"));
         console.log(res);
         
         var data = [];
         var labels = [];
         
-        for (i = 0; i < 20; i++) {
+        for (i = 0; i < 250; i++) {
             data.push(res[i].ciee);
             labels.push(res[i].TimeStamp);  
 
@@ -82,16 +87,6 @@ $("#renderBtn").click(
         
         console.log(labels)
         renderChart(data, labels);
-        
-        //print(res);
- /*      
-        data = ["2240", "2176", "2120", "2120", "2116", "2120", "2124", "2116", "2108", 
-        "2116", "2120", "2115.555556", "2116","2727.272727", "2736", "2781.818182", "2152", "2148", "2164", 
-        "2155.55556"];
-        labels =  ["16:01", "16:02", "16:03", "16:04", "16:05", "16:06", "16:07", "16:08", "16:09", 
-        "16:10", "16:11", "16:12", "16:13", "16:14", "16:15", "16:16", "16:17", "16:18", "16:19", "16:20"];
-        renderChart(data, labels);
-        */
         
     }
 );
