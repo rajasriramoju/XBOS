@@ -41,9 +41,26 @@ $(document).ready(function() {
 		location.href = "schedule-epochs.html";
 	});
 
+	// $("#save-modes").click(function() {
+	// 	var obj = new Object();
+	// 	modes = [];
+	// 	$(".mode-card").each(function(i) {
+	// 		var m = new Object();
+	// 		m.id = i;
+	// 		var inputs = $(this).find("input");
+	// 		m.name = inputs[0].value;
+	// 		m.heating = inputs[1].value;
+	// 		m.cooling = inputs[2].value;
+	// 		m.enabled = $(inputs[3]).prop("checked");
+	// 		obj.modes.push(m);
+	// 	});
+	// 	M.toast({html: 'Current modes successfully updated.', classes:"rounded", displayLength: 2000});
+	// 	console.log(obj);
+	// });
+	
 	$("#save-modes").click(function() {
-		var obj = new Object();
-		obj.modes = [];
+		//var obj = new Object();
+		modes = [];
 		$(".mode-card").each(function(i) {
 			var m = new Object();
 			m.id = i;
@@ -52,9 +69,47 @@ $(document).ready(function() {
 			m.heating = inputs[1].value;
 			m.cooling = inputs[2].value;
 			m.enabled = $(inputs[3]).prop("checked");
-			obj.modes.push(m);
+			modes.push(m);
 		});
 		M.toast({html: 'Current modes successfully updated.', classes:"rounded", displayLength: 2000});
-		console.log(obj);
+
+		console.log(modes);
+
+		var result, ctr, keys, columnDelimiter, lineDelimiter, data, csv, eCSV;
+		data = modes;
+        columnDelimiter =  ',';
+        lineDelimiter =  '\n';
+
+        keys = Object.keys(data[0]);
+
+        result = '';
+        result += keys.join(columnDelimiter);
+        result += lineDelimiter;
+
+        data.forEach(function(item) {
+            ctr = 0;
+            keys.forEach(function(key) {
+                if (ctr > 0) result += columnDelimiter;
+
+                result += item[key];
+                ctr++;
+            });
+            result += lineDelimiter;
+		});
+		
+		csv = 'data:text/csv;charset=utf-8,' + result;
+		eCSV = encodeURI(csv);
+
+		//console.log(eCSV);
+
+		var hiddenElement = document.createElement('a');
+		hiddenElement.href = 'data:text/csv;charset=utf-8,' + encodeURI(result);
+		hiddenElement.target = '_blank';
+		hiddenElement.download = 'currentModes.csv';
+		hiddenElement.click();
+
+
+		// console.log("name" + modes[0].name);
 	});
 });
+

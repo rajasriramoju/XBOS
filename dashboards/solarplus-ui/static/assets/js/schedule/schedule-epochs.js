@@ -127,6 +127,7 @@ $(document).ready(function() {
 
 	function readOut() {
 		var obj = new Object();
+		var arr = [];
 		// obj.name = location;
 		// obj.zones = [1, 3, 5, 7];
 		// obj.modes = [];
@@ -148,7 +149,9 @@ $(document).ready(function() {
 		t.thu = $.extend([], sliders[4].noUiSlider.get());
 		t.fri = $.extend([], sliders[5].noUiSlider.get());
 		t.sat = $.extend([], sliders[6].noUiSlider.get());
+		//arr.push(t)
 		obj.times = t;
+		arr.push(obj.times);
 		var sets = new Object();
 		sets.sun = sliderModes[0];
 		sets.mon = sliderModes[1];
@@ -158,7 +161,40 @@ $(document).ready(function() {
 		sets.fri = sliderModes[5];
 		sets.sat = sliderModes[6];
 		obj.settings = sets;
-		console.log(obj);
+		arr.push(obj.settings);
+		console.log(arr);
+		var result, ctr, keys, columnDelimiter, lineDelimiter, data, csv, eCSV;
+		data = arr;
+        columnDelimiter =  ',';
+        lineDelimiter =  '\n';
+
+        keys = Object.keys(data[0]);
+
+        result = '';
+        result += keys.join(columnDelimiter);
+        result += lineDelimiter;
+
+        data.forEach(function(item) {
+            ctr = 0;
+            keys.forEach(function(key) {
+                if (ctr > 0) result += columnDelimiter;
+
+                result += item[key];
+				ctr++;
+            });
+            result += lineDelimiter;
+		});
+		console.log(result);
+		csv = 'data:text/csv;charset=utf-8,' + result;
+		eCSV = encodeURI(csv);
+
+		//console.log(eCSV);
+
+		var hiddenElement = document.createElement('a');
+		hiddenElement.href = 'data:text/csv;charset=utf-8,' + encodeURI(result);
+		hiddenElement.target = '_blank';
+		hiddenElement.download = 'times.csv';
+		hiddenElement.click();
 	}
 
 	$("#apply-modes").click(function() {
