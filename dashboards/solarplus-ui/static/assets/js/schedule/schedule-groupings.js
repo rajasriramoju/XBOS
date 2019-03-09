@@ -73,8 +73,9 @@ $(document).ready(function() {
 		});
 		M.toast({html: 'Current modes successfully updated.', classes:"rounded", displayLength: 2000});
 
+		console.log(modes);
+
 		var result, ctr, keys, columnDelimiter, lineDelimiter, data, csv, eCSV;
-		filename = 'export.csv';
 		data = modes;
         columnDelimiter =  ',';
         lineDelimiter =  '\n';
@@ -104,7 +105,7 @@ $(document).ready(function() {
 		var hiddenElement = document.createElement('a');
 		hiddenElement.href = 'data:text/csv;charset=utf-8,' + encodeURI(result);
 		hiddenElement.target = '_blank';
-		hiddenElement.download = 'setpoint.csv';
+		hiddenElement.download = 'currentModes.csv';
 		hiddenElement.click();
 
 
