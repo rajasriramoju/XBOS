@@ -4765,6 +4765,7 @@ nav .input-field label.active i {
 
 a {
   text-decoration: none;
+  text-decoration-color: black;
 }
 
 html {
