@@ -146,7 +146,7 @@ def extractData_plotTwoQueries(filename, startDate, endDate, feature1, feature2)
 # This function takes in a file name, start and end date and returns json response
 @app.route('/<filename>/<startDate>/<endDate>')
 @crossdomain(origin="*")
-def extractData_plotTwoQueries(filename, startDate, endDate):
+def extractData_anyFile(filename, startDate, endDate):
     
     filePathString = "./solarplus_sample_data/" + filename+".csv"
     print(filePathString)
