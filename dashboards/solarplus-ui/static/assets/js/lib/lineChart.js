@@ -16,123 +16,134 @@ var myChart = new Chart(contex, {
     }
 });
 </script>*/
-
-function consumption(value){
-    return (value);
-}
-
-function renderChart(data, labels) {
-    var ctx = document.getElementById("myChart").getContext('2d');
-    var myChart = new Chart(ctx, {
-        type: 'line',
-        data: {
-            labels: labels,
-            datasets: [{
-                label: 'Power consumption values',
-                data: data,
-                borderColor: 'rgba(75, 192, 192, 1)',
-                fill: false,
-                //backgroundColor: 'rgba(75, 192, 192, 0.2)',
-            }]
-        },
-        options: {            
-            scales: {
-                yAxes: [{
-                    ticks: {
-                        beginAtZero: true,
-                        callback: function(value, index, values) {
-                            return consumption(value);
-                        }
-                    }
-                }]                
-            }
-        },
-    });
-}
-
-function getData() {
+$(document).ready(function() {
+    function consumption(value){
+        return (value);
+    }
     
-    const uri = `http://localhost:5000/cieeData`;
-    var res = fetch(uri);  
-    //console.log(res.json());
-    fetch(uri).then(res => console.log(res.json()));
-    return res; 
-}
-
-function Get(yourUrl){
-    var Httpreq = new XMLHttpRequest(); // a new request
-    Httpreq.open("GET",yourUrl,false);
-    Httpreq.send(null);
-    return Httpreq.responseText;          
-}
-
-$("#renderBtn").click(
-    function () {
-        var startDate = document.getElementById("Date1").value;
-        var endDate = document.getElementById("Date2").value;
-
-        const uri = `http://localhost:5000/cieeData/${startDate}/${endDate}`;
+    function renderChart(data, labels) {
+        var ctx = document.getElementById("myChart").getContext('2d');
+        var myChart = new Chart(ctx, {
+            type: 'line',
+            data: {
+                labels: labels,
+                datasets: [{
+                    label: 'Power consumption values',
+                    data: data,
+                    borderColor: 'rgba(75, 192, 192, 1)',
+                    fill: false,
+                    //backgroundColor: 'rgba(75, 192, 192, 0.2)',
+                }]
+            },
+            options: {            
+                scales: {
+                    yAxes: [{
+                        ticks: {
+                            beginAtZero: true,
+                            callback: function(value, index, values) {
+                                return consumption(value);
+                            }
+                        }
+                    }]                
+                }
+            },
+        });
+    }
+    
+    function getData() {
         
-        var res = JSON.parse(Get(uri)); //"http://localhost:5000/cieeData/2018-01-04/2018-01-05"));
-        console.log(res);
-        
-        var data = [];
-        var labels = [];
-        
-        for (i = 0; i < 250; i++) {
-            data.push(res[i].ciee);
-            labels.push(res[i].TimeStamp);  
+        const uri = `http://localhost:5000/cieeData`;
+        var res = fetch(uri);  
+        //console.log(res.json());
+        fetch(uri).then(res => console.log(res.json()));
+        return res; 
+    }
+    
 
+    function Get(yourUrl){
+        var Httpreq = new XMLHttpRequest(); // a new request
+        Httpreq.open("GET",yourUrl,false);
+        Httpreq.send(null);
+        console.log("print");
+        return Httpreq.responseText;          
+    }
+    
+
+    $("#renderBtn").click(
+        function () {
+            var startDate = document.getElementById("Date1").value;
+            var endDate = document.getElementById("Date2").value;
+    
+            const uri = `http://localhost:5000/cieeData/${startDate}/${endDate}`;
+            
+            var res = JSON.parse(Get(uri)); //"http://localhost:5000/cieeData/2018-01-04/2018-01-05"));
+            console.log(res);
+            
+            var data = [];
+            var labels = [];
+            
+            for (i = 0; i < 250; i++) {
+                data.push(res[i].ciee);
+                labels.push(res[i].TimeStamp);  
+    
+            }
+            
+            console.log(labels)
+            renderChart(data, labels);
+            
         }
-        
-        console.log(labels)
-        renderChart(data, labels);
-        
-    }
-);
-
-$("#linechartCSV").click(
-    function () {
-        var startDate = document.getElementById("Date1").value;
-        var endDate = document.getElementById("Date2").value;
-
-        const uri = `http://localhost:5000/cieeData/${startDate}/${endDate}`;
-        
-        var res = JSON.parse(Get(uri)); //"http://localhost:5000/cieeData/2018-01-04/2018-01-05"));
-        console.log(res);
-        
-        var result, ctr, keys, columnDelimiter, lineDelimiter, data, csv, eCSV;
-		data = res;
-        columnDelimiter =  ',';
-        lineDelimiter =  '\n';
-
-        keys = Object.keys(data[0]);
-
-        result = '';
-        result += keys.join(columnDelimiter);
-        result += lineDelimiter;
-
-        data.forEach(function(item) {
-            ctr = 0;
-            keys.forEach(function(key) {
-                if (ctr > 0) result += columnDelimiter;
-
-                result += item[key];
-				ctr++;
-            });
+    );
+    
+    $("#linechartCSV").click(
+        function () {
+            var startDate = document.getElementById("Date1").value;
+            var endDate = document.getElementById("Date2").value;
+    
+            const uri = `http://localhost:5000/cieeData/${startDate}/${endDate}`;
+            
+            var res = JSON.parse(Get(uri)); //"http://localhost:5000/cieeData/2018-01-04/2018-01-05"));
+            //console.log(res);
+            
+            var result, ctr, keys, columnDelimiter, lineDelimiter, data, csv, eCSV;
+            data = res;
+            columnDelimiter =  ',';
+            lineDelimiter =  '\n';
+    
+            keys = Object.keys(data[0]);
+    
+            result = '';
+            result += keys.join(columnDelimiter);
             result += lineDelimiter;
-		});
-		console.log(result);
-		csv = 'data:text/csv;charset=utf-8,' + result;
-		eCSV = encodeURI(csv);
+    
+            data.forEach(function(item) {
+                ctr = 0;
+                keys.forEach(function(key) {
+                    if (ctr > 0) result += columnDelimiter;
+    
+                    result += item[key];
+                    ctr++;
+                });
+                result += lineDelimiter;
+            });
+            //console.log(result);
+            csv = 'data:text/csv;charset=utf-8,' + result;
+            eCSV = encodeURI(csv);
+    
+            //console.log(eCSV);
+    
+            var hiddenElement = document.createElement('a');
+            hiddenElement.href = 'data:text/csv;charset=utf-8,' + encodeURI(result);
+            hiddenElement.target = '_blank';
+            hiddenElement.download = 'linechart.csv';
+            hiddenElement.click();
+            console.log("print")
+    
+        }
+    );
 
-		//console.log(eCSV);
 
-		var hiddenElement = document.createElement('a');
-		hiddenElement.href = 'data:text/csv;charset=utf-8,' + encodeURI(result);
-		hiddenElement.target = '_blank';
-		hiddenElement.download = 'linechart.csv';
-		hiddenElement.click();
 
-    }
-);
+});
+
+
+
