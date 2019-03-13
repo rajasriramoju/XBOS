@@ -90,3 +90,49 @@ $("#renderBtn").click(
         
     }
 );
+
+$("#linechartCSV").click(
+    function () {
+        var startDate = document.getElementById("Date1").value;
+        var endDate = document.getElementById("Date2").value;
+
+        const uri = `http://localhost:5000/cieeData/${startDate}/${endDate}`;
+        
+        var res = JSON.parse(Get(uri)); //"http://localhost:5000/cieeData/2018-01-04/2018-01-05"));
+        console.log(res);
+        
+        var result, ctr, keys, columnDelimiter, lineDelimiter, data, csv, eCSV;
+		data = res;
+        columnDelimiter =  ',';
+        lineDelimiter =  '\n';
+
+        keys = Object.keys(data[0]);
+
+        result = '';
+        result += keys.join(columnDelimiter);
+        result += lineDelimiter;
+
+        data.forEach(function(item) {
+            ctr = 0;
+            keys.forEach(function(key) {
+                if (ctr > 0) result += columnDelimiter;
+
+                result += item[key];
+				ctr++;
+            });
+            result += lineDelimiter;
+		});
+		console.log(result);
+		csv = 'data:text/csv;charset=utf-8,' + result;
+		eCSV = encodeURI(csv);
+
+		//console.log(eCSV);
+
+		var hiddenElement = document.createElement('a');
+		hiddenElement.href = 'data:text/csv;charset=utf-8,' + encodeURI(result);
+		hiddenElement.target = '_blank';
+		hiddenElement.download = 'linechart.csv';
+		hiddenElement.click();
+
+    }
+);
