@@ -1,18 +1,20 @@
 <!DOCTYPE html>
 <html>
+
 <head>
 	<title>XBOS Dashboard</title>
 	<meta charset='utf-8'>
 	<meta name='viewport' content='width=device-width,initial-scale=1.0'>
 	<link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
 	<!-- <link rel='shortcut icon' type='image/png' href='./assets/img/favicon1.png'/> -->
-	<link rel='shortcut icon' type='image/png' href='./assets/img/favicon2.png'/>
+	<link rel='shortcut icon' type='image/png' href='./assets/img/favicon2.png' />
 	<link rel='stylesheet' href='./assets/css/materialize.css'>
 	<link rel='stylesheet' href='./assets/css/nouislider.css'>
 	<link href="https://fonts.googleapis.com/css?family=Roboto" rel="stylesheet">
 </head>
+
 <body id="body">
-		
+
 	<div class="navbar-fixed">
 		<nav>
 			<div class="nav-wrapper tp-blue">
@@ -39,19 +41,24 @@
 
 	<div class="container">
 
-        <input type="date" id="Date1" value="2017-12-31">
-        <input type="date" id="Date2" value="2018-01-01">
+		<input type="date" id="Date1" value="2017-12-31">
+		<input type="date" id="Date2" value="2018-01-01">
 
-        <p>Click the button to get the date of the date field.</p>
-        
-		<div class="row"></div>
+		<p>Click the button to get the date of the date field.</p>
 
-		<button id="renderBtn">
-				Click for Graph
-			</button>
-			<div class="container">
-				<canvas id="myChart"></canvas>
-			</div>
+		<div class="rowGraphButtons">
+			<a id="renderBtn" class="waves-effect waves-light btn blue">Generate Graph
+				<i class="material-icons right">insert_chart</i>
+			</a>
+			<a id="linechartCSV" class="waves-effect waves-light btn blue">Download CSV
+				<i class="material-icons right">file_download</i>
+			</a>
+		</div>
+
+
+		<div class="container">
+			<canvas id="myChart"></canvas>
+		</div>
 
 
 
@@ -76,34 +83,20 @@
 		<div class="row"></div>
 
 	</div>
+	<script type="text/javascript" src="assets/js/lib/materialize.js"></script>
+	<script type="text/javascript" src="assets/js/lib/jquery.js"></script>
+	<script type="text/javascript" src="assets/js/script.js"></script>
+	<script type="text/javascript" src="assets/js/lib/highcharts.js"></script>
+	<script type="text/javascript" src="assets/js/lib/lineChart.js"></script>
+	<!-- <script type="text/javascript" src="assets/js/lib/drilldown.js"></script> -->
+	<!-- <script type="text/javascript" src="assets/js/lib/highcharts-more.js"></script> -->
+	<script type="text/javascript" src="assets/js/DR/DR.js"></script>
+	<script type="text/javascript" src="assets/js/DR/zone-chart.js"></script>
+	<script type="text/javascript" src="assets/js/DR/bldng-chart.js"></script>
+	<script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/2.7.2/Chart.js"></script>
 </body>
 
-<script type="text/javascript" src="assets/js/lib/materialize.js"></script>
-<script type="text/javascript" src="assets/js/lib/jquery.js"></script>
-<script type="text/javascript" src="assets/js/script.js"></script>
-<script type="text/javascript" src="assets/js/lib/highcharts.js"></script>
-<script type="text/javascript" src="assets/js/lib/lineChart.js"></script>
-<!-- <script type="text/javascript" src="assets/js/lib/drilldown.js"></script> -->
-<!-- <script type="text/javascript" src="assets/js/lib/highcharts-more.js"></script> -->
-<script type="text/javascript" src="assets/js/DR/DR.js"></script>
-<script type="text/javascript" src="assets/js/DR/zone-chart.js"></script>
-<script type="text/javascript" src="assets/js/DR/bldng-chart.js"></script>
-<script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/2.7.2/Chart.js"></script>
 
-
-</html></body>
-
-<script type="text/javascript" src="assets/js/lib/materialize.js"></script>
-<script type="text/javascript" src="assets/js/lib/jquery.js"></script>
-<script type="text/javascript" src="assets/js/script.js"></script>
-<script type="text/javascript" src="assets/js/lib/highcharts.js"></script>
-<script type="text/javascript" src="assets/js/lib/lineChart.js"></script>
-<!-- <script type="text/javascript" src="assets/js/lib/drilldown.js"></script> -->
-<!-- <script type="text/javascript" src="assets/js/lib/highcharts-more.js"></script> -->
-<!-- script type="text/javascript" src="assets/js/DR/DR.js"></script> -->
-<script type="text/javascript" src="assets/js/DR/zone-chart.js"></script>
-<script type="text/javascript" src="assets/js/DR/bldng-chart.js"></script>
-<script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/2.7.2/Chart.js"></script>
 
 
 </html>
