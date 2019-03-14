@@ -142,5 +142,40 @@ def extractData_plotTwoQueries(filename, startDate, endDate, feature1, feature2)
     return dataInRange.to_json(orient = 'records')
     #return "Hello"
   
+'''
+# This function takes in a file name, start and end date and returns json response
+@app.route('/<filename>/<startDate>/<endDate>')
+@crossdomain(origin="*")
+def extractData_anyFile(filename, startDate, endDate):
+    
+    filePathString = "./solarplus_sample_data/" + filename + ".csv"
+    print(filePathString)
+    readDF = pd.read_csv(filePathString)
+    
+
+    # check for validity of range of dates
+    startYear,startMonth,startDay=[int(x) for x in startDate.split('-')]
+    endYear,endMonth,endDay=[int(x) for x in endDate.split('-')]
+
+    if(datetime.datetime(startYear,startMonth,startDay) > datetime.datetime(endYear,endMonth,endDay)):
+        print ('Wrong range of dates given. Start Date = ' ,startDate, "; End Date = ", endDate)
+        return 'Incorrect Range of dates'
+
+    
+    # This gets all the entries of the specific start date and end date
+    startDateEntries = readDF[readDF['Time'].str.contains(startDate)]
+    endDateEntries = readDF[readDF['Time'].str.contains(endDate)]
+
+    # finding the first index of start date entries and last index of the end date entries
+    # so that we can get the range of indices for the data in the specified timeframe
+    startDateIndex = startDateEntries.index[0]
+    endDateIndex = endDateEntries.index[-1]
+
+    #fetching data in the specific timeframe
+    dataInRange = readDF[startDateIndex:(endDateIndex+1)]
+
+    return dataInRange.to_json(orient = 'records')
+''' 
+
 if __name__ == '__main__':
     app.run()

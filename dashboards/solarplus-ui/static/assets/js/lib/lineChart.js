@@ -71,17 +71,22 @@ $("#renderBtn").click(
         var startDate = document.getElementById("Date1").value;
         var endDate = document.getElementById("Date2").value;
 
-        const uri = `http://localhost:5000/cieeData/${startDate}/${endDate}`;
-        
+            var filename = document.getElementById("filename").value;
+            var feature1 = document.getElementById("feature1").value;
+            var feature2 = document.getElementById("feature2").value;
+
+            const uri = `http://localhost:5000/${filename}/${startDate}/${endDate}/${feature1}/${feature2}`;        
         var res = JSON.parse(Get(uri)); //"http://localhost:5000/cieeData/2018-01-04/2018-01-05"));
         console.log(res);
         
         var data = [];
         var labels = [];
         
+        console.log(Object.keys(res).keys)
+        
         for (i = 0; i < 250; i++) {
-            data.push(res[i].ciee);
-            labels.push(res[i].TimeStamp);  
+            data.push(res[i].FreComp); //(Object.keys(res))[1]);
+            labels.push(res[i].Time);  
 
         }
         
