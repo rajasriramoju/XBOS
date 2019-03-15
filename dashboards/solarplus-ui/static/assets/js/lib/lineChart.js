@@ -79,19 +79,36 @@ $("#renderBtn").click(
         var res = JSON.parse(Get(uri)); //"http://localhost:5000/cieeData/2018-01-04/2018-01-05"));
         console.log(res);
         
-        var data = [];
+        var feature1Vals = [];
+        var feature2Vals = []
         var labels = [];
         
-        console.log(Object.keys(res).keys)
         
+        for(let i = 0; i < 250; i++){
+
+            let singleElement = res[i];
+
+            for(let prop in singleElement){
+                if(prop == feature1)
+                    feature1Vals.push(singleElement[prop]);
+                if(prop == feature2)
+                    feature2Vals.push(singleElement[prop]);           
+            }
+            labels.push(res[i].Time);
+
+        }        
+        
+        /*
         for (i = 0; i < 250; i++) {
             data.push(res[i].FreComp); //(Object.keys(res))[1]);
             labels.push(res[i].Time);  
 
         }
-        
-        console.log(labels)
-        renderChart(data, labels);
+        */
+        console.log(labels);
+        console.log(feature1Vals);
+        console.log(feature2Vals)
+        renderChart(feature1Vals, labels);
         
     }
 );

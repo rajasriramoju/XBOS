@@ -140,7 +140,6 @@ def extractData_plotTwoQueries(filename, startDate, endDate, feature1, feature2)
     dataInRange = dataInRange.loc[:,['Time', feature1, feature2]]
 
     return dataInRange.to_json(orient = 'records')
-    #return "Hello"
   
 '''
 # This function takes in a file name, start and end date and returns json response
