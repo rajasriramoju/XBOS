@@ -1,22 +1,4 @@
-/*<script>
-var contex = document.getElementById("myChart");
-var myChart = new Chart(contex, {
-    type: 'line',
-    data: {
-        labels: ["00:00", "01:00", "02:00", "03:00", "04:00", "05:00", "06:00", "07:00", "08:00", 
-        "09:00", "10:00", "11:00", "12:00", "13:00", "14:00", "15:00", "16:00", "17:00", "18:00", "19:00"],
-        datasets: [
-            {
-                label: "2017-12-31",
-                data: ["2240", "2176", "2120", "2120", "2116", "2120", "2124", "2116", "2108", 
-                "2116", "2120", "2115.555556", "2116","2727.272727", "2736", "2781.818182", "2152", "2148", "2164", 
-                "2155.55556"]
-            }
-        ]
-    }
-});
-</script>*/
-
+/*lineChart.js*/
 function consumption(value){
     return (value);
 }
@@ -41,15 +23,6 @@ function renderChart(feature1, feature2, feature1Vals, feature2Vals, labels) {
                     backgroundColor:"transparent",
                     fill: false,
 		      }]
-                
-            /*
-            
-            [{
-                label: 'Power consumption values',
-                data: data,
-                borderColor: 'rgba(75, 192, 192, 1)',
-                fill: false,
-            }]*/
         },
         options: {            
             scales: {
@@ -64,15 +37,6 @@ function renderChart(feature1, feature2, feature1Vals, feature2Vals, labels) {
             }
         },
     });
-}
-
-function getData() {
-    
-    const uri = `http://localhost:5000/cieeData`;
-    var res = fetch(uri);  
-    //console.log(res.json());
-    fetch(uri).then(res => console.log(res.json()));
-    return res; 
 }
 
 function Get(yourUrl){
@@ -114,13 +78,6 @@ $("#renderBtn").click(
 
         }        
         
-        /*
-        for (i = 0; i < 250; i++) {
-            data.push(res[i].FreComp); //(Object.keys(res))[1]);
-            labels.push(res[i].Time);  
-
-        }
-        */
         console.log(labels);
         console.log(feature1Vals);
         console.log(feature2Vals)
