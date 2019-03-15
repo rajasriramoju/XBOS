@@ -3625,11 +3625,6 @@ table span.badge {
   padding-top: 0;
 }
 
-.rowGraphButtons{
-  display: flex;
-  justify-content: space-between;
-}
-
 .row {
   margin-left: auto;
   margin-right: auto;

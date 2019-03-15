@@ -54,7 +54,7 @@ def crossdomain(origin=None, methods=None, headers=None,
 
 @app.route('/')
 def root():
-    return app.send_static_file('login.html')
+    return app.send_static_file('index.html')
 
 @app.route('/<path:path>')
 def static_proxy(path):
