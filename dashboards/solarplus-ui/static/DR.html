@@ -7,11 +7,10 @@
 	<link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
 	<link rel='shortcut icon' type='image/png' href='./assets/img/favicon1.png'/>
 	<link rel='shortcut icon' type='image/png' href='./assets/img/favicon2.png'/>
-	<link rel='stylesheet' href='./assets/css/materialize.css'>
-	<!-- <link rel='stylesheet' href='./assets/css/dropDown.css'> -->
+	<link rel='stylesheet' href='./assets/css/materialize.css'> 
+	<link rel='stylesheet' href='./assets/css/dropDown.css'>
 	<link rel='stylesheet' href='./assets/css/nouislider.css'>
 	<link href="https://fonts.googleapis.com/css?family=Roboto" rel="stylesheet">
-	
 
 </head>
 <body id="body">
@@ -50,12 +49,12 @@
 		<input type="text" id="myText">
 		<!-- <button onclick="myFunction()">Submit File</button> -->
 
-<p id="demo"></p>
+<p id="file"></p>
 
 <script>
 function myFunction() {
   var x = document.getElementById("myText").value;
-  document.getElementById("demo").innerHTML = x;
+  document.getElementById("file").innerHTML = x;
 }
 </script>
 	<div class="row"></div>
@@ -66,12 +65,12 @@ function myFunction() {
 		<input type="text" id="myText">
 		<!-- <button onclick="myFunction()">Submit the First Feature</button> -->
 
-<p id="demo"></p>
+<p id="file"></p>
 
 <script>
 function myFunction() {
   var x = document.getElementById("myText").value;
-  document.getElementById("demo").innerHTML = x;
+  document.getElementById("file").innerHTML = x;
 }
 </script>
 
@@ -83,12 +82,12 @@ function myFunction() {
 		<input type="text" id="myText">
 		<button onclick="myFunction()">Submit</button>
 
-<p id="demo"></p>
+<p id="file"></p>
 
 <script>
 function myFunction() {
   var x = document.getElementById("myText").value;
-  document.getElementById("demo").innerHTML = x;
+  document.getElementById("file").innerHTML = x;
 }
 </script>
 
@@ -99,6 +98,19 @@ function myFunction() {
 			</button>
 			<div class="container">
 				<canvas id="myChart"></canvas>
+			</div>
+
+
+			<div class="dropdown">
+				<button onclick="myFunction()" class="dropbtn">Select File</button>
+				<div id="myDropdown" class="dropdown-content">
+						<div class ="test">
+					<a href="#file1">Filename 1</a>
+					<a href="#file2">Filename 2</a>
+					<a href="#file3">Filename 3</a>
+				</div>
+					
+				</div>
 			</div>
 
 

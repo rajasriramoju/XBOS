@@ -5830,14 +5830,16 @@ button.btn-floating {
   display: block;
 }
 
-.dropdown-content {
+/*edited by Eric for drop-down visibility (3/14/2019)*/
+.dropdown-content { 
   background-color: #fff;
   margin: 0;
   display: none;
   min-width: 100px;
   overflow-y: auto;
-  opacity: 0;
+  /* opacity: 0; */
   position: absolute;
+  padding-top: 25px;
   left: 0;
   top: 0;
   z-index: 9999;
