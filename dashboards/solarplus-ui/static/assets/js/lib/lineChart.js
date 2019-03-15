@@ -21,19 +21,35 @@ function consumption(value){
     return (value);
 }
 
-function renderChart(data, labels) {
+function renderChart(feature1, feature2, feature1Vals, feature2Vals, labels) {
     var ctx = document.getElementById("myChart").getContext('2d');
     var myChart = new Chart(ctx, {
         type: 'line',
         data: {
             labels: labels,
-            datasets: [{
+            datasets:[{
+                    label: feature1+" Values",
+                    data: feature1Vals,
+                    borderColor:"red",
+                    backgroundColor:"transparent",
+                    fill: false,
+		          },
+		      {
+                    label:feature2+" Values",
+                    data: feature2Vals,
+                    borderColor:"rgba(75, 192, 192, 1)",
+                    backgroundColor:"transparent",
+                    fill: false,
+		      }]
+                
+            /*
+            
+            [{
                 label: 'Power consumption values',
                 data: data,
                 borderColor: 'rgba(75, 192, 192, 1)',
                 fill: false,
-                //backgroundColor: 'rgba(75, 192, 192, 0.2)',
-            }]
+            }]*/
         },
         options: {            
             scales: {
@@ -108,7 +124,7 @@ $("#renderBtn").click(
         console.log(labels);
         console.log(feature1Vals);
         console.log(feature2Vals)
-        renderChart(feature1Vals, labels);
+        renderChart(feature1, feature2, feature1Vals, feature2Vals, labels);
         
     }
 );
