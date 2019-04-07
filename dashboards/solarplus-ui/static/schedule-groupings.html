@@ -18,7 +18,7 @@
 				<a href="index.html" class="brand-logo">XBOS-DR</a>
 				<ul id="nav-mobile" class="right hide-on-med-and-down">
 					<li><a href="index.html">Home</a></li>
-					<li class="active"><a href="#">Schedule</a></li>
+					<li class="active"><a href="#">Setpoints</a></li>
 					<li><a href="report.html">Report</a></li>
 					<li><a href="DR.html">DR</a></li>
 					<li><a href="settings.html">Settings</a></li>
@@ -42,55 +42,59 @@
 
 	<div class="container">
 		<div class="section">
-			<div class="row valign-wrapper">
-				<div class="col s6 right-align">
-					<a id="save-modes" class="waves-effect waves-light btn">save<i  class="material-icons right"  >save</i></a>
-				</div>
-			</div>
+
 			<div id="mode-div" class="row center-align valign-wrapper">
-				<div class="col s2 z-depth-1 tp-blue mode-card hoverable-special">
-					<input style="padding: 12px 0 10px 0;" id="mode0" type="text" maxlength="10" value="Thermostat 1" class="my-input mode-title" />
-					<p style="margin: 0; padding: 0;">(HSP | CSP)</p>
-					<div class="setpnt-div" style="padding-top: 8px;">
-						<input class="red lighten-2 spl" maxlength="2" value=55 type="number" max="72" min="35" />
-						<input class="blue lighten-2 spr" maxlength="2" value=85 type="number" max="90" min="74" />
+				<div style="margin: auto" id="mode-div" class="valign-wrapper">
+					<div style="margin: 10px" class="col s5 z-depth-1 tp-blue mode-card thermostat-card hoverable-special">
+						<input style="padding: 12px 0 10px 0;" id="mode0" type="text" maxlength="10" value="Thermostat 1" class="my-input mode-title" />
+						<p style="margin: 0; padding: 0;">(HSP | CSP)</p>
+						<div class="setpnt-div" style="padding-top: 8px;">
+							<input class="red lighten-2 spl" maxlength="2" value=55 type="number" max="72" min="35" />
+							<input class="blue lighten-2 spr" maxlength="2" value=85 type="number" max="90" min="74" />
+						</div>
+					</div>
+					<div class="col s5 z-depth-1 tp-yellow mode-card thermostat-card hoverable-special">
+						<input style="padding: 12px 0 10px 0;" id="mode1" type="text" maxlength="10" value="Thermostat 2" class="my-input mode-title" />
+						<p style="margin: 0; padding: 0;">(HSP | CSP)</p>
+						<div class="setpnt-div" style="padding-top: 8px;">
+							<input class="red lighten-2 spl" maxlength="2" value=70 type="number" max="72" min="35" />
+							<input class="blue lighten-2 spr" maxlength="2" value=75 type="number" max="90" min="74" />
+						</div>
 					</div>
 				</div>
-				<div class="col s2 z-depth-1 tp-yellow mode-card hoverable-special">
-					<input style="padding: 12px 0 10px 0;" id="mode1" type="text" maxlength="10" value="Thermostat 2" class="my-input mode-title" />
-					<p style="margin: 0; padding: 0;">(HSP | CSP)</p>
-					<div class="setpnt-div" style="padding-top: 8px;">
-						<input class="red lighten-2 spl" maxlength="2" value=70 type="number" max="72" min="35" />
-						<input class="blue lighten-2 spr" maxlength="2" value=75 type="number" max="90" min="74" />
-					</div>
-				</div>
+				<div style="margin: auto" id="mode-div" class="valign-wrapper">
+					<div  style="background-color: #fccde5; margin: 10px;" class="col s5 z-depth-1 refrigerator-freezer-card mode-card hoverable-special">
+						<input style="padding: 12px 0 10px 0;" id="mode2" type="text" maxlength="10" value="Refrigerator" class="my-input mode-title" />
+						<p style="margin: 0; padding: 0;">(SP to SP+dT)</p>
+						<div class="setpnt-div" style="padding-top: 8px;">
+							<input class="red lighten-2 spl  maxlength="2"right maxlength="2"-align" value=55 type="number" max="72" min="35" />
+							<input class="blue lighten-2 spr" value=85 type="number" max="90" min="74" />
+						</div>
 
-
-				<div style="background-color: #fccde5;" class="col s2 z-depth-1 mode-card hoverable-special">
-					<input style="padding: 12px 0 10px 0;" id="mode2" type="text" maxlength="10" value="Refrigerator" class="my-input mode-title" />
-					<p style="margin: 0; padding: 0;">(SP to SP+dT)</p>
-					<div class="setpnt-div" style="padding-top: 8px;">
-						<input class="red lighten-2 spl  maxlength="2"right maxlength="2"-align" value=55 type="number" max="72" min="35" />
-						<input class="blue lighten-2 spr" value=85 type="number" max="90" min="74" />
 					</div>
 
-				</div>
-
-				<div style="background-color: #b2df8a;" class="col s2 z-depth-1 mode-card hoverable-special">
-					<input style="padding: 12px 0 10px 0;" id="mode2" type="text" maxlength="10" value="Freezer" class="my-input mode-title" />
-					<p style="margin: 0; padding: 0;">(SP to SP+dT)</p>
-					<div class="setpnt-div" style="padding-top: 8px;">
-						<input class="red lighten-2 spl  maxlength="2"right maxlength="2"-align" value=55 type="number" max="72" min="35" />
-						<input class="blue lighten-2 spr" value=85 type="number" max="90" min="74" />
-					</div>
-
+					<div style="background-color: #b2df8a;" class="col s5 z-depth-1 refrigerator-freezer-card mode-card hoverable-special">
+						<input style="padding: 12px 0 10px 0;" id="mode2" type="text" maxlength="10" value="Freezer" class="my-input mode-title" />
+						<p style="margin: 0; padding: 0;">(SP to SP+dT)</p>
+						<div class="setpnt-div" style="padding-top: 8px;">
+							<input class="red lighten-2 spl  maxlength="2"right maxlength="2"-align" value=55 type="number" max="72" min="35" />
+							<input class="blue lighten-2 spr" value=85 type="number" max="90" min="74" />
+						</div>
 				</div>
 			</div>
+
+		</div>
+		<div class="row valign-wrapper">
+				<div class="col s6 center-align">
+					<a id="save-therm" class="waves-effect waves-light btn">save<i  class="material-icons right"  >save</i></a>
+				</div>
+				<div class="col s6 center-align">
+						<a id="save-sp" class="waves-effect waves-light btn">save<i  class="material-icons right"  >save</i></a>
+				</div>
 		</div>
 
 
-
-		<div class="row valign-wrapper center-align">
+		<div style="margin-top: 20%;" class="row valign-wrapper center-align">
 			<div class="col s10-5">
 				<h5>When editing, click a nob to remove it and click an epoch to add a nob.</h5>
 			</div>
