@@ -5,7 +5,52 @@ $(document).ready(function() {
         return (value);
     }
 
-    function renderChart(feature1, feature2, feature1Vals, feature2Vals, labels) {
+    function renderChart(feature1, feature2, feature1Vals, feature2Vals, categories) {
+        var ctx = document.getElementById("highChart").getContext('2d');
+        var highChart = Highcharts.chart('container', {
+            chart: {
+                type: 'line'
+            },
+            title: {
+                text: 'Chart Title'
+            },
+            /*data: {
+                categories: categories,
+                datasets: [{
+                    category: feature1 + " Values",
+                    data: feature1Vals,
+                    fill: false,
+                    },
+                    {
+                    category: feature2 + " Values",
+                    data: feature2Vals,
+                    fill: false,
+                }]
+            },*/
+            tooltip : {
+                valueSuffix: '\xB0C'
+            },
+            xAxis: {
+                labels
+            },
+            yAxis: {
+                title: {
+                    text: 'Consumption'
+                },
+                plotLines: [{
+                    value:0
+                }]
+            },
+            series: [{
+                name: feature1,
+                data: feature1Vals
+            },
+            {
+                name: feature2,
+                data:feature2Vals
+            }]
+
+        })
         //insert all highchart code here
         console.log("In the correct function");
     }
