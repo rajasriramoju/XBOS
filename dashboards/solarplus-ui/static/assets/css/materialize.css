@@ -2783,6 +2783,28 @@ a {
           box-shadow: 0 24px 38px 3px rgba(0, 0, 0, 0.14), 0 9px 46px 8px rgba(0, 0, 0, 0.12), 0 11px 15px -7px rgba(0, 0, 0, 0.2);
 }
 
+#intelligent-control {
+
+  width: 15px;
+  height: 15px;
+  margin-top: 165%;
+  margin-right: 100%;
+  -webkit-border-radius: 25px;
+  -moz-border-radius: 25px;
+  border-radius: 25px;
+  background: red;
+
+}
+
+#intelligent-control-text {
+
+  margin-top: 14%;
+  color: #ffff;
+  /*font-family: sans-serif;*/
+  padding-left: 1%;
+
+}
+
 .hoverable {
   -webkit-transition: -webkit-box-shadow .25s;
   transition: -webkit-box-shadow .25s;
