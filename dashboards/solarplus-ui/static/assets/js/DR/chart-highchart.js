@@ -5,11 +5,13 @@ $(document).ready(function() {
         return (value);
     }
 
-    function renderChart(feature1, feature2, feature1Vals, feature2Vals, categories) {
-        var ctx = document.getElementById("highChart").getContext('2d');
-        var highChart = Highcharts.chart('container', {
+    function renderChart(feature1, feature2, feature1Vals, feature2Vals, dates) {
+        var ctx = document.getElementById("myChart").getContext('2d');
+        var highChart = new Highcharts.chart('myChart' , {
             chart: {
                 type: 'line'
+                //renderTo: 'myChart'
+
             },
             title: {
                 text: 'Chart Title'
@@ -31,7 +33,7 @@ $(document).ready(function() {
                 valueSuffix: '\xB0C'
             },
             xAxis: {
-                labels
+                categories: dates
             },
             yAxis: {
                 title: {
@@ -50,8 +52,8 @@ $(document).ready(function() {
                 data:feature2Vals
             }]
 
-        })
-        //insert all highchart code here
+        });
+        highChart.renderTo('myChart', ctx);
         console.log("In the correct function");
     }
 
