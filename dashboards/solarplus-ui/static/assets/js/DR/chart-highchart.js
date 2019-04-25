@@ -6,29 +6,16 @@ $(document).ready(function() {
     }
 
     function renderChart(feature1, feature2, feature1Vals, feature2Vals, dates) {
-        var ctx = document.getElementById("myChart").getContext('2d');
-        var highChart = new Highcharts.chart('myChart' , {
+        //var ctx = document.getElementById("myChart").getContext('2d');
+        var highChart = new Highcharts.chart('myChart',{
             chart: {
-                type: 'line'
-                //renderTo: 'myChart'
-
+                //renderTo: "myChart",
+                type: 'line',
+                zoomType: "x"
             },
             title: {
                 text: 'Chart Title'
             },
-            /*data: {
-                categories: categories,
-                datasets: [{
-                    category: feature1 + " Values",
-                    data: feature1Vals,
-                    fill: false,
-                    },
-                    {
-                    category: feature2 + " Values",
-                    data: feature2Vals,
-                    fill: false,
-                }]
-            },*/
             tooltip : {
                 valueSuffix: '\xB0C'
             },
@@ -53,8 +40,6 @@ $(document).ready(function() {
             }]
 
         });
-        highChart.renderTo('myChart', ctx);
-        console.log("In the correct function");
     }
 
     function Get(yourUrl){
@@ -82,7 +67,7 @@ $(document).ready(function() {
             var labels = [];
             
             
-            for(let i = 0; i < 250; i++){
+            for(let i = 0; i < res.size; i++){
 
                 let singleElement = res[i];
 
