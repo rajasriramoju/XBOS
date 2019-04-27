@@ -14,7 +14,7 @@ $(document).ready(function() {
                 zoomType: "x"
             },
             title: {
-                text: 'Chart Title'
+                text: 'Power Consumption'
             },
             tooltip : {
                 valueSuffix: '\xB0C'
@@ -67,7 +67,7 @@ $(document).ready(function() {
             var labels = [];
             
             
-            for(let i = 0; i < res.size; i++){
+            for(let i = 0; i < 500; i++){
 
                 let singleElement = res[i];
 
