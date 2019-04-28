@@ -128,38 +128,16 @@ $(document).ready(function() {
 	function readOut() {
 		var obj = new Object();
 		var arr = [];
-		// obj.name = location;
-		// obj.zones = [1, 3, 5, 7];
-		// obj.modes = [];
-		// $(".mode-card").each(function(i) {
-		// 	var m = new Object();
-		// 	m.id = i;
-		// 	var inputs = $(this).find("input");
-		// 	m.name = inputs[0].value;
-		// 	m.heating = inputs[1].value;
-		// 	m.cooling = inputs[2].value;
-		// 	m.enabled = $(inputs[3]).prop("checked");
-		// 	obj.modes.push(m);
-		// });
 		var t = new Object();
-		t.sun = $.extend([], sliders[0].noUiSlider.get());
-		t.mon = $.extend([], sliders[1].noUiSlider.get());
-		t.tue = $.extend([], sliders[2].noUiSlider.get());
-		t.wed = $.extend([], sliders[3].noUiSlider.get());
-		t.thu = $.extend([], sliders[4].noUiSlider.get());
-		t.fri = $.extend([], sliders[5].noUiSlider.get());
-		t.sat = $.extend([], sliders[6].noUiSlider.get());
+		t.Time = $.extend([], sliders[0].noUiSlider.get());
+
 		//arr.push(t)
 		obj.times = t;
+		console.log(t);
 		arr.push(obj.times);
 		var sets = new Object();
-		sets.sun = sliderModes[0];
-		sets.mon = sliderModes[1];
-		sets.tue = sliderModes[2];
-		sets.wed = sliderModes[3];
-		sets.thu = sliderModes[4];
-		sets.fri = sliderModes[5];
-		sets.sat = sliderModes[6];
+		sets.Time = sliderModes[0];
+s
 		obj.settings = sets;
 		arr.push(obj.settings);
 		console.log(arr);
