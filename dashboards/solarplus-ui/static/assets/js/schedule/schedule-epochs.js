@@ -137,7 +137,7 @@ $(document).ready(function() {
 		arr.push(obj.times);
 		var sets = new Object();
 		sets.Time = sliderModes[0];
-s
+
 		obj.settings = sets;
 		arr.push(obj.settings);
 		console.log(arr);
