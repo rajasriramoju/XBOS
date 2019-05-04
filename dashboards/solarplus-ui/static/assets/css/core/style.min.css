@@ -2253,7 +2253,7 @@ html {
 body {
     background: #fff;
     color: #3C3C3C;
-    font-family: "glacial indifference", system-ui, -apple-system, system-ui, "Segoe UI", Roboto, Oxygen, Ubuntu, Cantarell, "Fira Sans", "Droid Sans", "Helvetica Neue", sans-serif;
+    font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Oxygen-Sans, Ubuntu, Cantarell, "Helvetica Neue", sans-serif;
     font-style: normal;
     font-weight: normal;
     font-size: 20px;
@@ -2298,8 +2298,7 @@ a {
 }
 
 a:hover {
-    color: #FF34B4;
-    border-color: #FF34B4;
+    color: white;
     text-decoration: none !important;
     outline: none !important
 }
@@ -2321,7 +2320,8 @@ i {
 }
 
 p {
-    font-family: "glacial indifference", system-ui, -apple-system, system-ui, "Segoe UI", Roboto, Oxygen, Ubuntu, Cantarell, "Fira Sans", "Droid Sans", "Helvetica Neue", sans-serif;
+
+    font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Oxygen-Sans, Ubuntu, Cantarell, "Helvetica Neue", sans-serif;
     font-size: 20px;
     font-weight: normal;
     letter-spacing: 0.025em

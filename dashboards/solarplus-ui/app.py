@@ -1,13 +1,139 @@
 from flask import Flask, request, send_from_directory
+import config
 from flask import make_response, request, current_app
 from flask import jsonify, redirect, url_for
+from flask import g, render_template, url_for, session
+
 from datetime import timedelta
 from functools import update_wrapper 
 import pandas as pd 
 import datetime
+from flask_oidc import OpenIDConnect
+from okta import UsersClient
 
 app = Flask(__name__)
-app.debug = True
+app.config["DEBUG"] = True
+app.config["OIDC_CLIENT_SECRETS"] = "client_secrets.json"
+app.config["OIDC_COOKIE_SECURE"] = False
+app.config["OIDC_CALLBACK_ROUTE"] = "/oidc/callback"
+app.config["OIDC_SCOPES"] = ["openid", "email", "profile"]
+app.config["SECRET_KEY"] = config.secret_key
+app.config["OIDC_ID_TOKEN_COOKIE_NAME"] = "oidc_token"
+oidc = OpenIDConnect(app)
+okta_client = UsersClient(config.org_url, config.token)
+
+@app.before_request
+def before_request():
+    """
+    Load a proper user object using the user ID from the ID token. This way, the
+    `g.user` object can be used at any point.
+    """
+    if oidc.user_loggedin:
+        g.user = okta_client.get_user(oidc.user_getfield("sub"))
+    else:
+        g.user = None
+
+
+@app.route("/")
+def first():
+    """
+    Render the homepage.
+    """
+    return app.send_static_file('login.html')
+
+
+@app.route("/index.html")
+@oidc.require_login
+def index():
+    """
+    Render the dashboard page.
+    """
+    return app.send_static_file("index.html")
+
+@app.route("/setpoints-groupings.html")
+@oidc.require_login
+def setpoints():
+    """
+    Render the dashboard page.
+    """
+    return app.send_static_file("setpoints-groupings.html")
+
+@app.route("/weather.html")
+@oidc.require_login
+def weather():
+    """
+    Render the dashboard page.
+    """
+    return app.send_static_file("weather.html")
+
+@app.route("/DR.html")
+@oidc.require_login
+def dr():
+    """
+    Render the dashboard page.
+    """
+    return app.send_static_file("DR.html")
+
+@app.route("/intelligence.html")
+@oidc.require_login
+def intelligence():
+    """
+    Render the dashboard page.
+    """
+    return app.send_static_file("intelligence.html")
+
+
+
+@app.route("/logout")
+def logout():
+    """
+    Log the user out of their account.
+    """
+
+    oidc.logout()
+    return app.send_static_file("login.html")
+
+# @app.before_request
+# def before_request():
+#     """
+#     Load a proper user object using the user ID from the ID token. This way, the
+#     `g.user` object can be used at any point.
+#     """
+#     if oidc.user_loggedin:
+#         g.user = okta_client.get_user(oidc.user_getfield("sub"))
+#     else:
+#         g.user = None
+
+
+# @app.route('/')
+# def root():
+#     return app.send_static_file('login.html')
+
+
+
+# @app.route("/login")
+# @oidc.require_login
+# def login():
+#     """
+#     Force the user to login, then redirect them to the dashboard.
+#     """
+#     return app.send_static_file('index.html')
+
+# @app.route('/<path:path>')
+# @oidc.require_login
+# def static_proxy(path):
+#     return app.send_static_file(path)
+
+# @app.route("/logout")
+# @oidc.require_login
+# def logout():
+#     """
+#     Log the user out of their account.
+#     """
+
+#     oidc.logout()
+#     return app.send_static_file('login.html')
+
 
 # Flask boilerplate, 
 # configure CORS to make HTTP requests from javascript
@@ -52,13 +178,6 @@ def crossdomain(origin=None, methods=None, headers=None,
         return update_wrapper(wrapped_function, f)
     return decorator
 
-@app.route('/')
-def root():
-    return app.send_static_file('login.html')
-
-@app.route('/<path:path>')
-def static_proxy(path):
-    return app.send_static_file(path)
 
 @app.route('/cieeData')
 @crossdomain(origin="*")
@@ -176,5 +295,5 @@ def extractData_anyFile(filename, startDate, endDate):
     return dataInRange.to_json(orient = 'records')
 ''' 
 
-if __name__ == '__main__':
-    app.run()
+# if __name__ == '__main__':
+#     app.run()
