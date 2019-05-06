@@ -38,13 +38,13 @@
 	<div class="navbar-fixed">
 		<nav>
 			<div class="nav-wrapper tp-blue">
-				<a href="index.html" class="brand-logo">XBOS-DR</a>
+				<a href="/" class="brand-logo">XBOS-DR</a>
 				<ul id="nav-mobile" class="right hide-on-med-and-down">
-					<li><a href="index.html">Dashboard</a></li>
-					<li><a href="setpoints-groupings.html">Setpoints</a></li>
+					<li><a href="/dashboard">Dashboard</a></li>
+					<li><a href="/setpoints">Setpoints</a></li>
 					<li class="active"><a href="#">Weather</a></li>
-					<li><a href="DR.html">DR</a></li>
-					<li><a href="intelligence.html">Intelligence</a></li>
+					<li><a href="/DR">DR</a></li>
+					<li><a href="/intelligence">Intelligence</a></li>
 					<li><a href="/logout">Logout</a></li>
 				</ul>
 			</div>
@@ -185,6 +185,22 @@
 		</div>
 	</div>
 </body>
+<script>
+    document.getElementById('logout-button').addEventListener('click', (event) => {
+      event.preventDefault()
+  
+      const signoutWindow = window.open(
+        'https://dev-693782.okta.com/login/signout',
+        'okta-signout',
+        'toolbar=no,status=no,menubar=no,scrollbars=no,resizable=no,left=10000, top=10000, width=10, height=10, visible=none'
+      )
+  
+      setTimeout(() => {
+        signoutWindow.close()
+        window.location = document.getElementById('logout-button').href
+      }, 100)
+    })
+  </script>
 <script src="https://cdn.rawgit.com/maxdow/skycons/master/skycons.js"></script>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
 <script src="assets/js/weather/home.js"></script>

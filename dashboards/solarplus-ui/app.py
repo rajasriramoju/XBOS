@@ -35,30 +35,29 @@ def before_request():
 
 
 @app.route("/")
-def first():
+def index():
     """
     Render the homepage.
     """
-    return app.send_static_file('login.html')
+    return app.send_static_file('index.html')
 
-
-@app.route("/index.html")
+@app.route("/dashboard")
 @oidc.require_login
-def index():
+def dashboard():
     """
     Render the dashboard page.
     """
-    return app.send_static_file("index.html")
+    return app.send_static_file("dashboard.html")
 
-@app.route("/setpoints-groupings.html")
+@app.route("/setpoints")
 @oidc.require_login
 def setpoints():
     """
     Render the dashboard page.
     """
-    return app.send_static_file("setpoints-groupings.html")
+    return app.send_static_file("setpoints.html")
 
-@app.route("/weather.html")
+@app.route("/weather")
 @oidc.require_login
 def weather():
     """
@@ -66,7 +65,7 @@ def weather():
     """
     return app.send_static_file("weather.html")
 
-@app.route("/DR.html")
+@app.route("/DR")
 @oidc.require_login
 def dr():
     """
@@ -74,7 +73,7 @@ def dr():
     """
     return app.send_static_file("DR.html")
 
-@app.route("/intelligence.html")
+@app.route("/intelligence")
 @oidc.require_login
 def intelligence():
     """
@@ -82,7 +81,22 @@ def intelligence():
     """
     return app.send_static_file("intelligence.html")
 
+@app.route("/intelligence.html")
+@oidc.require_login
+def intelligence1():
+    """
+    Render the dashboard page.
+    """
+    return app.send_static_file("intelligence.html")
 
+
+@app.route("/login")
+@oidc.require_login
+def login():
+    """
+    Force the user to login, then redirect them to the dashboard.
+    """
+    return redirect(url_for(".dashboard"))
 
 @app.route("/logout")
 def logout():
@@ -91,7 +105,7 @@ def logout():
     """
 
     oidc.logout()
-    return app.send_static_file("login.html")
+    return app.send_static_file("index.html")
 
 # @app.before_request
 # def before_request():
