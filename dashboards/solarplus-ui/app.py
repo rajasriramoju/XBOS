@@ -41,11 +41,12 @@ def before_request():
 @app.route("/")
 def landing():
     """
-    Render the homepage.
+    Render the landing page.
     """
     return render_template('landing.html')
 
 @app.route("/index")
+@oidc.require_login
 def index():
     """
     Render the homepage.
@@ -64,7 +65,7 @@ def dashboard():
 @oidc.require_login
 def setpoints():
     """
-    Render the dashboard page.
+    Render the setpoints page.
     """
     return render_template("setpoints.html")
 
@@ -72,7 +73,7 @@ def setpoints():
 @oidc.require_login
 def weather():
     """
-    Render the dashboard page.
+    Render the weather page.
     """
     return render_template("weather.html")
 
@@ -80,7 +81,7 @@ def weather():
 @oidc.require_login
 def dr():
     """
-    Render the dashboard page.
+    Render the DR page.
     """
     return render_template("DR.html")
 
@@ -88,7 +89,7 @@ def dr():
 @oidc.require_login
 def intelligence():
     """
-    Render the dashboard page.
+    Render the intelligence page.
     """
     return render_template("intelligence.html")
 
