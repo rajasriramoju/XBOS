@@ -6,18 +6,18 @@
 	<meta charset='utf-8'>
 	<meta name='viewport' content='width=device-width,initial-scale=1.0'>
 	<link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
-	<!-- <link rel='shortcut icon' type='image/png' href='./assets/img/favicon1.png'/> -->
-	<link rel='shortcut icon' type='image/png' href='./assets/img/favicon2.png' />
-	<link rel="stylesheet" type= "text/css" href="{{ url_for('static', filename='styles/css/materialize.css') }}">
-	<link rel="stylesheet" type= "text/css" href="{{ url_for('static', filename='styles/css/dashboard.css') }}">
+	<link rel="shortcut icon" type="image/png" href="{{ url_for('static', filename='assets/img/logo.png') }}">
+	<link rel="stylesheet" type="text/css" href="{{ url_for('static', filename='styles/css/materialize.css') }}">
+	<link rel="stylesheet" type="text/css" href="{{ url_for('static', filename='styles/css/dashboard.css') }}">
 	<link href="https://fonts.googleapis.com/css?family=Roboto" rel="stylesheet">
+
 </head>
 
 <body id="body">
 	<div class="navbar-fixed">
 		<nav>
 			<div class="nav-wrapper tp-blue">
-				<a href="/" class="brand-logo">XBOS-DR</a>
+				<a href="/index" class="brand-logo">XBOS-DR</a>
 				<ul id="nav-mobile" class="right hide-on-med-and-down">
 					<li class="active"><a href="#">Dashboard</a></li>
 					<li><a href="/setpoints">Setpoints</a></li>
@@ -42,7 +42,8 @@
 			<div class="card">
 				<div class="card-content">
 					<span class="card-title">Average Power Consumption</span>
-					<p class="inner-card-padding">Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor
+					<p class="inner-card-padding">Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do
+						eiusmod tempor
 						incididunt ut labore et
 						dolore magna aliqua.</p>
 				</div>
@@ -53,7 +54,8 @@
 			<div class="card">
 				<div class="card-content">
 					<span class="card-title">Solar Production</span>
-					<p class="inner-card-padding">Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor
+					<p class="inner-card-padding">Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do
+						eiusmod tempor
 						incididunt ut labore et
 						dolore magna aliqua.</p>
 				</div>
@@ -100,7 +102,8 @@
 			<div class="card">
 				<div class="card-content">
 					<span class="card-title">Zone Temperatures and Setpoints</span>
-					<p class="inner-card-padding">Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor
+					<p class="inner-card-padding">Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do
+						eiusmod tempor
 						incididunt ut labore et
 						dolore magna aliqua.</p>
 				</div>
@@ -108,24 +111,25 @@
 		</div>
 	</div>
 
-
 </body>
 <script>
-    document.getElementById('logout-button').addEventListener('click', (event) => {
-      event.preventDefault()
-  
-      const signoutWindow = window.open(
-        'https://dev-693782.okta.com/login/signout',
-        'okta-signout',
-        'toolbar=no,status=no,menubar=no,scrollbars=no,resizable=no,left=10000, top=10000, width=10, height=10, visible=none'
-      )
-  
-      setTimeout(() => {
-        signoutWindow.close()
-        window.location = document.getElementById('logout-button').href
-      }, 100)
-    })
-  </script>
-  
+	document.getElementById('logout-button').addEventListener('click', (event) => {
+		event.preventDefault()
+
+		const signoutWindow = window.open(
+			'https://dev-693782.okta.com/login/signout',
+			'okta-signout',
+			//'height=1,width=1',
+			'toolbar=no,status=no,menubar=no,scrollbars=no,resizable=no,left=10000, top=10000, width=10, height=10, visible=none'
+		)
+
+		setTimeout(() => {
+
+			signoutWindow.close()
+			window.location = document.getElementById('logout-button').href
+		}, 1000)
+	})
+</script>
+
 
 </html>

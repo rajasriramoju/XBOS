@@ -34,11 +34,19 @@
     dataType: "jsonp",
     success: function (pos) {
       // location
-      let city = pos.city;
-      let state = pos.state;
-      state = state.split(' ').length > 1 ? state.split(' ').map((word) => word[0].toUpperCase()).join('') : state;
-      let postCode = pos.postal;
+      //let city = pos.city;
+      let city = 'Hydesville';
+      console.log(city)
+      //let state = pos.state;
+      let state =  'California';
+      //console.log(state)
+      //state = state.split(' ').length > 1 ? state.split(' ').map((word) => word[0].toUpperCase()).join('') : state;
+      console.log(state)
+      //let postCode = pos.postal;
+      let postCode = '95528';
+      console.log(postCode)
       let locationString = [city, state, postCode].join(' ');
+      console.log(locationString)
       location.textContent = locationString;
       getWeather(pos);
     }
@@ -46,8 +54,13 @@
 
   // get weather data
   function getWeather(pos) {
-    let latitude = pos.latitude;
-    let longitude = pos.longitude;
+    // let latitude = pos.latitude;
+    // let longitude = pos.longitude;
+
+    //Humbolt county
+    let latitude = 40.5301;
+    let longitude = -124.0000;
+
     let url = `https://api.darksky.net/forecast/24dfbe35483e5954d6da5665c468a40f/${latitude},${longitude}?units=ca`;
     $.ajax({
       type: 'GET',

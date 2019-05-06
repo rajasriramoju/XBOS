@@ -4117,7 +4117,7 @@ main {
 .doppler {
     position: relative;
     display: flex;
-    margin-top:50%;
+    margin-top:40%;
     padding-bottom: 0;
     width: 100%;
 
@@ -4163,7 +4163,7 @@ img.doppler {
     justify-content: center;
     /* height: 30%; */
     font-size: 25px;
-    padding: 30px;
+    /* padding: 30px; */
     text-align: center
 }
 
@@ -4177,6 +4177,8 @@ img.doppler {
     font-size: 30px
 }
 
+
+
 #weather-box .left .temperature {
     height: 40%;
     font-size: 20px;
@@ -4184,7 +4186,7 @@ img.doppler {
     align-items: center;
     justify-content: center;
 
-    margin-bottom: 20%;
+    padding-bottom: 40%;
     text-align: center;
     color: white
 }
@@ -4213,11 +4215,22 @@ img.doppler {
     font-size: 45px
 }
 
+
+
 #weather-box .left #additional {
 
     display: flex;
     flex-direction: column;
     justify-content: center
+}
+
+.fit{
+    position: relative;
+    width: 100%;
+    min-height: 1px;
+    padding-right: 15px;
+    padding-left: 15px;
+    padding-bottom: 80px;
 }
 
 #weather-box .left #additional div {
@@ -4293,6 +4306,15 @@ img.doppler {
     .row {
         margin: 0
     }
+    
+.fit{
+    position: relative;
+    width: 100%;
+    min-height: 1px;
+    padding-right: 15px;
+    padding-left: 15px;
+    padding-bottom: 80px;
+}
 
     #weather-box {
         height: auto;

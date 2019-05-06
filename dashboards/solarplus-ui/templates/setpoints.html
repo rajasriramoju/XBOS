@@ -6,18 +6,19 @@
 	<meta charset='utf-8'>
 	<meta name='viewport' content='width=device-width,initial-scale=1.0'>
 	<link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
-	<!-- <link rel='shortcut icon' type='image/png' href='./assets/img/favicon1.png'/> -->
-	<link rel='shortcut icon' type='image/png' href='./assets/img/favicon2.png' />
+
+	<link rel="shortcut icon" type="image/png" href="{{ url_for('static', filename='assets/img/logo.png') }}">
 	<link rel="stylesheet" type="text/css" href="{{ url_for('static', filename='styles/css/materialize.css') }}">
 	<link rel="stylesheet" type="text/css" href="{{ url_for('static', filename='styles/css/nouislider.css') }}">
 	<link href="https://fonts.googleapis.com/css?family=Roboto" rel="stylesheet">
+
 </head>
 
 <body id="body" class="">
 	<div class="navbar-fixed">
 		<nav>
 			<div class="nav-wrapper tp-blue">
-				<a href="/" class="brand-logo">XBOS-DR</a>
+				<a href="/index" class="brand-logo">XBOS-DR</a>
 				<ul id="nav-mobile" class="right hide-on-med-and-down">
 					<li><a href="/dashboard">Dashboard</a></li>
 					<li class="active"><a href="#">Setpoints</a></li>
@@ -126,9 +127,8 @@
 				</a>
 			</div>
 		</div>
-		<!-- PUT ONCLICK HERE -->
 
-		<script type="text/javascript" src="assets/js/schedule/save-csv.js"></script>
+
 </body>
 <script>
 	document.getElementById('logout-button').addEventListener('click', (event) => {
@@ -137,17 +137,16 @@
 		const signoutWindow = window.open(
 			'https://dev-693782.okta.com/login/signout',
 			'okta-signout',
+			//'height=1,width=1',
 			'toolbar=no,status=no,menubar=no,scrollbars=no,resizable=no,left=10000, top=10000, width=10, height=10, visible=none'
 		)
 
 		setTimeout(() => {
 			signoutWindow.close()
 			window.location = document.getElementById('logout-button').href
-		}, 100)
+		}, 1000)
 	})
 </script>
-
-
 <script type="text/javascript" src="{{url_for('static', filename='assets/js/lib/materialize.js') }}"></script>
 <script type="text/javascript" src="{{url_for('static', filename='assets/js/lib/jquery.js') }}"></script>
 <script type="text/javascript" src="{{url_for('static', filename='assets/js/script.js') }}"></script>

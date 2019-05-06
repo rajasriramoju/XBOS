@@ -13,6 +13,7 @@ from okta import UsersClient
 
 app = Flask(__name__)
 app.config["DEBUG"] = True
+app.config["TEMPLATES_AUTO_RELOAD"] = True
 app.config["OIDC_CLIENT_SECRETS"] = "client_secrets.json"
 app.config["OIDC_COOKIE_SECURE"] = False
 app.config["OIDC_CALLBACK_ROUTE"] = "/oidc/callback"
@@ -21,6 +22,8 @@ app.config["SECRET_KEY"] = config.secret_key
 app.config["OIDC_ID_TOKEN_COOKIE_NAME"] = "oidc_token"
 oidc = OpenIDConnect(app)
 okta_client = UsersClient(config.org_url, config.token)
+
+
 
 @app.before_request
 def before_request():
@@ -34,7 +37,15 @@ def before_request():
         g.user = None
 
 
+
 @app.route("/")
+def landing():
+    """
+    Render the homepage.
+    """
+    return render_template('landing.html')
+
+@app.route("/index")
 def index():
     """
     Render the homepage.
@@ -88,7 +99,7 @@ def login():
     """
     Force the user to login, then redirect them to the dashboard.
     """
-    return redirect(url_for(".dashboard"))
+    return redirect(url_for(".index"))
 
 @app.route("/logout")
 def logout():
@@ -97,7 +108,7 @@ def logout():
     """
 
     oidc.logout()
-    return redirect(url_for(".index"))
+    return redirect(url_for(".landing"))
 
 # @app.before_request
 # def before_request():
@@ -303,3 +314,5 @@ def extractData_anyFile(filename, startDate, endDate):
 
 # if __name__ == '__main__':
 #     app.run()
+#     debug=True
+#     TEMPLATES_AUTO_RELOAD=True
