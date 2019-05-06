@@ -81,14 +81,6 @@ def intelligence():
     """
     return render_template("intelligence.html")
 
-@app.route("/intelligence.html")
-@oidc.require_login
-def intelligence1():
-    """
-    Render the dashboard page.
-    """
-    return render_template("intelligence.html")
-
 
 @app.route("/login")
 @oidc.require_login
