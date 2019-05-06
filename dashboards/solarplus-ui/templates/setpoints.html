@@ -1,0 +1,160 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+	<title>XBOS Dashboard</title>
+	<meta charset='utf-8'>
+	<meta name='viewport' content='width=device-width,initial-scale=1.0'>
+	<link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
+	<!-- <link rel='shortcut icon' type='image/png' href='./assets/img/favicon1.png'/> -->
+	<link rel='shortcut icon' type='image/png' href='./assets/img/favicon2.png' />
+	<link rel="stylesheet" type="text/css" href="{{ url_for('static', filename='styles/css/materialize.css') }}">
+	<link rel="stylesheet" type="text/css" href="{{ url_for('static', filename='styles/css/nouislider.css') }}">
+	<link href="https://fonts.googleapis.com/css?family=Roboto" rel="stylesheet">
+</head>
+
+<body id="body" class="">
+	<div class="navbar-fixed">
+		<nav>
+			<div class="nav-wrapper tp-blue">
+				<a href="/" class="brand-logo">XBOS-DR</a>
+				<ul id="nav-mobile" class="right hide-on-med-and-down">
+					<li><a href="/dashboard">Dashboard</a></li>
+					<li class="active"><a href="#">Setpoints</a></li>
+					<li><a href="/weather">Weather</a></li>
+					<li><a href="/DR">DR</a></li>
+					<li><a href="/intelligence">Intelligence</a></li>
+					<li><a id="logout-button" href="/logout">Logout</a></li>
+				</ul>
+			</div>
+		</nav>
+	</div>
+
+
+
+	<div id="DRBG" class="row center-align z-depth-1 scale-transition pulse scale-out" style="line-height: 2.25;"><a
+			id="DRTXT" href="html/DR.html">"</a></div>
+
+	<div class="container">
+		<div class="section">
+
+			<div id="mode-div" class="row center-align valign-wrapper">
+				<div style="margin: auto" id="mode-div" class="valign-wrapper">
+					<div style="margin: 10px"
+						class="col s5 z-depth-1 tp-blue mode-card thermostat-card hoverable-special">
+						<input style="padding: 12px 0 10px 0;" id="mode0" type="text" maxlength="10"
+							value="Thermostat 1" class="my-input mode-title" />
+						<p style="margin: 0; padding: 0;">(HSP | CSP)</p>
+						<div class="setpnt-div" style="padding-top: 8px;">
+							<input class="red lighten-2 spl" maxlength="2" value=55 type="number" max="72" min="35" />
+							<input class="blue lighten-2 spr" maxlength="2" value=85 type="number" max="90" min="74" />
+						</div>
+					</div>
+					<div class="col s5 z-depth-1 tp-yellow mode-card thermostat-card hoverable-special">
+						<input style="padding: 12px 0 10px 0;" id="mode1" type="text" maxlength="10"
+							value="Thermostat 2" class="my-input mode-title" />
+						<p style="margin: 0; padding: 0;">(HSP | CSP)</p>
+						<div class="setpnt-div" style="padding-top: 8px;">
+							<input class="red lighten-2 spl" maxlength="2" value=70 type="number" max="72" min="35" />
+							<input class="blue lighten-2 spr" maxlength="2" value=75 type="number" max="90" min="74" />
+						</div>
+					</div>
+				</div>
+				<div style="margin: auto" id="mode-div" class="valign-wrapper">
+					<div style="background-color: #fccde5; margin: 10px;"
+						class="col s5 z-depth-1 refrigerator-freezer-card mode-card hoverable-special">
+						<input style="padding: 12px 0 10px 0;" id="mode2" type="text" maxlength="10"
+							value="Refrigerator" class="my-input mode-title" />
+						<p style="margin: 0; padding: 0;">(SP to SP+dT)</p>
+						<div class="setpnt-div" style="padding-top: 8px;">
+							<input class="red lighten-2 spl  maxlength=" 2"right maxlength="2" -align" value=55
+								type="number" max="72" min="35" />
+							<input class="blue lighten-2 spr" value=85 type="number" max="90" min="74" />
+						</div>
+
+					</div>
+
+					<div style="background-color: #b2df8a;"
+						class="col s5 z-depth-1 refrigerator-freezer-card mode-card hoverable-special">
+						<input style="padding: 12px 0 10px 0;" id="mode2" type="text" maxlength="10" value="Freezer"
+							class="my-input mode-title" />
+						<p style="margin: 0; padding: 0;">(SP to SP+dT)</p>
+						<div class="setpnt-div" style="padding-top: 8px;">
+							<input class="red lighten-2 spl  maxlength=" 2"right maxlength="2" -align" value=55
+								type="number" max="72" min="35" />
+							<input class="blue lighten-2 spr" value=85 type="number" max="90" min="74" />
+						</div>
+					</div>
+				</div>
+
+			</div>
+			<div class="row valign-wrapper">
+				<div class="col s6 center-align">
+					<a id="save-therm" class="waves-effect waves-light btn">save<i
+							class="material-icons right">save</i></a>
+				</div>
+				<div class="col s6 center-align">
+					<a id="save-sp" class="waves-effect waves-light btn">save<i
+							class="material-icons right">save</i></a>
+				</div>
+			</div>
+
+
+			<div style="margin-top: 15%;" class="row valign-wrapper center-align">
+				<div class="col s10-5">
+					<h5>When editing, click a nob to remove it and click an epoch to add a nob.</h5>
+				</div>
+				<div class="col s1-5">
+					<a id="sched-btn" class="btn waves-effect waves-light scale-transition">
+						<i class="large material-icons right">edit</i>edit
+					</a>
+				</div>
+			</div>
+
+			<div class="row">
+				<div class="valign-wrapper" style="padding-top: 40px;">
+					<div class="col s1 right-align"><span class="sli-day">Time</span></div>
+					<div class="col s11">
+						<div class="sched-slider"></div>
+					</div>
+				</div>
+
+			</div>
+			<div class="fixed-action-btn">
+				<a id="apply-modes" class="btn-floating btn-large waves-effect waves-light scale-transition">
+					<i onClick="myFunction()" class="large material-icons">save</i>
+				</a>
+			</div>
+		</div>
+		<!-- PUT ONCLICK HERE -->
+
+		<script type="text/javascript" src="assets/js/schedule/save-csv.js"></script>
+</body>
+<script>
+	document.getElementById('logout-button').addEventListener('click', (event) => {
+		event.preventDefault()
+
+		const signoutWindow = window.open(
+			'https://dev-693782.okta.com/login/signout',
+			'okta-signout',
+			'toolbar=no,status=no,menubar=no,scrollbars=no,resizable=no,left=10000, top=10000, width=10, height=10, visible=none'
+		)
+
+		setTimeout(() => {
+			signoutWindow.close()
+			window.location = document.getElementById('logout-button').href
+		}, 100)
+	})
+</script>
+
+
+<script type="text/javascript" src="{{url_for('static', filename='assets/js/lib/materialize.js') }}"></script>
+<script type="text/javascript" src="{{url_for('static', filename='assets/js/lib/jquery.js') }}"></script>
+<script type="text/javascript" src="{{url_for('static', filename='assets/js/script.js') }}"></script>
+<script type="text/javascript" src="{{url_for('static', filename='assets/js/lib/nouislider.js') }}"></script>
+<script type="text/javascript" src="{{url_for('static', filename='assets/js/schedule/schedule-groupings.js') }}">
+</script>
+<script type="text/javascript" src="{{url_for('static', filename='assets/js/schedule/schedule-epochs.js') }}"></script>
+
+
+</html>

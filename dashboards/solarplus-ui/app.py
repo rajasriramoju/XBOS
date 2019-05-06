@@ -35,54 +35,68 @@ def before_request():
 
 
 @app.route("/")
-def first():
+def index():
     """
     Render the homepage.
     """
-    return app.send_static_file('login.html')
+    return render_template('index.html')
 
-
-@app.route("/index.html")
+@app.route("/dashboard")
 @oidc.require_login
-def index():
+def dashboard():
     """
     Render the dashboard page.
     """
-    return app.send_static_file("index.html")
+    return render_template("dashboard.html")
 
-@app.route("/setpoints-groupings.html")
+@app.route("/setpoints")
 @oidc.require_login
 def setpoints():
     """
     Render the dashboard page.
     """
-    return app.send_static_file("setpoints-groupings.html")
+    return render_template("setpoints.html")
 
-@app.route("/weather.html")
+@app.route("/weather")
 @oidc.require_login
 def weather():
     """
     Render the dashboard page.
     """
-    return app.send_static_file("weather.html")
+    return render_template("weather.html")
 
-@app.route("/DR.html")
+@app.route("/DR")
 @oidc.require_login
 def dr():
     """
     Render the dashboard page.
     """
-    return app.send_static_file("DR.html")
+    return render_template("DR.html")
 
-@app.route("/intelligence.html")
+@app.route("/intelligence")
 @oidc.require_login
 def intelligence():
     """
     Render the dashboard page.
     """
-    return app.send_static_file("intelligence.html")
+    return render_template("intelligence.html")
+
+@app.route("/intelligence.html")
+@oidc.require_login
+def intelligence1():
+    """
+    Render the dashboard page.
+    """
+    return render_template("intelligence.html")
 
 
+@app.route("/login")
+@oidc.require_login
+def login():
+    """
+    Force the user to login, then redirect them to the dashboard.
+    """
+    return redirect(url_for(".dashboard"))
 
 @app.route("/logout")
 def logout():
@@ -91,7 +105,7 @@ def logout():
     """
 
     oidc.logout()
-    return app.send_static_file("login.html")
+    return redirect(url_for(".index"))
 
 # @app.before_request
 # def before_request():
@@ -107,7 +121,7 @@ def logout():
 
 # @app.route('/')
 # def root():
-#     return app.send_static_file('login.html')
+#     return render_template('index.html')
 
 
 
@@ -117,12 +131,12 @@ def logout():
 #     """
 #     Force the user to login, then redirect them to the dashboard.
 #     """
-#     return app.send_static_file('index.html')
+#     return render_template('dashboard.html')
 
 # @app.route('/<path:path>')
 # @oidc.require_login
 # def static_proxy(path):
-#     return app.send_static_file(path)
+#     return render_template(path)
 
 # @app.route("/logout")
 # @oidc.require_login
@@ -132,7 +146,7 @@ def logout():
 #     """
 
 #     oidc.logout()
-#     return app.send_static_file('login.html')
+#     return redirect(url_for(".root"))
 
 
 # Flask boilerplate, 

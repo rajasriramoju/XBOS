@@ -1,0 +1,79 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+	<title>XBOS Dashboard</title>
+	<meta charset='utf-8'>
+	<meta name='viewport' content='width=device-width,initial-scale=1.0'>
+	<link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
+	<!-- <link rel='shortcut icon' type='image/png' href='./assets/img/favicon1.png'/> -->
+	<link rel='shortcut icon' type='image/png' href='./assets/img/favicon2.png' />
+	<link rel="stylesheet" type= "text/css" href="{{ url_for('static', filename='styles/css/materialize.css') }}">
+	<link rel="stylesheet" type= "text/css" href="{{ url_for('static', filename='styles/css/nouislider.css') }}">
+	<link href="https://fonts.googleapis.com/css?family=Roboto" rel="stylesheet">
+</head>
+
+<body>
+	<div class="navbar-fixed">
+		<nav>
+			<div class="nav-wrapper tp-blue">
+				<a href="/" class="brand-logo">XBOS-DR</a>
+				<ul id="nav-mobile" class="right hide-on-med-and-down">
+						{% if not g.user %}
+					<li><a href="/login">Login / Register</a></li>
+					{% else %}
+					<li><a href="/dashboard">Dashboard</a></li>
+					<li><a href="/setpoints">Setpoints</a></li>
+					<li><a href="/weather">Weather</a></li>
+					<li><a href="/intelligence">Intelligence</a></li>
+					<li><a id="logout-button" href="/logout">Logout</a></li>
+					{% endif %}
+				</ul>
+			</div>
+			<div id="DRBG" class="row center-align pulse z-depth-1 scale-transition scale-out" style="line-height: 2;">
+				<a id="DRTXT" href="html/DR.html">"</a>
+			</div>
+		</nav>
+    </div>
+    <h1 class="text-center">Simple Flask App</h1>
+    <div class="row">
+      <div class="col-sm-6 offset-sm-3">
+        <div class="test">
+          <p>
+              Welcome to this simple Flask example app. It shows you how to easily
+              enable users to register, login, and logout of a Flask web app using <a
+                 href="https://developer.okta.com">Okta</a>.
+          </p>
+  
+        </div>
+			</div>
+			<h1 class="text-center">Dashboard</h1>
+			<div class="row">
+				<div class="col-sm-8 offset-sm-2">
+					
+					<p>Your user information has been pulled from the <code>g.user</code>
+					object, which makes accessing your user information simple. Your first
+					name, for example, is available via the <code>g.user.profile.firstName</code>
+					property. Your user id (<code>{{ g.user.id }}</code>), is pulled from the <code>g.user.id</code> property!</p>
+				</div>
+			</div>
+	</div>
+
+</body>
+<script>
+    document.getElementById('logout-button').addEventListener('click', (event) => {
+      event.preventDefault()
+  
+      const signoutWindow = window.open(
+        'https://dev-693782.okta.com/login/signout',
+        'okta-signout',
+        'toolbar=no,status=no,menubar=no,scrollbars=no,resizable=no,left=10000, top=10000, width=10, height=10, visible=none'
+      )
+  
+      setTimeout(() => {
+        signoutWindow.close()
+        window.location = document.getElementById('logout-button').href
+      }, 100)
+    })
+  </script>
+</html>

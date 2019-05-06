@@ -1,0 +1,131 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+	<title>XBOS Dashboard</title>
+	<meta charset='utf-8'>
+	<meta name='viewport' content='width=device-width,initial-scale=1.0'>
+	<link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
+	<!-- <link rel='shortcut icon' type='image/png' href='./assets/img/favicon1.png'/> -->
+	<link rel='shortcut icon' type='image/png' href='./assets/img/favicon2.png' />
+	<link rel="stylesheet" type= "text/css" href="{{ url_for('static', filename='styles/css/materialize.css') }}">
+	<link rel="stylesheet" type= "text/css" href="{{ url_for('static', filename='styles/css/dashboard.css') }}">
+	<link href="https://fonts.googleapis.com/css?family=Roboto" rel="stylesheet">
+</head>
+
+<body id="body">
+	<div class="navbar-fixed">
+		<nav>
+			<div class="nav-wrapper tp-blue">
+				<a href="/" class="brand-logo">XBOS-DR</a>
+				<ul id="nav-mobile" class="right hide-on-med-and-down">
+					<li class="active"><a href="#">Dashboard</a></li>
+					<li><a href="/setpoints">Setpoints</a></li>
+					<li><a href="/weather">Weather</a></li>
+					<li><a href="/DR">DR</a></li>
+					<li><a href="/intelligence">Intelligence</a></li>
+					<li><a id="logout-button" href="/logout">Logout</a></li>
+				</ul>
+			</div>
+
+		</nav>
+	</div>
+
+	<div class="row" id="DRROW" style="display: none;"></div>
+	<div class="row"></div>
+	<div class="row"></div>
+
+	<div class="row card-margin">
+
+
+		<div class="col s4 offset-s1">
+			<div class="card">
+				<div class="card-content">
+					<span class="card-title">Average Power Consumption</span>
+					<p class="inner-card-padding">Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor
+						incididunt ut labore et
+						dolore magna aliqua.</p>
+				</div>
+			</div>
+		</div>
+
+		<div class="col s4 offset-s2">
+			<div class="card">
+				<div class="card-content">
+					<span class="card-title">Solar Production</span>
+					<p class="inner-card-padding">Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor
+						incididunt ut labore et
+						dolore magna aliqua.</p>
+				</div>
+			</div>
+		</div>
+
+	</div>
+	<div class="row card-margin">
+		<div class="col s4 offset-s2 center-align">
+
+			<div class="row valign-wrapper row-padding center-align">
+
+				<p>
+					Price of Electricity:
+				</p>
+				<div class="outline center-align">
+					$ xxx
+				</div>
+
+			</div>
+			<div class="row valign-wrapper row-padding center-align">
+
+				<p>
+					Battery SOC:
+				</p>
+				<div class="outline center-align">
+					xxx %
+				</div>
+
+			</div>
+			<div class="row valign-wrapper row-padding center-align">
+
+				<p>
+					Operating Mode:
+				</p>
+				<div class="outline center-align">
+					MPC on
+				</div>
+
+			</div>
+		</div>
+
+		<div class="col s4 offset-s1">
+			<div class="card">
+				<div class="card-content">
+					<span class="card-title">Zone Temperatures and Setpoints</span>
+					<p class="inner-card-padding">Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor
+						incididunt ut labore et
+						dolore magna aliqua.</p>
+				</div>
+			</div>
+		</div>
+	</div>
+
+
+</body>
+<script>
+    document.getElementById('logout-button').addEventListener('click', (event) => {
+      event.preventDefault()
+  
+      const signoutWindow = window.open(
+        'https://dev-693782.okta.com/login/signout',
+        'okta-signout',
+        'toolbar=no,status=no,menubar=no,scrollbars=no,resizable=no,left=10000, top=10000, width=10, height=10, visible=none'
+      )
+  
+      setTimeout(() => {
+        signoutWindow.close()
+        window.location = document.getElementById('logout-button').href
+      }, 100)
+    })
+  </script>
+  
+
+</html>
