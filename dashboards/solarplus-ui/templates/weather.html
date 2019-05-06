@@ -1,36 +1,34 @@
-<!--[if lt IE 7 ]><html class="ie ie6" lang="en"> <![endif]-->
-<!--[if IE 7 ]><html class="ie ie7" lang="en"> <![endif]-->
-<!--[if IE 8 ]><html class="ie ie8" lang="en"> <![endif]-->
-<!--[if (gte IE 9)|!(IE)]><!-->
 <html lang="en">
-<!--<![endif]-->
+
 
 <head>
-	<!-- Le Basic Page Needs
-			================================================== -->
+
 	<meta charset="utf-8">
 	<meta http-equiv="X-UA-Compatible" content="IE=edge">
 	<title>XBOS Dashboard</title>
 	<meta charset='utf-8'>
 	<meta name='viewport' content='width=device-width,initial-scale=1.0'>
 	<link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
-	<!-- <link rel='shortcut icon' type='image/png' href='./assets/img/favicon1.png'/> -->
-	<link rel='shortcut icon' type='image/png' href='./assets/img/favicon2.png' />
+	<link rel="shortcut icon" type="image/png" href="{{ url_for('static', filename='assets/img/logo.png') }}">
 
 	<meta name="viewport" content="width=device-width, initial-scale=1">
-	<link rel="stylesheet" href="assets/css/vendor/library.min.css">
-	<link rel="stylesheet" href="assets/css/core/style.min.css">
-	<link rel='stylesheet' href='./assets/css/materialize.css'>
-	<link rel='stylesheet' href='./assets/css/nouislider.css'>
+	<link rel="stylesheet" type="text/css" href="{{ url_for('static', filename='assets/css/vendor/library.min.css') }}">
+	<link rel="stylesheet" type="text/css" href="{{ url_for('static', filename='assets/css/core/style.min.css') }}">
+	<link rel="stylesheet" type="text/css" href="{{ url_for('static', filename='assets/css/materialize.css') }}">
+	<link rel="stylesheet" type="text/css" href="{{ url_for('static', filename='assets/css/nouislider.css') }}">
+
+	<!-- <link rel="stylesheet" type="text/css" href="static/styles/css/core/style.min.css">
+	<link rel="stylesheet" type="text/css" href="static/styles/css/materialize.css">
+	<link rel="stylesheet" type="text/css" href="static/styles/css/nouislider.css"> -->
+
+
+
+	<script type="text/javascript" src="{{url_for('static', filename='assets/js/weather/home.js') }}"></script>
+
+
 
 	<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
-	<link rel="apple-touch-icon" sizes="180x180" href="assets/img/favicon/apple-touch-icon.png">
-	<link rel="icon" type="image/png" sizes="32x32" href="assets/img/favicon/favicon-32x32.png">
-	<link rel="icon" type="image/png" sizes="16x16" href="assets/img/favicon/favicon-16x16.png">
-	<link rel="manifest" href="assets/img/favicon/site.webmanifest">
-	<link rel="mask-icon" href="assets/img/favicon/safari-pinned-tab.svg" color="#5bbad5">
-	<meta name="msapplication-TileColor" content="#ffffff">
-	<meta name="theme-color" content="#ffffff">
+
 </head>
 
 <body id="body">
@@ -38,14 +36,14 @@
 	<div class="navbar-fixed">
 		<nav>
 			<div class="nav-wrapper tp-blue">
-				<a href="index.html" class="brand-logo">XBOS-DR</a>
+				<a href="/index" class="brand-logo">XBOS-DR</a>
 				<ul id="nav-mobile" class="right hide-on-med-and-down">
-					<li><a href="index.html">Home</a></li>
-					<li><a href="setpoints-groupings.html">Setpoints</a></li>
+					<li><a href="/dashboard">Dashboard</a></li>
+					<li><a href="/setpoints">Setpoints</a></li>
 					<li class="active"><a href="#">Weather</a></li>
-					<li><a href="DR.html">DR</a></li>
-					<li><a href="intelligence.html">Intelligence</a></li>
-					<li><a id="weatherLI">73</a></li>
+					<li><a href="/DR">DR</a></li>
+					<li><a href="/intelligence">Intelligence</a></li>
+					<li><a id="logout-button" href="/logout">Logout</a></li>
 				</ul>
 			</div>
 			<div id="DRBG" class="row center-align pulse z-depth-1 scale-transition scale-out" style="line-height: 2;">
@@ -92,28 +90,28 @@
 
 
 					<div class="row">
-						<div class="col-lg-6 pt-2 pb-2">
+						<div class="col-lg-6 pt-2 pb-2" id="fit">
 							<div>
 								Visibility:
 								<span id="summary"></span>
 							</div>
 						</div>
 						<!-- precipitation -->
-						<div class="col-lg-6 pt-2 pb-2">
+						<div class="col-lg-6 pt-2 pb-2" id="fit">
 							<div>
 								Precipitation:
 								<span id="precipitation"></span>
 							</div>
 						</div>
 						<!-- humidity -->
-						<div class="col-lg-6 pt-2 pb-2">
+						<div class="col-lg-6 pt-2 pb-2" id="fit">
 							<div>
 								Humidity:
 								<span id="humidity"></span>
 							</div>
 						</div>
 						<!-- windSpeed -->
-						<div class="col-lg-6 pt-2 pb-2">
+						<div class="col-lg-6 pt-2 pb-2" id="fit">
 							<div>
 								Windspeed:
 								<span id="windSpeed"></span>
@@ -184,12 +182,29 @@
 			</div>
 		</div>
 	</div>
-</body>
-<script src="https://cdn.rawgit.com/maxdow/skycons/master/skycons.js"></script>
-<script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
-<script src="assets/js/weather/home.js"></script>
-<script src="assets/js/weather/doppler.js"></script>
 
 </body>
+
+<script>
+		document.getElementById('logout-button').addEventListener('click', (event) => {
+			event.preventDefault()
+
+			const signoutWindow = window.open(
+				'https://dev-693782.okta.com/login/signout',
+				'okta-signout',
+				//'height=1,width=1',
+				'toolbar=no,status=no,menubar=no,scrollbars=no,resizable=no,left=10000, top=10000, width=10, height=10, visible=none'
+			)
+
+			setTimeout(() => {
+				signoutWindow.close()
+				window.location = document.getElementById('logout-button').href
+			}, 1000)
+		})
+	</script>
+<script src="https://cdn.rawgit.com/maxdow/skycons/master/skycons.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
+<script type="text/javascript" src="{{url_for('static', filename='assets/js/weather/home.js') }}"></script>
+<script type="text/javascript" src="{{url_for('static', filename='assets/js/weather/doppler.js') }}"></script>
 
 </html>
