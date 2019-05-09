@@ -10,7 +10,7 @@ $(document).ready(function() {
         var highChart = new Highcharts.chart('myChart',{
             chart: {
                 //renderTo: "myChart",
-                type: 'line',
+                type: 'bar',
                 zoomType: "x"
             },
             title: {
