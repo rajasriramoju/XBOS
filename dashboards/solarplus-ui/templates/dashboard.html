@@ -16,7 +16,7 @@
 
 </head>
 
-<body id="body", onload="loadAllGraphs()">
+<body id="body">
 	<div class="navbar-fixed">
 		<nav>
 			<div class="nav-wrapper tp-blue">
@@ -71,6 +71,7 @@
 			window.location = document.getElementById('logout-button').href
 		}, 1000)
 	})
+	document.getElementById('chart1').addEventListener('load', graphDataCollection_Chart1);
 </script>
 
 <script type="text/javascript" src="{{url_for('static', filename='assets/js/lib/highcharts.js') }}"></script>
@@ -79,6 +80,6 @@
 <script type="text/javascript" src="{{url_for('static', filename='assets/js/lib/jquery.js') }}"></script>
 <script type="text/javascript" src="{{url_for('static', filename='assets/js/index/dashboard-graphs.js') }}"></script>
 <script type="text/javascript" src="{{url_for('static', filename='assets/js/index/floorplan.js') }}"></script>
-<script type="text/javascript" src="{{url_for('static', filename='assets/js/index/script.js') }}"></script>
+<script type="text/javascript" src="{{url_for('static', filename='assets/js/script.js') }}"></script>
 
 </html>

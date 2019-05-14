@@ -1,6 +1,7 @@
 /*dashboard-graphs.js*/
 $(document).ready(function() {
 
+    console.log("in the js file fam");
     function consumption(value){
        return (value);
     }
@@ -77,6 +78,7 @@ $(document).ready(function() {
     }
     
     function loadAllGraphs(){
+        console.log("in the load function");
         graphDataCollection_Chart1();
     }
         function graphDataCollection_Chart1() {
@@ -136,5 +138,5 @@ $(document).ready(function() {
             renderChart(powerGenVals, labels);
             
         }*/
-    );
+
 });
