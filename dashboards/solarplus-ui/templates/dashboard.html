@@ -16,7 +16,7 @@
 
 </head>
 
-<body id="body", onload="graphDataCollection_Chart1()">
+<body id="body", onload="loadAllGraphs()">
 	<div class="navbar-fixed">
 		<nav>
 			<div class="nav-wrapper tp-blue">
@@ -73,17 +73,12 @@
 	})
 </script>
 
-<script type="text/javascript" src="../static/assets/js/lib/highcharts.js"></script>
-<script type="text/javascript" src="../static/assets/js/lib/materialize.js"></script>
-<script type="text/javascript" src="../static/assets/js/lib/drilldown.js"></script>
-<script type="text/javascript" src="../static/assets/js/lib/jquery.js"></script>
-<script type="text/javascript" src="../static/assets/js/lib/highcharts-more.js"></script>
-<script type="text/javascript" src="../static/assets/js/index/energyChart.js"></script>
-<script type="text/javascript" src="../static/assets/js/index/tempChart.js"></script>
-<script type="text/javascript" src="../static/assets/js/index/floorplan.js"></script>
-<script type="text/javascript" src="../static/assets/js/index/index.js"></script>
-<script type="text/javascript" src="../static/assets/js/index/dashboard-graphs.js"></script>
-<script type="text/javascript" src="../static/assets/js/script.js"></script>
-<script type="text/javascript" src="../README.rst"></script>
+<script type="text/javascript" src="{{url_for('static', filename='assets/js/lib/highcharts.js') }}"></script>
+<script type="text/javascript" src="{{url_for('static', filename='assets/js/lib/materialize.js') }}"></script>
+<script type="text/javascript" src="{{url_for('static', filename='assets/js/lib/drilldown.js') }}"></script>
+<script type="text/javascript" src="{{url_for('static', filename='assets/js/lib/jquery.js') }}"></script>
+<script type="text/javascript" src="{{url_for('static', filename='assets/js/index/dashboard-graphs.js') }}"></script>
+<script type="text/javascript" src="{{url_for('static', filename='assets/js/index/floorplan.js') }}"></script>
+<script type="text/javascript" src="{{url_for('static', filename='assets/js/index/script.js') }}"></script>
 
 </html>

@@ -76,8 +76,7 @@ $(document).ready(function() {
         return Httpreq.responseText;          
     }
     
-    function loadAllGraphs()
-    {
+    function loadAllGraphs(){
         graphDataCollection_Chart1();
     }
         function graphDataCollection_Chart1() {
