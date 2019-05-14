@@ -2,7 +2,7 @@
 <html>
 
 <head>
-	<title>XBOS Dashboard</title>
+	<title>SolarPlus</title>
 	<meta charset='utf-8'>
 	<meta name='viewport' content='width=device-width,initial-scale=1.0'>
 	<link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
@@ -21,7 +21,7 @@
 	<div class="navbar-fixed">
 		<nav>
 			<div class="nav-wrapper tp-blue">
-				<a href="/index" class="brand-logo">XBOS-DR</a>
+				<a href="/index" class="brand-logo">SolarPlus</a>
 				<ul id="nav-mobile" class="right hide-on-med-and-down">
 					<!-- {% if not g.user %}
 					<li><a href="/login">Login / Register</a></li>
@@ -29,7 +29,7 @@
 					<li><a href="/dashboard">Dashboard</a></li>
 					<li><a href="/setpoints">Setpoints</a></li>
 					<li><a href="/weather">Weather</a></li>
-					<li><a href="/DR">DR</a></li>
+					<!-- <li><a href="/DR">DR</a></li> -->
 					<li><a href="/intelligence">Intelligence</a></li>
 					<li><a id="logout-button" href="/logout">Logout</a></li>
 					<!-- {% endif %} -->
@@ -55,7 +55,7 @@
 		<h1 class="text-center">Dashboard</h1>
 		<div class="row">
 			<div class="col-sm-8 offset-sm-2">
-					<p>Welcome,<code>{{ g.user.profile.firstName }}</code> !</p>
+					<p>Welcome,<code>{{ g.user.profile.email }}</code> !</p>
 				<p>Your user information has been pulled from the <code>g.user</code>
 					object, which makes accessing your user information simple. Your first
 					name, for example, is available via the <code>g.user.profile.firstName</code>
