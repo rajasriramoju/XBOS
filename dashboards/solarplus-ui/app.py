@@ -303,7 +303,7 @@ def extractData_twoFeatures_Control2():
     return df.to_json(orient = 'records')
 
 # This function extracts data for solar production values from 
-@app.route('/dashboard/PVPowerGenData')
+@app.route('/dashboard/access/PVPowerGenData')
 @crossdomain(origin="*")
 def extractData_PVPowerGenData():
     filePathString = "./Historic_microgrid_data/PVPowerGenData.csv"
