@@ -71,7 +71,8 @@
 			window.location = document.getElementById('logout-button').href
 		}, 1000)
 	})
-	document.getElementById('chart1').addEventListener('load', graphDataCollection_Chart1);
+	// Can't do this because the js file containing the function is loaded after 
+	// document.getElementById('chart1').addEventListener('load', graphDataCollection_Chart1);
 </script>
 
 <script type="text/javascript" src="{{url_for('static', filename='assets/js/lib/highcharts.js') }}"></script>

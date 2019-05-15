@@ -1,13 +1,43 @@
 /*dashboard-graphs.js*/
-$(document).ready(function() {
+document.getElementById('chart1').addEventListener('load', graphDataCollection_Chart1);
+function graphDataCollection_Chart1() {
+
+    // will have to include code here about fetching data from the 
+    // selected features for the specific features on dashboard
+    const uri_chart1 = `http://localhost:5000/dashboard/Building`;
+    var res_chart1 = JSON.parse(Get(uri_chart1));
+    console.log(res_chart1);
+
+    var buildingVals = [];
+    //var feature2Vals = []
+    var labels = [];
+
+    for (let i = 0; i < res_chart1.size; i++) {
+
+        let singleElement = res_chart1[i];
+
+        for (let prop in singleElement) {
+            if (prop == 'Building')
+                buildingVals.push(singleElement[prop]);
+        }
+        labels.push(res[i].Time);
+    }
+
+    console.log(labels);
+    console.log(buildingValsVals);
+    renderChart(buildingVals, 'Total Power Consumption Values', labels);
+
+}
+$(document).ready(function () {
 
     console.log("in the js file fam");
-    function consumption(value){
-       return (value);
+
+    function consumption(value) {
+        return (value);
     }
 
     function renderChart1(yVals, yValsTitle, dates) {
-        var highChart = new Highcharts.chart('chart1',{
+        var highChart = new Highcharts.chart('chart1', {
             chart: {
                 type: 'line',
                 zoomType: "x"
@@ -15,7 +45,7 @@ $(document).ready(function() {
             title: {
                 text: yValsTitle
             },
-            tooltip : {
+            tooltip: {
                 valueSuffix: '\xB0C'
             },
             xAxis: {
@@ -26,11 +56,10 @@ $(document).ready(function() {
                     text: 'Consumption'
                 },
                 plotLines: [{
-                    value:0
+                    value: 0
                 }]
             },
-            series: [
-            {
+            series: [{
                 name: 'Building consumption',
                 data: yVals
             }]
@@ -39,7 +68,7 @@ $(document).ready(function() {
     }
 
     function renderChart2(yVals, yValsTitle, dates) {
-        var highChart = new Highcharts.chart('chart2',{
+        var highChart = new Highcharts.chart('chart2', {
             chart: {
                 type: 'line',
                 zoomType: "x"
@@ -47,7 +76,7 @@ $(document).ready(function() {
             title: {
                 text: yValsTitle
             },
-            tooltip : {
+            tooltip: {
                 valueSuffix: '\xB0C'
             },
             xAxis: {
@@ -58,11 +87,10 @@ $(document).ready(function() {
                     text: 'Power generated'
                 },
                 plotLines: [{
-                    value:0
+                    value: 0
                 }]
             },
-            series: [
-            {
+            series: [{
                 name: 'PV Power Generated',
                 data: yVals
             }]
@@ -70,73 +98,75 @@ $(document).ready(function() {
         });
     }
 
-    function Get(yourUrl){
+    function Get(yourUrl) {
         var Httpreq = new XMLHttpRequest(); // a new request
-        Httpreq.open("GET",yourUrl,false);
+        Httpreq.open("GET", yourUrl, false);
         Httpreq.send(null);
-        return Httpreq.responseText;          
+        return Httpreq.responseText;
     }
-    
-    function loadAllGraphs(){
+
+    function loadAllGraphs() {
         console.log("in the load function");
         graphDataCollection_Chart1();
     }
-        function graphDataCollection_Chart1() {
 
-            // will have to include code here about fetching data from the 
-            // selected features for the specific features on dashboard
-            const uri_chart1 = `http://localhost:5000/dashboard/Building`;        
-            var res_chart1 = JSON.parse(Get(uri_chart1)); 
-            console.log(res_chart1);
-            
-            var buildingVals = [];
-            //var feature2Vals = []
-            var labels = [];
-            
-            
-            for(let i = 0; i < res_chart1.size; i++){
+    function graphDataCollection_Chart1() {
 
-                let singleElement = res_chart1[i];
+        // will have to include code here about fetching data from the 
+        // selected features for the specific features on dashboard
+        const uri_chart1 = `http://localhost:5000/dashboard/Building`;
+        var res_chart1 = JSON.parse(Get(uri_chart1));
+        console.log(res_chart1);
 
-                for(let prop in singleElement){
-                    if(prop == 'Building')
-                        buildingVals.push(singleElement[prop]);           
-                }
-                labels.push(res[i].Time);
-            }        
-            
-            console.log(labels);
-            console.log(buildingValsVals);
-            renderChart(buildingVals, 'Total Power Consumption Values', labels);
-            
+        var buildingVals = [];
+        //var feature2Vals = []
+        var labels = [];
+
+
+        for (let i = 0; i < res_chart1.size; i++) {
+
+            let singleElement = res_chart1[i];
+
+            for (let prop in singleElement) {
+                if (prop == 'Building')
+                    buildingVals.push(singleElement[prop]);
+            }
+            labels.push(res[i].Time);
         }
-        /*
-        function graphDataCollection_Chart2() {
-            // will have to include code here about fetching data from the 
-            // selected features for the specific features on dashboard
-            const uri_chart1 = `http://localhost:5000/dashboard/PVPowerGenData`;        
-            var res_chart1 = JSON.parse(Get(uri_chart1)); 
-            console.log(res_chart1);
-            
-            var powerGenVals = [];
-            //var feature2Vals = []
-            var labels = [];
-            
-            
-            for(let i = 0; i < res_chart1.size; i++){
 
-                let singleElement = res_chart1[i];
+        console.log(labels);
+        console.log(buildingValsVals);
+        renderChart(buildingVals, 'Total Power Consumption Values', labels);
 
-                for(let prop in singleElement){
-                    if(prop == 'PVPower_kW')
-                        powerGenVals.push(singleElement[prop]);           
-                }
-                labels.push(res[i].Time);
-            }        
-            console.log(labels);
-            console.log(powerGenVals);
-            renderChart(powerGenVals, labels);
-            
-        }*/
+    }
+    loadAllGraphs();
+    /*
+    function graphDataCollection_Chart2() {
+        // will have to include code here about fetching data from the 
+        // selected features for the specific features on dashboard
+        const uri_chart1 = `http://localhost:5000/dashboard/PVPowerGenData`;        
+        var res_chart1 = JSON.parse(Get(uri_chart1)); 
+        console.log(res_chart1);
+        
+        var powerGenVals = [];
+        //var feature2Vals = []
+        var labels = [];
+        
+        
+        for(let i = 0; i < res_chart1.size; i++){
+
+            let singleElement = res_chart1[i];
+
+            for(let prop in singleElement){
+                if(prop == 'PVPower_kW')
+                    powerGenVals.push(singleElement[prop]);           
+            }
+            labels.push(res[i].Time);
+        }        
+        console.log(labels);
+        console.log(powerGenVals);
+        renderChart(powerGenVals, labels);
+        
+    }*/
 
 });
