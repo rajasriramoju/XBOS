@@ -10,27 +10,52 @@
 	<link rel="shortcut icon" type="image/png" href="{{ url_for('static', filename='assets/img/logo.png') }}">
 	<link rel="stylesheet" type="text/css" href="{{ url_for('static', filename='assets/css/materialize.css') }}">
 	<link rel="stylesheet" type="text/css" href="{{ url_for('static', filename='assets/css/nouislider.css') }}">
+
+	<link rel="stylesheet" type="text/css" href="{{ url_for('static', filename='assets/plugins/font-awesome/font-awesome.min.css') }}">
+	<link rel="stylesheet" type="text/css" href="{{ url_for('static', filename='assets/plugins/bootstrap/bootstrap.min.css') }}">
+	<link rel="stylesheet" type="text/css" href="{{ url_for('static', filename='assets/plugins/venobox/venobox.css') }}">
+	<link rel="stylesheet" type="text/css" href="{{ url_for('static', filename='assets/plugins/slick/slick.css') }}">
+	<link rel="stylesheet" type="text/css" href="{{ url_for('static', filename='assets/css/navbar.css') }}">
+
 	<link href="https://fonts.googleapis.com/css?family=Roboto" rel="stylesheet">
 
 </head>
 
 <body id="body" class="">
-	<div class="navbar-fixed">
-		<nav>
-			<div class="nav-wrapper tp-blue">
-				<a href="/index" class="brand-logo">SolarPlus</a>
-				<ul id="nav-mobile" class="right hide-on-med-and-down">
-					<li><a href="/dashboard">Dashboard</a></li>
-					<li class="active"><a href="#">Setpoints</a></li>
-					<li><a href="/weather">Weather</a></li>
-					<!-- <li><a href="/DR">DR</a></li> -->
-					<li><a href="/intelligence">Intelligence</a></li>
-					<li><a href="/contact">Contact</a></li>
-					<li><a id="logout-button" href="/logout">Logout</a></li>
-				</ul>
+	<div class="naviagtion fixed-top transition">
+		<div class="container">
+		  <nav class="navbar navbar-expand-lg navbar-dark p-0">
+			<a class="navbar-brand p-0" href="index.html"><img src="images/logo/logo.png" alt="Agico"></a>
+			<button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navigation" aria-controls="navigation"
+			  aria-expanded="false" aria-label="Toggle navigation">
+			  <span class="navbar-toggler-icon"></span>
+			</button>
+	  
+			<div class="collapse navbar-collapse text-center" id="navigation">
+			  <ul class="navbar-nav mx-auto">
+	  
+				<li class="nav-item">
+				  <a class="nav-link text-white text-capitalize" href="/dashboard">Dashboard</a>
+				</li>
+				<li class="nav-item">
+				  <a class="nav-link text-white text-capitalize" href="/setpoints">Setpoints</a>
+				</li>
+	  
+				<li class="nav-item">
+				  <a class="nav-link text-white text-capitalize" href="/weather">Weather</a>
+				</li>
+				<li class="nav-item">
+				  <a class="nav-link text-white text-capitalize" href="/intelligence">Intelligence</a>
+				</li>
+				<li class="nav-item">
+					<a class="nav-link text-white text-capitalize" href="/contact">contact</a>
+				  </li>
+			  </ul>
+			  <a href="#" class="btn btn-outline-primary text-white ml-3">sign up</a>
 			</div>
-		</nav>
-	</div>
+		  </nav>
+		</div>
+	  </div>
 
 
 
