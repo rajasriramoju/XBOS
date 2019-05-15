@@ -1,124 +1,163 @@
-<!DOCTYPE html>
+<!DOCTYPE HTML>
+<!--
+	Spectral by HTML5 UP
+	html5up.net | @ajlkn
+	Free for personal and commercial use under the CCA 3.0 license (html5up.net/license)
+-->
 <html>
+	<head>
+		<title>Solarplus</title>
+		<meta charset="utf-8" />
+		<meta name="viewport" content="width=device-width, initial-scale=1, user-scalable=no" />
+		<link rel="stylesheet"  href="{{ url_for('static', filename='assets/css/main.css') }}">
+		<link rel="stylesheet" type="text/css" media="screen" href="{{ url_for('static', filename='assets/css/particles.css') }}">
+		<link rel="stylesheet" type="text/css" href="{{ url_for('static', filename='assets/css/noscript.css') }}">
+		<!-- <link rel="stylesheet" href="assets/css/main.css" />
+		<link rel="stylesheet" media="screen" href="assets/css/style.css">
+		<noscript><link rel="stylesheet" href="assets/css/noscript.css" /></noscript> -->
+	</head>
+	<body class="landing is-preload">
 
-<head>
-  <title>Welcome to Solarplus!</title>
-  <meta charset='utf-8'>
-  <meta name='viewport' content='width=device-width,initial-scale=1.0'>
-  <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
-  <link rel="shortcut icon" type="image/png" href="{{ url_for('static', filename='assets/img/logo.png') }}">
-  <link rel="stylesheet" type="text/css" href="{{ url_for('static', filename='assets/css/particle-style.css') }}">
-  <link rel="stylesheet" type="text/css" href="{{ url_for('static', filename='assets/css/style.css') }}">
+		<!-- Page Wrapper -->
+			<div id="page-wrapper">
+			<div id="particles-js"></div>
 
+				<!-- Header -->
+					<!-- <header id="header" class="alt">
+						<h1><a href="index.html">Spectral</a></h1>
+					</header> -->
 
-  <script type="text/javascript" src="{{url_for('static', filename='assets/js/login/jquery-1.9.1.min.js') }}"></script>
-  <script type="text/javascript" src="{{url_for('static', filename='assets/js/login/jquery.leanModal.min.js') }}"></script>
+				<!-- Banner -->
+					<section id="banner">
+						<div class="inner">
+							<h2>Solarplus</h2>
+							<ul class="actions special">
+								<li><a href="/login" class="button primary">Login / Signup</a></li>
+							</ul>
+						</div>
+						<a href="#one" class="more scrolly">Learn More</a>
+					</section>
 
-  <link href="https://fonts.googleapis.com/css?family=Roboto" rel="stylesheet">
-  <!-- jQuery plugin leanModal under MIT License http://leanmodal.finelysliced.com.au/ -->
-</head>
+				<!-- One -->
+					<section id="one" class="wrapper style1 special">
+						<div class="inner">
+							<header class="major">
+								<h2>Arcu aliquet vel lobortis ata nisl<br />
+								eget augue amet aliquet nisl cep donec</h2>
+								<p>Aliquam ut ex ut augue consectetur interdum. Donec amet imperdiet eleifend<br />
+								fringilla tincidunt. Nullam dui leo Aenean mi ligula, rhoncus ullamcorper.</p>
+							</header>
+							<ul class="icons major">
+								<li><span class="icon fa-diamond major style1"><span class="label">Lorem</span></span></li>
+								<li><span class="icon fa-heart-o major style2"><span class="label">Ipsum</span></span></li>
+								<li><span class="icon fa-code major style3"><span class="label">Dolor</span></span></li>
+							</ul>
+						</div>
+					</section>
 
-<body id="body">
+				<!-- Two -->
+					<section id="two" class="wrapper alt style2">
+						<section class="spotlight">
+							<div class="image"><img src="static/assets/img/pic01.jpg" alt="" /></div><div class="content">
+								<h2>Magna primis lobortis<br />
+								sed ullamcorper</h2>
+								<p>Aliquam ut ex ut augue consectetur interdum. Donec hendrerit imperdiet. Mauris eleifend fringilla nullam aenean mi ligula.</p>
+							</div>
+						</section>
+						<section class="spotlight">
+							<div class="image"><img src="static/assets/img/pic02.jpg" alt="" /></div><div class="content">
+								<h2>Tortor dolore feugiat<br />
+								elementum magna</h2>
+								<p>Aliquam ut ex ut augue consectetur interdum. Donec hendrerit imperdiet. Mauris eleifend fringilla nullam aenean mi ligula.</p>
+							</div>
+						</section>
+						<section class="spotlight">
+							<div class="image"><img src="static/assets/img/pic03.jpg" alt="" /></div><div class="content">
+								<h2>Augue eleifend aliquet<br />
+								sed condimentum</h2>
+								<p>Aliquam ut ex ut augue consectetur interdum. Donec hendrerit imperdiet. Mauris eleifend fringilla nullam aenean mi ligula.</p>
+							</div>
+						</section>
+					</section>
 
-  <div id="w">
-    <div id="content">
-      <h1>Welcome to Solarplus-Dev!</h1>
-      <p>Click this to sign up/login to the Solarplus portal</p>
-      <center>
-        <a href="/login" class="flatbtn" id="newmodaltrigger">Login / Sign Up</a>
-        <!-- <a href="#loginmodal" class="flatbtn" id="modaltrigger">Login</a> -->
-      </center>
+				<!-- Three -->
+					<section id="three" class="wrapper style3 special">
+						<div class="inner">
+							<header class="major">
+								<h2>Accumsan mus tortor nunc aliquet</h2>
+								<p>Aliquam ut ex ut augue consectetur interdum. Donec amet imperdiet eleifend<br />
+								fringilla tincidunt. Nullam dui leo Aenean mi ligula, rhoncus ullamcorper.</p>
+							</header>
+							<ul class="features">
+								<li class="icon fa-paper-plane-o">
+									<h3>Arcu accumsan</h3>
+									<p>Augue consectetur sed interdum imperdiet et ipsum. Mauris lorem tincidunt nullam amet leo Aenean ligula consequat consequat.</p>
+								</li>
+								<li class="icon fa-laptop">
+									<h3>Ac Augue Eget</h3>
+									<p>Augue consectetur sed interdum imperdiet et ipsum. Mauris lorem tincidunt nullam amet leo Aenean ligula consequat consequat.</p>
+								</li>
+								<li class="icon fa-code">
+									<h3>Mus Scelerisque</h3>
+									<p>Augue consectetur sed interdum imperdiet et ipsum. Mauris lorem tincidunt nullam amet leo Aenean ligula consequat consequat.</p>
+								</li>
+								<li class="icon fa-headphones">
+									<h3>Mauris Imperdiet</h3>
+									<p>Augue consectetur sed interdum imperdiet et ipsum. Mauris lorem tincidunt nullam amet leo Aenean ligula consequat consequat.</p>
+								</li>
+								<li class="icon fa-heart-o">
+									<h3>Aenean Primis</h3>
+									<p>Augue consectetur sed interdum imperdiet et ipsum. Mauris lorem tincidunt nullam amet leo Aenean ligula consequat consequat.</p>
+								</li>
+								<li class="icon fa-flag-o">
+									<h3>Tortor Ut</h3>
+									<p>Augue consectetur sed interdum imperdiet et ipsum. Mauris lorem tincidunt nullam amet leo Aenean ligula consequat consequat.</p>
+								</li>
+							</ul>
+						</div>
+					</section>
 
-    </div>
-  </div>
+				<!-- CTA -->
+					<section id="cta" class="wrapper style4">
+						<div class="inner">
+							<header>
+								<h2>Arcue ut vel commodo</h2>
+								<p>Aliquam ut ex ut augue consectetur interdum endrerit imperdiet amet eleifend fringilla.</p>
+							</header>
+							<ul class="actions stacked">
+								<li><a href="#" class="button fit primary">Activate</a></li>
+								<li><a href="#" class="button fit">Learn More</a></li>
+							</ul>
+						</div>
+					</section>
 
-  <!-- <div id="loginmodal" style="display:none;">
-    <h1>Employee Login</h1>
+				<!-- Footer -->
+					<footer id="footer">
+						<ul class="icons">
+							<li><a href="#" class="icon fa-twitter"><span class="label">Twitter</span></a></li>
+							<li><a href="#" class="icon fa-facebook"><span class="label">Facebook</span></a></li>
+							<li><a href="#" class="icon fa-instagram"><span class="label">Instagram</span></a></li>
+							<li><a href="#" class="icon fa-dribbble"><span class="label">Dribbble</span></a></li>
+							<li><a href="#" class="icon fa-envelope-o"><span class="label">Email</span></a></li>
+						</ul>
+						<ul class="copyright">
+							<li>&copy; Untitled</li><li>Design: <a href="http://html5up.net">HTML5 UP</a></li>
+						</ul>
+					</footer>
 
-    <form id="loginform" name="loginform" method="post">
-      <label for="username">Username:</label>
-      <input type="text" name="username" id="username" class="txtfield" tabindex="1">
+			</div>
 
-      <label for="password">Password:</label>
-      <input type="password" name="password" id="password" class="txtfield" tabindex="2">
+		<!-- Scripts -->
+			<script type="text/javascript" src="{{url_for('static', filename='assets/js/lib/jquery.min.js') }}"></script>
+			<script type="text/javascript" src="{{url_for('static', filename='assets/js/lib/jquery.scrollex.min.js') }}"></script>
+			<script type="text/javascript" src="{{url_for('static', filename='assets/js/lib/jquery.scrolly.min.js') }}"></script>
+			<script type="text/javascript" src="{{url_for('static', filename='assets/js/lib/browser.min.js') }}"></script>
+			<script type="text/javascript" src="{{url_for('static', filename='assets/js/lib/breakpoints.min.js') }}"></script>
 
-      <a href="login.html">New User?</a>
+			<script type="text/javascript" src="{{url_for('static', filename='assets/js/util.js') }}"></script>
+			<script type="text/javascript" src="{{url_for('static', filename='assets/js/main.js') }}"></script>
+			<script type="text/javascript" src="{{url_for('static', filename='assets/js/particles.js') }}"></script>
+			<script type="text/javascript" src="{{url_for('static', filename='assets/js/app.js') }}"></script>
 
-      <div class="center"><input type="submit" name="loginbtn" id="loginbtn" class="flatbtn-blu hidemodal"
-          value="Log In" tabindex="3" onclick="window.location.href='index.html'"></div>
-    </form>
-
-  </div>
-
-  <div id="regmodal" style="display:none;">
-    <h1>Employee Sign Up</h1>
-
-    <form id="registerform" name="registerform" method="post">
-      <label for="firstname">First Name:</label>
-      <input type="text" name="firstname" id="firstname" class="txtfield" tabindex="1">
-
-      <label for="lastname">Last Name:</label>
-      <input type="text" name="lastname" id="lastname" class="txtfield" tabindex="2">
-
-      <label for="email">Email:</label>
-      <input type="email" name="email" id="email" class="txtfield" tabindex="3">
-
-      <label for="username">Username:</label>
-      <input type="text" name="username" id="username" class="txtfield" tabindex="4">
-
-      <label for="password">Password:</label>
-      <input type="password" name="password" id="password" class="txtfield" tabindex="5">
-
-      <label for="conpassword">Confirm Password:</label>
-      <input type="password" name="conpassword" id="conpassword" class="txtfield" tabindex="6">
-
-      <a href="login.html">Back to Login?</a>
-      <div id="key" class="g-recaptcha" data-sitekey="key" ></div>
-
-      <div class="center"><input type="submit" name="loginbtn" id="loginbtn" class="flatbtn-blu showmodal"
-          value="Sign Up" tabindex="7"></div>
-    </form>
-
-  </div> -->
-
-
-  <div id="particles-js">
-    <canvas class="particles-js-canvas-el" width="3730" height="2416" style="width: 100%; height: 100%;"></canvas>
-  </div>
-
-  <!-- <script type="text/javascript">
-    $(function () {
-      $('#loginform').submit(function (e) {
-        return false;
-      });
-
-      $('#modaltrigger').leanModal({
-        top: 110,
-        overlay: 0.45,
-        closeButton: ".hidemodal"
-      });
-    });
-  </script>
-
-  <script type="text/javascript">
-    $(function () {
-      $('#registerform').submit(function (e) {
-        return false;
-      });
-
-      $('#newmodaltrigger').leanModal({
-        top: 110,
-        overlay: 0.45,
-        closeButton: ".showmodal"
-      });
-    });
-  </script> -->
-
-  <script type="text/javascript" src="{{url_for('static', filename='assets/js/login/particles.min.js') }}"></script>
-  <script type="text/javascript" src="{{url_for('static', filename='assets/js/login/app.js') }}"></script>
-
-
-
-</body>
-
+	</body>
 </html>
