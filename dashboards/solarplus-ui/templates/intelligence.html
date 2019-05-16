@@ -13,13 +13,14 @@
 	<!-- <link rel="stylesheet" type="text/css" href="static/styles/css/materialize.css">
 	<link rel="stylesheet" type="text/css" href="static/styles/css/nouislider.css"> -->
 	<link href="https://fonts.googleapis.com/css?family=Roboto" rel="stylesheet">
-
+	<link rel="stylesheet" type="text/css" media="screen" href="{{ url_for('static', filename='assets/css/particles.css') }}">
 </head>
 
 <body id="body" class="">
-	<div class="navbar-fixed">
+		<div id="particles-js"></div>
+	<div class="">
 		<nav>
-			<div class="nav-wrapper tp-blue">
+			<div class="nav-wrapper dashe-blue">
 				<a href="/index" class="brand-logo">SolarPlus</a>
 				<ul id="nav-mobile" class="right hide-on-med-and-down">
 					<li>
@@ -46,7 +47,7 @@
 		<div class="section">
 			<div class="row valign-wrapper">
 				<div class="col s6">
-					<h4 style="margin-bottom: 0;">Intelligent Control</h4>
+					<h4 class="white-text" style="margin-bottom: 0;">Intelligent Control</h4>
 				</div>
 
 				<div class="col s6 right-align">
@@ -59,10 +60,10 @@
 		</div>
 		<div class="switch">
 			<label>
-				<span class="swi-text">off</span>
+				<span class="white-text" class="swi-text">off</span>
 				<input class="ogswitch" type="checkbox">
 				<span class="lever"></span>
-				<span class="swi-text">on</span>
+				<span class="white-text" class="swi-text">on</span>
 			</label>
 		</div>
 	</div>
@@ -94,5 +95,6 @@
 <script type="text/javascript" src="{{url_for('static', filename='assets/js/lib/jquery.js') }}"></script>
 <!-- <script type="text/javascript" src="{{url_for('static', filename='assets/js/script.js') }}"></script>
 <script type="text/javascript" src="{{url_for('static', filename='assets/js/settings/settings.js') }}"></script> -->
-
+<script type="text/javascript" src="{{url_for('static', filename='assets/js/particles.js') }}"></script>
+<script type="text/javascript" src="{{url_for('static', filename='assets/js/app.js') }}"></script>
 </html>

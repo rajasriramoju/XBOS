@@ -45,7 +45,7 @@ class Email(object):
         def send(self, from_addr=None):
             body = self._html
 
-            if isinstance(self.to, basestring):
+            if isinstance(self.to, str):
                 self.to = [self.to]
             if not from_addr:
                 from_addr = 'webwizards193@gmail.com'
@@ -176,7 +176,7 @@ def logout():
 def aws():
     # Send your sms message.
     client.publish(
-    PhoneNumber="+15309794654",
+    PhoneNumber="+14154257327",
     Message="Your Issue Ticket has been received! Thank you! :)"
     )
 
