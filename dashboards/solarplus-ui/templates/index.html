@@ -11,18 +11,25 @@
 	<link rel="stylesheet" type="text/css" href="{{ url_for('static', filename='assets/css/materialize.css') }}">
 	<link rel="stylesheet" type="text/css" href="{{ url_for('static', filename='assets/css/nouislider.css') }}">
 
-	<!-- <link rel="stylesheet" type="text/css" href="static/styles/css/materialize.css">
-	<link rel="stylesheet" type="text/css" href="static/styles/css/nouislider.css"> -->
+	<link rel="stylesheet" type="text/css" media="screen" href="{{ url_for('static', filename='assets/css/particles.css') }}">
+	<!-- <link rel="stylesheet" type="text/css" href="{{ url_for('static', filename='assets/plugins/font-awesome/font-awesome.min.css') }}">
+	<link rel="stylesheet" type="text/css" href="{{ url_for('static', filename='assets/plugins/bootstrap/bootstrap.min.css') }}">
+	<link rel="stylesheet" type="text/css" href="{{ url_for('static', filename='assets/plugins/venobox/venobox.css') }}">
+	<link rel="stylesheet" type="text/css" href="{{ url_for('static', filename='assets/plugins/slick/slick.css') }}">
+	<link rel="stylesheet" type="text/css" href="{{ url_for('static', filename='assets/css/navbar.css') }}"> -->
+
 	<link href="https://fonts.googleapis.com/css?family=Roboto" rel="stylesheet">
 
 </head>
 
 <body>
-	<div class="navbar-fixed">
+	<div id="particles-js"></div>
+	<div class="">
 		<nav>
-			<div class="nav-wrapper tp-blue">
+			<div class="nav-wrapper dashe-blue">
 				<a href="/index" class="brand-logo">SolarPlus</a>
-				<ul id="nav-mobile" class="right hide-on-med-and-down">
+				<a href="#" data-target="mobile-demo" class="sidenav-trigger"><i class="material-icons">menu</i></a>
+				<ul  class="right hide-on-med-and-down">
 					<!-- {% if not g.user %}
 					<li><a href="/login">Login / Register</a></li>
 					{% else %} -->
@@ -35,17 +42,31 @@
 					<li><a id="logout-button" href="/logout">Logout</a></li>
 					<!-- {% endif %} -->
 				</ul>
+				<ul class="sidenav" id="mobile-demo">
+						<!-- {% if not g.user %}
+						<li><a href="/login">Login / Register</a></li>
+						{% else %} -->
+						<li><a href="/dashboard">Dashboard</a></li>
+						<li><a href="/setpoints">Setpoints</a></li>
+						<li><a href="/weather">Weather</a></li>
+						<!-- <li><a href="/DR">DR</a></li> -->
+						<li><a href="/intelligence">Intelligence</a></li>
+						<li><a href="/contact">Contact</a></li>
+						<li><a id="logout-button" href="/logout">Logout</a></li>
+						<!-- {% endif %} -->
+				</ul>
 			</div>
 			<div id="DRBG" class="row center-align pulse z-depth-1 scale-transition scale-out" style="line-height: 2;">
 				<a id="DRTXT" href="html/DR.html">"</a>
 			</div>
 		</nav>
+
 	</div>
-	<h1 class="text-center">Simple Flask App</h1>
+	<h1 class="text-center white-text">Simple Flask App</h1>
 	<div class="row">
 		<div class="col-sm-6 offset-sm-3">
 			<div class="test">
-				<p>
+				<p class="white-text">
 					Welcome to this simple Flask example app. It shows you how to easily
 					enable users to register, login, and logout of a Flask web app using <a
 						href="https://developer.okta.com">Okta</a>.
@@ -53,11 +74,11 @@
 
 			</div>
 		</div>
-		<h1 class="text-center">Dashboard</h1>
+		<h1 class="text-center white-text">Dashboard</h1>
 		<div class="row">
 			<div class="col-sm-8 offset-sm-2">
-					<p>Welcome,<code>{{ g.user.profile.email }}</code> !</p>
-				<p>Your user information has been pulled from the <code>g.user</code>
+					<p class="white-text">Welcome,<code>{{ g.user.profile.email }}</code> !</p>
+				<p class="white-text">Your user information has been pulled from the <code>g.user</code>
 					object, which makes accessing your user information simple. Your first
 					name, for example, is available via the <code>g.user.profile.firstName</code>
 					property. Your user id (<code>{{ g.user.id }}</code>), is pulled from the <code>g.user.id</code> property!</p>
@@ -83,6 +104,14 @@
 			window.location = document.getElementById('logout-button').href
 		}, 1000)
 	})
+	
+</script>
+
+<script>
+  $(document).ready(function(){
+    $('.sidenav').sidenav();
+  });
+
 </script>
 <script src="https://cdn.rawgit.com/maxdow/skycons/master/skycons.js"></script>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
@@ -98,5 +127,6 @@
 <!-- <script type="text/javascript" src="{{url_for('static', filename='assets/js/DR/DR.js') }}"></script>
 <script type="text/javascript" src="{{url_for('static', filename='assets/js/DR/zone-chart.js') }}"></script>
 <script type="text/javascript" src="{{url_for('static', filename='assets/js/DR/bldng-chart.js') }}"></script> -->
-
+<script type="text/javascript" src="{{url_for('static', filename='assets/js/particles.js') }}"></script>
+<script type="text/javascript" src="{{url_for('static', filename='assets/js/app.js') }}"></script>
 </html>
