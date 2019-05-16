@@ -1,3 +1,17 @@
+def application(environ, start_response):
+  if environ['REQUEST_METHOD'] == 'OPTIONS':
+    start_response(
+      '200 OK',
+      [
+        ('Content-Type', 'application/json'),
+        ('Access-Control-Allow-Origin', '*'),
+        ('Access-Control-Allow-Credentials', 'true'),
+        ('Access-Control-Allow-Headers', 'Authorization, Content-Type'),
+        ('Access-Control-Allow-Methods', 'POST'),
+      ]
+    )
+    return ''
+
 from flask import Flask, request, send_from_directory
 import config
 from flask import make_response, request, current_app
@@ -155,6 +169,7 @@ def logout():
 
 # Flask boilerplate, 
 # configure CORS to make HTTP requests from javascript
+
 def crossdomain(origin=None, methods=None, headers=None,
                 max_age=21600, attach_to_all=True,
                 automatic_options=True):

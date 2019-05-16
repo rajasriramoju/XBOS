@@ -1,31 +1,59 @@
 /*dashboard-graphs.js*/
-document.getElementById('chart1').addEventListener('load', graphDataCollection_Chart1);
+
+
+"strict mode";
+
+console.log("ABOVE EVENT LISTENER");
+
 function graphDataCollection_Chart1() {
 
     // will have to include code here about fetching data from the 
     // selected features for the specific features on dashboard
-    const uri_chart1 = `http://localhost:5000/dashboard/Building`;
-    var res_chart1 = JSON.parse(Get(uri_chart1));
-    console.log(res_chart1);
+    let uri_chart1 = `https://cors-anywhere.herokuapp.com/localhost:5000/dashboard/Building`;
 
-    var buildingVals = [];
-    //var feature2Vals = []
-    var labels = [];
+    let xhr = createCORSRequest('GET', url);
 
-    for (let i = 0; i < res_chart1.size; i++) {
-
-        let singleElement = res_chart1[i];
-
-        for (let prop in singleElement) {
-            if (prop == 'Building')
-                buildingVals.push(singleElement[prop]);
-        }
-        labels.push(res[i].Time);
+    // checking if browser does CORS
+    if (!xhr) {
+        alert('CORS not supported');
+        return;
     }
 
-    console.log(labels);
-    console.log(buildingValsVals);
-    renderChart(buildingVals, 'Total Power Consumption Values', labels);
+    xhr.onload = function() {
+        let responseStr = xhr.responseText;  // get the JSON string 
+        let res_chart1 = JSON.parse(responseStr);  // turn it into an object
+        console.log(JSON.stringify(res_chart1, undefined, 2));  // print it out as a string, nicely formatted
+
+        var buildingVals = [];
+        //var feature2Vals = []
+        var labels = [];
+    
+        for (let i = 0; i < res_chart1.size; i++) {
+    
+            let singleElement = res_chart1[i];
+    
+            for (let prop in singleElement) {
+                if (prop == 'Building')
+                    buildingVals.push(singleElement[prop]);
+            }
+            labels.push(res[i].Time);
+        }
+    
+        console.log(labels);
+        console.log(buildingValsVals);
+        renderChart(buildingVals, 'Total Power Consumption Values', labels);
+
+    };
+  
+    xhr.onerror = function() {
+      alert('Woops, there was an error making the request.');
+    };
+  
+    // Actually send request to server
+    xhr.send();
+  
+    //var res_chart1 = JSON.parse(Get(uri_chart1));
+    //console.log(res_chart1);
 
 }
 $(document).ready(function () {
@@ -98,10 +126,17 @@ $(document).ready(function () {
         });
     }
 
+    function createCORSRequest(method, url) {
+        
+        let xhr = new XMLHttpRequest();
+        xhr.open(method, url, true);  // call its open method
+        return xhr;
+      }
+/*
     function Get(yourUrl) {
         var Httpreq = new XMLHttpRequest(); // a new request
-        Httpreq.open("GET", yourUrl, false);
-        Httpreq.send(null);
+        Httpreq.open("GET", yourUrl, true);
+        Httpreq.send();
         return Httpreq.responseText;
     }
 
@@ -114,7 +149,7 @@ $(document).ready(function () {
 
         // will have to include code here about fetching data from the 
         // selected features for the specific features on dashboard
-        const uri_chart1 = `http://localhost:5000/dashboard/Building`;
+        const uri_chart1 = `https://cors-anywhere.herokuapp.com/localhost:5000/dashboard/Building`;
         var res_chart1 = JSON.parse(Get(uri_chart1));
         console.log(res_chart1);
 
@@ -140,7 +175,7 @@ $(document).ready(function () {
 
     }
     loadAllGraphs();
-    /*
+    
     function graphDataCollection_Chart2() {
         // will have to include code here about fetching data from the 
         // selected features for the specific features on dashboard
