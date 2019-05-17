@@ -25,7 +25,6 @@ from xbos import get_client
 from xbos.services import hod, mdal
 import config
 
-
 def crossdomain(origin=None, methods=None, headers=None,
                 max_age=21600, attach_to_all=True,
                 automatic_options=True):
@@ -454,5 +453,84 @@ def setpoint_today():
     return jsonify(resp)
 
 
+import json
+from flask_pymongo import PyMongo
+app.config['MONGO_DBNAME'] = 'modes'
+app.config["MONGO_URI"] = "mongodb://localhost:27017/modes"
+mongo = PyMongo(app)
+
+@app.route('/')
+@crossdomain(origin="*")
+def index():
+    return 'Hello!'
+
+@app.route('/save_mode')
+@crossdomain(origin="*")
+def save_mode():
+    """ This function saves the settings & times for a particular group in "Schedule" tab. """
+
+    example_input = {
+        'group_name': 'East_Zone',
+        'mode': 'closed',
+        'settings': {
+            'dr': [None, None, None],
+            'hol': [None, None, None],
+            'sun': [None, 0, None],
+            'mon': [None, None, None],
+            'tue': [None, None, None],
+            'wed': [None, None, None],
+            'thu': [None, None, None],
+            'fri': [0, None, None],
+            'sat': [None, None, None]
+        },
+        'times': {
+            'dr': ["8.00", "18.00"],
+            'hol': ["8.00", "18.00"],
+            'sun': ["8.00", "18.00"],
+            'mon': ["8.00", "18.00"],
+            'tue': ["8.00", "18.00"],
+            'wed': ["8.00", "18.00"],
+            'thu': ["8.00", "18.00"],
+            'fri': ["10.00", "18.00"],
+            'sat': ["8.00", "18.00"]
+        }
+    }
+
+    # json.dumps converts dict -> str. Convert it to json when inserting in mongodb.
+    string_example_input = json.dumps(example_input)
+    json_example_input = json.loads(string_example_input)
+
+    modes_collection = mongo.db.modes
+
+    # result is of type bson (binary json)
+    result = modes_collection.insert(json_example_input)
+
+    if not result:
+        return 'False'
+    else:
+        return 'True'
+
+@app.route('/get_mode')
+@crossdomain(origin="*")
+def get_mode():
+    """ This function retrieves the settings & times for a particular group in "Schedule" tab. """
+
+    # result is a cursor object
+    # requests.args.get() is the best way to get data from url
+    result = mongo.db.modes.find({
+        '$and': [
+            {'group_name': request.args.get('group_name')},
+            {'mode': request.args.get('mode')}
+        ]
+    })
+
+    # for i, doc in enumerate(result):
+    #     print 'i: ', i
+    #     print doc
+
+    from bson.json_util import dumps
+    return dumps(result)
+
+
 if __name__ == '__main__':
-    app.run(host='0.0.0.0',threaded=True)
+    app.run(host='0.0.0.0',threaded=True, debug=True)
