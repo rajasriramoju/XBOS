@@ -1,0 +1,85 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <title>SolarPlus</title>
+    <meta charset='utf-8'>
+    <meta name='viewport' content='width=device-width,initial-scale=1.0'>
+    <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
+    <link rel="shortcut icon" type="image/png" href="{{ url_for('static', filename='assets/img/logo.png') }}">
+
+    <link rel="stylesheet" type="text/css" media="screen"
+        href="{{ url_for('static', filename='assets/css/particles.css') }}">
+
+    <link href="https://fonts.googleapis.com/css?family=Roboto" rel="stylesheet">
+
+    <script src="https://ok1static.oktacdn.com/assets/js/sdk/okta-signin-widget/2.13.0/js/okta-sign-in.min.js"
+        type="text/javascript"></script>
+    <link href="https://ok1static.oktacdn.com/assets/js/sdk/okta-signin-widget/2.13.0/css/okta-sign-in.min.css"
+        type="text/css" rel="stylesheet" />
+    <link href="https://ok1static.oktacdn.com/assets/js/sdk/okta-signin-widget/2.13.0/css/okta-theme.css"
+        type="text/css" rel="stylesheet" />
+
+    <link rel="stylesheet" type="text/css" href="{{ url_for('static', filename='assets/css/materialize.css') }}">
+</head>
+
+<style>
+    #okta-sign-in {
+        min-height: 0 !important;
+    }
+</style>
+
+<body>
+    <div id="particles-js"></div>
+    <div class="">
+        <nav>
+            <div class="nav-wrapper dashe-blue">
+                <a href="/" class="brand-logo">Back</a>
+            </div>
+
+        </nav>
+    </div>
+    <div id="sign-in-widget"></div>
+    <script type="text/javascript">
+        new OktaSignIn({
+            baseUrl: "{{baseUri}}",
+            clientId: "{{clientId}}",
+            i18n: {
+                en: {
+                    'primaryauth.title': 'Sign in to Solarplus'
+                }
+            },
+            redirectUri: "http://127.0.0.1:5000/authorization-code/callback",
+            logo: "{{ url_for('static', filename='assets/img/logo5.png') }}",
+            features: {
+                registration: true, // Enable self-service registration flow
+                rememberMe: true, // Setting to false will remove the checkbox to save username
+
+                router: true, // Leave this set to true for the API demo
+            },
+            idps: [{
+                type: 'FACEBOOK',
+                id: '0oalqhbuzkTL2O4mL356',
+            }, {
+                type: 'GOOGLE',
+                id: '0oalqhismaCGTvH1h356'
+            }],
+            authParams: {
+                issuer: "{{baseUri}}/oauth2/default",
+                responseType: 'code',
+                state: '{{state}}',
+                display: 'page',
+
+                scopes: ['openid', 'profile', 'email']
+            }
+        }).renderEl({
+                el: '#sign-in-widget'
+            },
+            function (res) {}
+        );
+    </script>
+</body>
+<script type="text/javascript" src="{{url_for('static', filename='assets/js/particles.js') }}"></script>
+<script type="text/javascript" src="{{url_for('static', filename='assets/js/app.js') }}"></script>
+
+</html>

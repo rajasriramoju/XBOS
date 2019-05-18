@@ -10,10 +10,10 @@
     /* #2d3b6a */
     background-color: #2d3b6a; 
     background-image: url("");
-    background-repeat: no-repeat;
+    background-repeat: repeat;
     background-size: cover;
     background-position: 50% 50%;
-    background-attachment: fixed;
+    
 
 }
 

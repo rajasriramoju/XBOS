@@ -40,6 +40,9 @@
 					<li><a href="/intelligence">Intelligence</a></li>
 					<li><a href="/contact">Contact</a></li>
 					<li><a id="logout-button" href="/logout">Logout</a></li>
+					<!-- <form method="post" action="{{ url_for("logout") }}" class="navbar-form navbar-right">
+							<button id="logout-button" type="submit" class="btn btn-danger">Logout</button>
+						</form> -->
 					<!-- {% endif %} -->
 				</ul>
 				<ul class="sidenav" id="mobile-demo">
@@ -88,26 +91,6 @@
 
 </body>
 <script>
-	document.getElementById('logout-button').addEventListener('click', (event) => {
-		event.preventDefault()
-
-		const signoutWindow = window.open(
-			'https://dev-693782.okta.com/login/signout',
-			'okta-signout',
-			//'height=1,width=1',
-			'toolbar=no,status=no,menubar=no,scrollbars=no,resizable=no,left=10000, top=10000, width=10, height=10, visible=none',
-			''
-		)
-
-		setTimeout(() => {
-			signoutWindow.close()
-			window.location = document.getElementById('logout-button').href
-		}, 1000)
-	})
-	
-</script>
-
-<script>
   $(document).ready(function(){
     $('.sidenav').sidenav();
   });
@@ -129,4 +112,5 @@
 <script type="text/javascript" src="{{url_for('static', filename='assets/js/DR/bldng-chart.js') }}"></script> -->
 <script type="text/javascript" src="{{url_for('static', filename='assets/js/particles.js') }}"></script>
 <script type="text/javascript" src="{{url_for('static', filename='assets/js/app.js') }}"></script>
+<script type="text/javascript" src="{{url_for('static', filename='assets/js/logout.js') }}"></script>
 </html>
