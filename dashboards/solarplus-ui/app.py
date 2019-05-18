@@ -296,7 +296,7 @@ def extractData_plotTwoQueries(filename, startDate, endDate, feature1, feature2)
 # This function extracts data for any feature's data from Control.csv data
 # of the solarplus sample data -> will be used for total power consumption 
 # values for dashboard
-@app.route('/dashboard/<feature1>')
+@app.route('/dashboard/access/<feature1>')
 @crossdomain(origin="*")
 def extractData_oneFeature_Control2():
     filePathString = "./solarplus_sample_data/Conrol2.csv"
@@ -308,7 +308,7 @@ def extractData_oneFeature_Control2():
 # This function extracts data for any 2 features' data from Control.csv data
 # of the solarplus sample data -> will be used for HVAC1 and HVAC2 
 # values for dashboard
-@app.route('/dashboard/<feature1>/<feature2>')
+@app.route('/dashboard/access/<feature1>/<feature2>')
 @crossdomain(origin="*")
 def extractData_twoFeatures_Control2():
     filePathString = "./solarplus_sample_data/Conrol2.csv"
@@ -318,7 +318,7 @@ def extractData_twoFeatures_Control2():
     return df.to_json(orient = 'records')
 
 # This function extracts data for solar production values from 
-@app.route('/dashboard/access/PVPowerGenData')
+@app.route('/dashboard/PVPowerGenData')
 @crossdomain(origin="*")
 def extractData_PVPowerGenData():
     filePathString = "./Historic_microgrid_data/PVPowerGenData.csv"

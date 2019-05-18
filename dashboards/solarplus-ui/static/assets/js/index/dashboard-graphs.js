@@ -7,9 +7,10 @@ console.log("ABOVE EVENT LISTENER");
 
 function graphDataCollection_Chart1() {
 
+    print("trying to request for data");
     // will have to include code here about fetching data from the 
     // selected features for the specific features on dashboard
-    let uri_chart1 = `https://cors-anywhere.herokuapp.com/localhost:5000/dashboard/Building`;
+    let uri_chart1 = `https://cors-anywhere.herokuapp.com/localhost:5000/dashboard/access/Building`;
 
     let xhr = createCORSRequest('GET', url);
 
@@ -25,7 +26,6 @@ function graphDataCollection_Chart1() {
         console.log(JSON.stringify(res_chart1, undefined, 2));  // print it out as a string, nicely formatted
 
         var buildingVals = [];
-        //var feature2Vals = []
         var labels = [];
     
         for (let i = 0; i < res_chart1.size; i++) {
@@ -41,7 +41,7 @@ function graphDataCollection_Chart1() {
     
         console.log(labels);
         console.log(buildingValsVals);
-        renderChart(buildingVals, 'Total Power Consumption Values', labels);
+        renderChart1(buildingVals, 'Total Power Consumption Values', labels);
 
     };
   
@@ -57,8 +57,6 @@ function graphDataCollection_Chart1() {
 
 }
 $(document).ready(function () {
-
-    console.log("in the js file fam");
 
     function consumption(value) {
         return (value);
@@ -174,7 +172,6 @@ $(document).ready(function () {
         renderChart(buildingVals, 'Total Power Consumption Values', labels);
 
     }
-    loadAllGraphs();
     
     function graphDataCollection_Chart2() {
         // will have to include code here about fetching data from the 
@@ -203,5 +200,6 @@ $(document).ready(function () {
         renderChart(powerGenVals, labels);
         
     }*/
+    
 
 });
