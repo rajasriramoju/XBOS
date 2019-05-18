@@ -172,6 +172,11 @@ def contact():
     """
     return render_template("contact.html")
 
+@app.errorhandler(404)
+def page_not_found(e):
+    # note that we set the 404 status explicitly
+    return render_template('404.html'), 404
+
 @app.route("/login")
 def login():
     bu = oidc.client_secrets['issuer'].split('/oauth2')[0]
