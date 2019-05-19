@@ -11,6 +11,19 @@
   justify-content: center;
 }
 
+::placeholder { /* Chrome, Firefox, Opera, Safari 10.1+ */
+  color: white;
+  opacity: 1; /* Firefox */
+}
+
+:-ms-input-placeholder { /* Internet Explorer 10-11 */
+  color: white;
+}
+
+::-ms-input-placeholder { /* Microsoft Edge */
+  color: white;
+}
+
 .dashe-blue{
   background-color: #2d3b6a;
 }
@@ -6420,21 +6433,7 @@ label {
   color: #9e9e9e;
 }
 
-/* Text Inputs + Textarea
-   ========================================================================== */
-/* Style Placeholders */
-::-webkit-input-placeholder {
-  color: #d1d1d1;
-}
-::-moz-placeholder {
-  color: #d1d1d1;
-}
-:-ms-input-placeholder {
-  color: #d1d1d1;
-}
-::placeholder {
-  color: gray;
-}
+
 
 /* Text inputs */
 input:not([type]),

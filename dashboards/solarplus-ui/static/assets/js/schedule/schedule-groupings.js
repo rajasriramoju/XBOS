@@ -2,6 +2,17 @@ $(document).ready(function() {
 	M.AutoInit();
 	var zoneSel = 0;
 	var zoneArr = [];
+
+	document.getElementById('temp1').value = sessionStorage.getItem('tempOne');
+	document.getElementById('temp2').value = sessionStorage.getItem('tempTwo');
+	document.getElementById('temp3').value = sessionStorage.getItem('tempThree');
+	document.getElementById('temp4').value = sessionStorage.getItem('tempFour');
+
+	document.getElementById('temp5').value = sessionStorage.getItem('tempFive');
+	document.getElementById('temp6').value = sessionStorage.getItem('tempSix');
+	document.getElementById('temp7').value = sessionStorage.getItem('tempSeven');
+	document.getElementById('temp8').value = sessionStorage.getItem('tempEight');
+
 	$(".filled-in").each(function() {
 		$(this).click(function() {
 			var t = $(this).find("span").prevObject["0"]["labels"][0]["innerText"];
@@ -72,8 +83,20 @@ $(document).ready(function() {
 			modes.push(m);
 		});
 		M.toast({html: 'Current setpoints successfully updated.', classes:"rounded", displayLength: 2000});
+		var temp1 = document.getElementById('temp1').value;
+		var temp2 = document.getElementById('temp2').value;
+		var temp3 = document.getElementById('temp3').value;
+		var temp4 = document.getElementById('temp4').value;
 
-		console.log(modes);
+		sessionStorage.setItem('tempOne',temp1);
+		sessionStorage.setItem('tempTwo',temp2);
+		sessionStorage.setItem('tempThree',temp3);
+		sessionStorage.setItem('tempFour',temp4);
+		// console.log(temp1);
+		// console.log(temp2);
+		// console.log(temp3);
+		// console.log(temp4);
+		// console.log(temp);
 
 		var result, ctr, keys, columnDelimiter, lineDelimiter, data, csv, eCSV;
 		data = modes;
@@ -125,8 +148,16 @@ $(document).ready(function() {
 			modes.push(m);
 		});
 		M.toast({html: 'Current setpoints successfully updated.', classes:"rounded", displayLength: 2000});
+		var temp5 = document.getElementById('temp5').value;
+		var temp6 = document.getElementById('temp6').value;
+		var temp7 = document.getElementById('temp7').value;
+		var temp8 = document.getElementById('temp8').value;
 
-		console.log(modes);
+		sessionStorage.setItem('tempFive',temp5);
+		sessionStorage.setItem('tempSix',temp6);
+		sessionStorage.setItem('tempSeven',temp7);
+		sessionStorage.setItem('tempEight',temp8);
+
 
 		var result, ctr, keys, columnDelimiter, lineDelimiter, data, csv, eCSV;
 		data = modes;
