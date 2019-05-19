@@ -1,4 +1,5 @@
 <html lang="en">
+
 <head>
 
 	<meta charset="utf-8">
@@ -14,7 +15,8 @@
 	<link rel="stylesheet" type="text/css" href="{{ url_for('static', filename='assets/css/core/style.min.css') }}">
 	<link rel="stylesheet" type="text/css" href="{{ url_for('static', filename='assets/css/materialize.css') }}">
 	<link rel="stylesheet" type="text/css" href="{{ url_for('static', filename='assets/css/nouislider.css') }}">
-	<link rel="stylesheet" type="text/css" media="screen" href="{{ url_for('static', filename='assets/css/particles.css') }}">
+	<link rel="stylesheet" type="text/css" media="screen"
+		href="{{ url_for('static', filename='assets/css/particles.css') }}">
 	<!-- <link rel="stylesheet" type="text/css" href="static/styles/css/core/style.min.css">
 	<link rel="stylesheet" type="text/css" href="static/styles/css/materialize.css">
 	<link rel="stylesheet" type="text/css" href="static/styles/css/nouislider.css"> -->
@@ -30,12 +32,18 @@
 </head>
 
 <body id="body">
-		<div id="particles-js"></div>
+	<div id="particles-js"></div>
 	<div class="">
 		<nav>
 			<div class="nav-wrapper dashe-blue">
 				<a href="/index" class="brand-logo">SolarPlus</a>
 				<ul id="nav-mobile" class="right hide-on-med-and-down">
+					<li>
+						<div id="intelligent-control"></div>
+					</li>
+					<li>
+							<a id="intelligence-control-on-off">Intelligent Control off</a>
+					</li>
 					<li><a href="/dashboard">Dashboard</a></li>
 					<li><a href="/setpoints">Setpoints</a></li>
 					<li class="active"><a href="#">Weather</a></li>
@@ -192,4 +200,6 @@
 <script type="text/javascript" src="{{url_for('static', filename='assets/js/particles.js') }}"></script>
 <script type="text/javascript" src="{{url_for('static', filename='assets/js/app.js') }}"></script>
 <script type="text/javascript" src="{{url_for('static', filename='assets/js/logout.js') }}"></script>
+<script type="text/javascript" src="{{url_for('static', filename='assets/js/intelligence-navbar.js') }}"></script>
+
 </html>

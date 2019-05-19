@@ -2795,6 +2795,7 @@ a {
   height: 15px;
   margin-top: 165%;
   margin-right: 100%;
+  padding-right: 50%;
   -webkit-border-radius: 25px;
   -moz-border-radius: 25px;
   border-radius: 25px;
@@ -2809,6 +2810,12 @@ a {
   /*font-family: sans-serif;*/
   padding-left: 1%;
 
+}
+
+#intelligence-control-on-off{
+  
+  color: #ffff;
+  /*font-family: sans-serif;*/
 }
 
 .hoverable {
