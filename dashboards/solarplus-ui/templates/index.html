@@ -10,7 +10,8 @@
 	<link rel="shortcut icon" type="image/png" href="{{ url_for('static', filename='assets/img/logo.png') }}">
 	<link rel="stylesheet" type="text/css" href="{{ url_for('static', filename='assets/css/materialize.css') }}">
 	<link rel="stylesheet" type="text/css" href="{{ url_for('static', filename='assets/css/nouislider.css') }}">
-
+	<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
+	<script type="text/javascript" src="{{url_for('static', filename='assets/js/preloader.js') }}"></script>
 	<link rel="stylesheet" type="text/css" media="screen" href="{{ url_for('static', filename='assets/css/particles.css') }}">
 	<!-- <link rel="stylesheet" type="text/css" href="{{ url_for('static', filename='assets/plugins/font-awesome/font-awesome.min.css') }}">
 	<link rel="stylesheet" type="text/css" href="{{ url_for('static', filename='assets/plugins/bootstrap/bootstrap.min.css') }}">
@@ -23,7 +24,11 @@
 </head>
 
 <body>
+		<div class="preloader">
+				<img src="{{ url_for('static', filename='assets/img/preloader.gif') }}" alt="preloader">
+		</div>
 	<div id="particles-js"></div>
+
 	<div class="">
 		<nav>
 			<div class="nav-wrapper dashe-blue">
@@ -120,5 +125,6 @@
 <script type="text/javascript" src="{{url_for('static', filename='assets/js/app.js') }}"></script>
 <script type="text/javascript" src="{{url_for('static', filename='assets/js/logout.js') }}"></script>
 <script type="text/javascript" src="{{url_for('static', filename='assets/js/intelligence-navbar.js') }}"></script>
+
 
 </html>
