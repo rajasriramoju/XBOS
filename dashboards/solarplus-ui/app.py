@@ -298,7 +298,7 @@ def extractData_plotTwoQueries(filename, startDate, endDate, feature1, feature2)
 # values for dashboard
 @app.route('/dashboard/access/<feature1>')
 @crossdomain(origin="*")
-def extractData_oneFeature_Control2():
+def extractData_oneFeature_Control2(feature1):
     filePathString = "./solarplus_sample_data/Conrol2.csv"
     readDF = pd.read_csv(filePathString)
 
@@ -310,7 +310,7 @@ def extractData_oneFeature_Control2():
 # values for dashboard
 @app.route('/dashboard/access/<feature1>/<feature2>')
 @crossdomain(origin="*")
-def extractData_twoFeatures_Control2():
+def extractData_twoFeatures_Control2(feature1, feature2):
     filePathString = "./solarplus_sample_data/Conrol2.csv"
     readDF = pd.read_csv(filePathString)
 

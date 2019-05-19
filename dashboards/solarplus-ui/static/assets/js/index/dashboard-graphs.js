@@ -7,13 +7,15 @@ console.log("ABOVE EVENT LISTENER");
 
 function graphDataCollection_Chart1() {
 
-    print("trying to request for data");
+    console.log("trying to request for data");
     // will have to include code here about fetching data from the 
     // selected features for the specific features on dashboard
-    let uri_chart1 = `https://cors-anywhere.herokuapp.com/localhost:5000/dashboard/access/Building`;
+    let uri_chart1 = `http://127.0.0.1:5000/dashboard/access/Building`;
 
-    let xhr = createCORSRequest('GET', url);
+    console.log("url created successfully")
+    let xhr = createCORSRequest('GET', uri_chart1);
 
+    console.log("url CORS request happened")
     // checking if browser does CORS
     if (!xhr) {
         alert('CORS not supported');
@@ -21,6 +23,7 @@ function graphDataCollection_Chart1() {
     }
 
     xhr.onload = function() {
+        console.log("Building the chart")
         let responseStr = xhr.responseText;  // get the JSON string 
         let res_chart1 = JSON.parse(responseStr);  // turn it into an object
         console.log(JSON.stringify(res_chart1, undefined, 2));  // print it out as a string, nicely formatted
@@ -49,6 +52,7 @@ function graphDataCollection_Chart1() {
       alert('Woops, there was an error making the request.');
     };
   
+    console.log("Just before send statement")
     // Actually send request to server
     xhr.send();
   
@@ -56,6 +60,15 @@ function graphDataCollection_Chart1() {
     //console.log(res_chart1);
 
 }
+
+function createCORSRequest(method, url) {
+        
+    let xhr = new XMLHttpRequest();
+    xhr.open(method, url, true);  // call its open method
+    return xhr;
+}
+
+
 $(document).ready(function () {
 
     function consumption(value) {
@@ -124,12 +137,14 @@ $(document).ready(function () {
         });
     }
 
+    /*
     function createCORSRequest(method, url) {
         
         let xhr = new XMLHttpRequest();
         xhr.open(method, url, true);  // call its open method
         return xhr;
-      }
+      }*/
+      graphDataCollection_Chart1();
 /*
     function Get(yourUrl) {
         var Httpreq = new XMLHttpRequest(); // a new request
