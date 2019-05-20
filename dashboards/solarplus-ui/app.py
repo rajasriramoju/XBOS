@@ -180,7 +180,7 @@ def extractData_anyFile(filename, startDate, endDate):
     return dataInRange.to_json(orient = 'records')
 
 
-@app.route('/setpoints/<T1Min>/<T1Max>/<T2Min>/<T2Max>/<T3Min>/<T3Max>/<T4Min>/<T4Max>/<username>')
+@app.route('/setpoints/set/<T1Min>/<T1Max>/<T2Min>/<T2Max>/<T3Min>/<T3Max>/<T4Min>/<T4Max>/<username>')
 @crossdomain(origin="*")
 def setValuesInDB(T1Min, T1Max, T2Min, T2Max, T3Min, T3Max, T4Min, T4Max, username):
     client = InfluxDBClient(host='127.0.0.1', port=5000)
@@ -205,14 +205,15 @@ def setValuesInDB(T1Min, T1Max, T2Min, T2Max, T3Min, T3Max, T4Min, T4Max, userna
     }]
     client.write_points(json_body)
 
-
+@app.route('/setpoints/get/<T1Min>/<T1Max>/<T2Min>/<T2Max>/<T3Min>/<T3Max>/<T4Min>/<T4Max>/<username>')
+@crossdomain(origin="*")
 def renderFirstRow():
     dfClient = influxdb.DataFrameClient(host='127.0.0.1', port=5000)
     #getting only the first row
-    dfClient.query("SELECT "Thermostat1_HSP", "Thermostat1_CSP", "Thermostat2_HSP",
+    dfClient.query("""SELECT "Thermostat1_HSP", "Thermostat1_CSP", "Thermostat2_HSP",
                     "Thermostat2_CSP", "Refrigerator_SP", "Thermostat1_SP+dT",
                     "Freezer_SP", "Freezer_SP+dT" from setpoints_db
-                    ORDER BY DESC LIMIT 1")
+                    ORDER BY DESC LIMIT 1""")
 
 
 # pass in as json (to-json)
