@@ -1,280 +1,16 @@
-from flask import Flask, request, send_from_directory, json
-import config
+from flask import Flask, request, send_from_directory
 from flask import make_response, request, current_app
 from flask import jsonify, redirect, url_for
-from flask import g, render_template, url_for, session
-import boto3
-import boto.ses
-import base64
-from urllib.request import urlopen
-
 from datetime import timedelta
-from functools import update_wrapper 
-import pandas as pd 
+from functools import update_wrapper
+from influxdb import InfluxDBClient
+import pandas as pd
 import datetime
-from flask_oidc import OpenIDConnect
-from okta import UsersClient
-
-AWS_ACCESS_KEY = config.aws_access_key
-AWS_SECRET_KEY = config.aws_secret_key
 
 app = Flask(__name__)
-app.config.update({
-    'SECRET_KEY': config.secret_key,
-    'OIDC_CLIENT_SECRETS': './client_secrets.json',
-    'OIDC_DEBUG': True,
-    'OIDC_ID_TOKEN_COOKIE_SECURE': False,
-    'OIDC_SCOPES': ["openid", "profile","email"],
-    'OIDC_CALLBACK_ROUTE': '/authorization-code/callback',
-    "OIDC_ID_TOKEN_COOKIE_NAME": 'oidc_token'
-})
-# app.config["DEBUG"] = True
-# app.config["TEMPLATES_AUTO_RELOAD"] = True
-# app.config["OIDC_CLIENT_SECRETS"] = "client_secrets.json"
-# app.config["OIDC_COOKIE_SECURE"] = False
-# app.config["OIDC_CALLBACK_ROUTE"] = "/oidc/callback"
-# app.config["OIDC_SCOPES"] = ["openid", "email", "profile"]
-# app.config["SECRET_KEY"] = config.secret_key
-# app.config["OIDC_ID_TOKEN_COOKIE_NAME"] = "oidc_token"
+app.debug = True
 
-
-
-
-
-oidc = OpenIDConnect(app)
-okta_client = UsersClient(config.org_url, config.token)
-
-class Email(object):  
-        def __init__(self, to, subject):
-            self.to = to
-            self.subject = subject
-            self._html = None
-            self._text = None
-            self._format = 'html'
-
-        def html(self, html):
-            self._html = html
-
-        def text(self, text):
-            self._text = text
-
-        def send(self, from_addr=None):
-            body = self._html
-
-            if isinstance(self.to, str):
-                self.to = [self.to]
-            if not from_addr:
-                from_addr = 'webwizards193@gmail.com'
-            if not self._html and not self._text:
-                raise Exception('You must provide a text or html body.')
-            if not self._html:
-                self._format = 'text'
-                body = self._text
-
-            connection = boto.ses.connect_to_region(
-                'us-west-2',
-                aws_access_key_id=AWS_ACCESS_KEY, 
-                aws_secret_access_key=AWS_SECRET_KEY
-            )
-
-            return connection.send_email(
-                from_addr,
-                self.subject,
-                None,
-                self.to,
-                format=self._format,
-                text_body=self._text,
-                html_body=self._html
-            )
-
-# Create an SNS client
-client = boto3.client(
-"sns",
-aws_access_key_id=AWS_ACCESS_KEY,
-aws_secret_access_key=AWS_SECRET_KEY,
-region_name="us-west-2"
-)
-
-@app.before_request
-def before_request():
-    """
-    Load a proper user object using the user ID from the ID token. This way, the
-    `g.user` object can be used at any point.
-    """
-    if oidc.user_loggedin:
-        g.user = okta_client.get_user(oidc.user_getfield("sub"))
-    else:
-        g.user = None
-
-
-
-@app.route("/")
-def landing():
-    """
-    Render the landing page.
-    """
-    return render_template('landing.html')
-
-@app.route("/index")
-@oidc.require_login
-def index():
- 
-    """
-    Render the homepage.
-    """
-    return render_template('index.html')
-
-@app.route("/dashboard")
-@oidc.require_login
-def dashboard():
-    """
-    Render the dashboard page.
-    """
-    return render_template("dashboard.html")
-
-@app.route("/setpoints")
-@oidc.require_login
-def setpoints():
-    """
-    Render the setpoints page.
-    """
-    return render_template("setpoints.html")
-
-@app.route("/weather")
-@oidc.require_login
-def weather():
-    """
-    Render the weather page.
-    """
-    return render_template("weather.html")
-
-@app.route("/DR")
-@oidc.require_login
-def dr():
-    """
-    Render the DR page.
-    """
-    return render_template("DR.html")
-
-@app.route("/intelligence")
-@oidc.require_login
-def intelligence():
-    """
-    Render the intelligence page.
-    """
-    return render_template("intelligence.html")
-
-@app.route("/contact")
-@oidc.require_login
-def contact():
-    """
-    Render the intelligence page.
-    """
-    return render_template("contact.html")
-
-@app.errorhandler(404)
-def page_not_found(e):
-    # note that we set the 404 status explicitly
-    return render_template('404.html'), 404
-
-@app.route("/login")
-def login():
-    bu = oidc.client_secrets['issuer'].split('/oauth2')[0]
-    cid = oidc.client_secrets['client_id']
-
-    destination = 'http://127.0.0.1:5000/index'
-    state = {
-        'csrf_token': session['oidc_csrf_token'],
-        'destination': oidc.extra_data_serializer.dumps(destination).decode('utf-8')
-    }
-
-    return render_template("login.html", oidc=oidc, baseUri=bu, clientId=cid, state=base64.urlsafe_b64encode(json.dumps(state).encode('UTF-8')).decode('ascii'))
-
-@app.route("/logout")
-def logout():
-    oidc.logout()
-
-    return redirect(url_for(".landing"))
-
-
-
-
-# @app.route("/login")
-# @oidc.require_login
-# def login():
-#     """
-#     Force the user to login, then redirect them to the dashboard.
-#     """
-#     return redirect(url_for(".index"))
-
-# @app.route("/logout")
-# def logout():
-#     """
-#     Log the user out of their account.
-#     """
-
-#     oidc.logout()
-#     return redirect(url_for(".landing"))
-
-@app.route('/aws', methods=['POST'])
-def aws():
-    # Send your sms message.
-    client.publish(
-    PhoneNumber="",
-    Message="Your Issue Ticket has been received! Thank you! :)"
-    )
-
-    email = Email(to='webwizards193@gmail.com', subject='New Issue Ticket Posted!')  
-    email.text('This is a text body. Foo bar.')  
-    email.html('<html><body>This is an email highlighting the bugs/issues found in our application. <strong>Will be fixed immediately.</strong></body></html>')  # Optional  
-    email.send()  
-
-    return jsonify({"message": "done"})
-
-
-# @app.before_request
-# def before_request():
-#     """
-#     Load a proper user object using the user ID from the ID token. This way, the
-#     `g.user` object can be used at any point.
-#     """
-#     if oidc.user_loggedin:
-#         g.user = okta_client.get_user(oidc.user_getfield("sub"))
-#     else:
-#         g.user = None
-
-
-# @app.route('/')
-# def root():
-#     return render_template('index.html')
-
-
-
-# @app.route("/login")
-# @oidc.require_login
-# def login():
-#     """
-#     Force the user to login, then redirect them to the dashboard.
-#     """
-#     return render_template('dashboard.html')
-
-# @app.route('/<path:path>')
-# @oidc.require_login
-# def static_proxy(path):
-#     return render_template(path)
-
-# @app.route("/logout")
-# @oidc.require_login
-# def logout():
-#     """
-#     Log the user out of their account.
-#     """
-
-#     oidc.logout()
-#     return redirect(url_for(".root"))
-
-
-# Flask boilerplate, 
+# Flask boilerplate,
 # configure CORS to make HTTP requests from javascript
 def crossdomain(origin=None, methods=None, headers=None,
                 max_age=21600, attach_to_all=True,
@@ -317,6 +53,13 @@ def crossdomain(origin=None, methods=None, headers=None,
         return update_wrapper(wrapped_function, f)
     return decorator
 
+@app.route('/')
+def root():
+    return app.send_static_file('login.html')
+
+@app.route('/<path:path>')
+def static_proxy(path):
+    return app.send_static_file(path)
 
 @app.route('/cieeData')
 @crossdomain(origin="*")
@@ -360,20 +103,20 @@ def extractData(startDate, endDate):
     return dataInRange.to_json(orient = 'records')
 
 
-# This function takes in a file name, start and end date with the two features that 
+# This function takes in a file name, start and end date with the two features that
 # the user wants plotted on the graph
 @app.route('/<filename>/<startDate>/<endDate>/<feature1>/<feature2>')
 @crossdomain(origin="*")
 def extractData_plotTwoQueries(filename, startDate, endDate, feature1, feature2):
-    
+
     filePathString = "./solarplus_sample_data/" + filename+".csv"
     print(filePathString)
     readDF = pd.read_csv(filePathString)
-    
-    '''The names the columns of the data frame using the first row info - assumes that column names 
+
+    '''The names the columns of the data frame using the first row info - assumes that column names
      are entered correctly in the csv files - which is why the column names are not renamed in this
      function. '''
-    
+
     # check for validity of range of dates
     startYear,startMonth,startDay=[int(x) for x in startDate.split('-')]
     endYear,endMonth,endDay=[int(x) for x in endDate.split('-')]
@@ -382,7 +125,7 @@ def extractData_plotTwoQueries(filename, startDate, endDate, feature1, feature2)
         print ('Wrong range of dates given. Start Date = ' ,startDate, "; End Date = ", endDate)
         return 'Incorrect Range of dates'
 
-    
+
     # This gets all the entries of the specific start date and end date
     startDateEntries = readDF[readDF['Time'].str.contains(startDate)]
     endDateEntries = readDF[readDF['Time'].str.contains(endDate)]
@@ -398,17 +141,19 @@ def extractData_plotTwoQueries(filename, startDate, endDate, feature1, feature2)
     dataInRange = dataInRange.loc[:,['Time', feature1, feature2]]
 
     return dataInRange.to_json(orient = 'records')
-  
-'''
+
+
+
+
 # This function takes in a file name, start and end date and returns json response
 @app.route('/<filename>/<startDate>/<endDate>')
 @crossdomain(origin="*")
 def extractData_anyFile(filename, startDate, endDate):
-    
+
     filePathString = "./solarplus_sample_data/" + filename + ".csv"
     print(filePathString)
     readDF = pd.read_csv(filePathString)
-    
+
 
     # check for validity of range of dates
     startYear,startMonth,startDay=[int(x) for x in startDate.split('-')]
@@ -418,7 +163,7 @@ def extractData_anyFile(filename, startDate, endDate):
         print ('Wrong range of dates given. Start Date = ' ,startDate, "; End Date = ", endDate)
         return 'Incorrect Range of dates'
 
-    
+
     # This gets all the entries of the specific start date and end date
     startDateEntries = readDF[readDF['Time'].str.contains(startDate)]
     endDateEntries = readDF[readDF['Time'].str.contains(endDate)]
@@ -432,8 +177,39 @@ def extractData_anyFile(filename, startDate, endDate):
     dataInRange = readDF[startDateIndex:(endDateIndex+1)]
 
     return dataInRange.to_json(orient = 'records')
-''' 
+
+
+@app.route('/setpoints/set/<T1Min>/<T1Max>/<T2Min>/<T2Max>/<T3Min>/<T3Max>/<T4Min>/<T4Max>/<username>')
+@crossdomain(origin="*")
+def setValuesInDB(T1Min, T1Max, T2Min, T2Max, T3Min, T3Max, T4Min, T4Max):
+    client = InfluxDBClient(host='127.0.0.1', port=5000)
+    #client.create_database('setpoints_db')
+    client.switch_database('setpoints_db')
+
+
+    json_body = [
+    {
+        "measurement": "temperature",
+        "tags": {
+            "User": username,
+            "Thermostat1_HSP": T1Min,
+            "Thermostat1_CSP": T1Max,
+            "Thermostat2_HSP": T2Min,
+            "Thermostat2_CSP": T2Max,
+            "Refrigerator_SP": T3Min,
+            "Thermostat1_SP+dT": T3Max,
+            "Freezer_SP": T4Min,
+            "Freezer_SP+dT": T4Max
+                }
+    }]
+    client.write_points(json_body)
+
+
+    # put all 8 values into table
+
+# make another function to pass the first row (most updated) back to frontend
+# pass in as json (to-json)
+
 
 if __name__ == '__main__':
-    app.run(host='0.0.0.0', debug=True)
-
+    app.run()
