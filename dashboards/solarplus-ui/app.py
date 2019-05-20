@@ -4,6 +4,7 @@ from flask import jsonify, redirect, url_for
 from datetime import timedelta
 from functools import update_wrapper
 from influxdb import InfluxDBClient
+from influxdb import DataFrameClient
 import pandas as pd
 import datetime
 
@@ -179,9 +180,9 @@ def extractData_anyFile(filename, startDate, endDate):
     return dataInRange.to_json(orient = 'records')
 
 
-@app.route('/setpoints/set/<T1Min>/<T1Max>/<T2Min>/<T2Max>/<T3Min>/<T3Max>/<T4Min>/<T4Max>/<username>')
+@app.route('/setpoints/<T1Min>/<T1Max>/<T2Min>/<T2Max>/<T3Min>/<T3Max>/<T4Min>/<T4Max>/<username>')
 @crossdomain(origin="*")
-def setValuesInDB(T1Min, T1Max, T2Min, T2Max, T3Min, T3Max, T4Min, T4Max):
+def setValuesInDB(T1Min, T1Max, T2Min, T2Max, T3Min, T3Max, T4Min, T4Max, username):
     client = InfluxDBClient(host='127.0.0.1', port=5000)
     #client.create_database('setpoints_db')
     client.switch_database('setpoints_db')
@@ -205,9 +206,15 @@ def setValuesInDB(T1Min, T1Max, T2Min, T2Max, T3Min, T3Max, T4Min, T4Max):
     client.write_points(json_body)
 
 
-    # put all 8 values into table
+def renderFirstRow():
+    dfClient = influxdb.DataFrameClient(host='127.0.0.1', port=5000)
+    #getting only the first row
+    dfClient.query("SELECT "Thermostat1_HSP", "Thermostat1_CSP", "Thermostat2_HSP",
+                    "Thermostat2_CSP", "Refrigerator_SP", "Thermostat1_SP+dT",
+                    "Freezer_SP", "Freezer_SP+dT" from setpoints_db
+                    ORDER BY DESC LIMIT 1")
 
-# make another function to pass the first row (most updated) back to frontend
+
 # pass in as json (to-json)
 
 
