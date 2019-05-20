@@ -3,14 +3,15 @@ import config
 from flask import make_response, request, current_app
 from flask import jsonify, redirect, url_for
 from flask import g, render_template, url_for, session
+from influxdb import InfluxDBClient
 import boto3
 import boto.ses
 import base64
 from urllib.request import urlopen
 
 from datetime import timedelta
-from functools import update_wrapper 
-import pandas as pd 
+from functools import update_wrapper
+import pandas as pd
 import datetime
 from flask_oidc import OpenIDConnect
 from okta import UsersClient
@@ -44,7 +45,7 @@ app.config.update({
 oidc = OpenIDConnect(app)
 okta_client = UsersClient(config.org_url, config.token)
 
-class Email(object):  
+class Email(object):
         def __init__(self, to, subject):
             self.to = to
             self.subject = subject
@@ -73,7 +74,7 @@ class Email(object):
 
             connection = boto.ses.connect_to_region(
                 'us-west-2',
-                aws_access_key_id=AWS_ACCESS_KEY, 
+                aws_access_key_id=AWS_ACCESS_KEY,
                 aws_secret_access_key=AWS_SECRET_KEY
             )
 
@@ -118,7 +119,7 @@ def landing():
 @app.route("/index")
 @oidc.require_login
 def index():
- 
+
     """
     Render the homepage.
     """
@@ -224,10 +225,10 @@ def aws():
     Message="Your Issue Ticket has been received! Thank you! :)"
     )
 
-    email = Email(to='webwizards193@gmail.com', subject='New Issue Ticket Posted!')  
-    email.text('This is a text body. Foo bar.')  
-    email.html('<html><body>This is an email highlighting the bugs/issues found in our application. <strong>Will be fixed immediately.</strong></body></html>')  # Optional  
-    email.send()  
+    email = Email(to='webwizards193@gmail.com', subject='New Issue Ticket Posted!')
+    email.text('This is a text body. Foo bar.')
+    email.html('<html><body>This is an email highlighting the bugs/issues found in our application. <strong>Will be fixed immediately.</strong></body></html>')  # Optional
+    email.send()
 
     return jsonify({"message": "done"})
 
@@ -274,7 +275,7 @@ def aws():
 #     return redirect(url_for(".root"))
 
 
-# Flask boilerplate, 
+# Flask boilerplate,
 # configure CORS to make HTTP requests from javascript
 def crossdomain(origin=None, methods=None, headers=None,
                 max_age=21600, attach_to_all=True,
@@ -360,20 +361,20 @@ def extractData(startDate, endDate):
     return dataInRange.to_json(orient = 'records')
 
 
-# This function takes in a file name, start and end date with the two features that 
+# This function takes in a file name, start and end date with the two features that
 # the user wants plotted on the graph
 @app.route('/<filename>/<startDate>/<endDate>/<feature1>/<feature2>')
 @crossdomain(origin="*")
 def extractData_plotTwoQueries(filename, startDate, endDate, feature1, feature2):
-    
+
     filePathString = "./solarplus_sample_data/" + filename+".csv"
     print(filePathString)
     readDF = pd.read_csv(filePathString)
-    
-    '''The names the columns of the data frame using the first row info - assumes that column names 
+
+    '''The names the columns of the data frame using the first row info - assumes that column names
      are entered correctly in the csv files - which is why the column names are not renamed in this
      function. '''
-    
+
     # check for validity of range of dates
     startYear,startMonth,startDay=[int(x) for x in startDate.split('-')]
     endYear,endMonth,endDay=[int(x) for x in endDate.split('-')]
@@ -382,7 +383,7 @@ def extractData_plotTwoQueries(filename, startDate, endDate, feature1, feature2)
         print ('Wrong range of dates given. Start Date = ' ,startDate, "; End Date = ", endDate)
         return 'Incorrect Range of dates'
 
-    
+
     # This gets all the entries of the specific start date and end date
     startDateEntries = readDF[readDF['Time'].str.contains(startDate)]
     endDateEntries = readDF[readDF['Time'].str.contains(endDate)]
@@ -398,17 +399,57 @@ def extractData_plotTwoQueries(filename, startDate, endDate, feature1, feature2)
     dataInRange = dataInRange.loc[:,['Time', feature1, feature2]]
 
     return dataInRange.to_json(orient = 'records')
-  
+
+@app.route('/setpoints/set/<T1Min>/<T1Max>/<T2Min>/<T2Max>/<T3Min>/<T3Max>/<T4Min>/<T4Max>/<username>')
+print("yo")
+@crossdomain(origin="*")
+def setValuesInDB(T1Min, T1Max, T2Min, T2Max, T3Min, T3Max, T4Min, T4Max, username):
+    client = InfluxDBClient(host='127.0.0.1', port=5000)
+    #client.create_database('setpoints_db')
+    client.switch_database('setpoints_db')
+
+
+    json_body = [
+    {
+        "measurement": "temperature",
+        "tags": {
+            "User": username,
+            "Thermostat1_HSP": T1Min,
+            "Thermostat1_CSP": T1Max,
+            "Thermostat2_HSP": T2Min,
+            "Thermostat2_CSP": T2Max,
+            "Refrigerator_SP": T3Min,
+            "Thermostat1_SP+dT": T3Max,
+            "Freezer_SP": T4Min,
+            "Freezer_SP+dT": T4Max
+                }
+    }]
+    client.write_points(json_body)
+
+"""
+@app.route('/setpoints/get/<T1Min>/<T1Max>/<T2Min>/<T2Max>/<T3Min>/<T3Max>/<T4Min>/<T4Max>/<username>')
+@crossdomain(origin="*")
+def renderFirstRow():
+    dfClient = influxdb.DataFrameClient(host='127.0.0.1', port=5000)
+    #getting only the first row
+    dfClient.query(SELECT "Thermostat1_HSP", "Thermostat1_CSP", "Thermostat2_HSP",
+                    "Thermostat2_CSP", "Refrigerator_SP", "Thermostat1_SP+dT",
+                    "Freezer_SP", "Freezer_SP+dT" from setpoints_db
+                    ORDER BY DESC LIMIT 1")
+"""
+
+# pass in as json (to-json)
+
 '''
 # This function takes in a file name, start and end date and returns json response
 @app.route('/<filename>/<startDate>/<endDate>')
 @crossdomain(origin="*")
 def extractData_anyFile(filename, startDate, endDate):
-    
+
     filePathString = "./solarplus_sample_data/" + filename + ".csv"
     print(filePathString)
     readDF = pd.read_csv(filePathString)
-    
+
 
     # check for validity of range of dates
     startYear,startMonth,startDay=[int(x) for x in startDate.split('-')]
@@ -418,7 +459,7 @@ def extractData_anyFile(filename, startDate, endDate):
         print ('Wrong range of dates given. Start Date = ' ,startDate, "; End Date = ", endDate)
         return 'Incorrect Range of dates'
 
-    
+
     # This gets all the entries of the specific start date and end date
     startDateEntries = readDF[readDF['Time'].str.contains(startDate)]
     endDateEntries = readDF[readDF['Time'].str.contains(endDate)]
@@ -432,8 +473,7 @@ def extractData_anyFile(filename, startDate, endDate):
     dataInRange = readDF[startDateIndex:(endDateIndex+1)]
 
     return dataInRange.to_json(orient = 'records')
-''' 
+'''
 
 if __name__ == '__main__':
     app.run(host='0.0.0.0', debug=True)
-
