@@ -1,4 +1,5 @@
 <html lang="en">
+
 <head>
 
 	<meta charset="utf-8">
@@ -14,7 +15,10 @@
 	<link rel="stylesheet" type="text/css" href="{{ url_for('static', filename='assets/css/core/style.min.css') }}">
 	<link rel="stylesheet" type="text/css" href="{{ url_for('static', filename='assets/css/materialize.css') }}">
 	<link rel="stylesheet" type="text/css" href="{{ url_for('static', filename='assets/css/nouislider.css') }}">
-	<link rel="stylesheet" type="text/css" media="screen" href="{{ url_for('static', filename='assets/css/particles.css') }}">
+	<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
+	<script type="text/javascript" src="{{url_for('static', filename='assets/js/preloader.js') }}"></script>
+	<link rel="stylesheet" type="text/css" media="screen"
+		href="{{ url_for('static', filename='assets/css/particles.css') }}">
 	<!-- <link rel="stylesheet" type="text/css" href="static/styles/css/core/style.min.css">
 	<link rel="stylesheet" type="text/css" href="static/styles/css/materialize.css">
 	<link rel="stylesheet" type="text/css" href="static/styles/css/nouislider.css"> -->
@@ -30,12 +34,22 @@
 </head>
 
 <body id="body">
-		<div id="particles-js"></div>
+		<div class="preloader">
+				<img src="{{ url_for('static', filename='assets/img/preloader.gif') }}" alt="preloader">
+		</div>
+	<div id="particles-js"></div>
 	<div class="">
 		<nav>
 			<div class="nav-wrapper dashe-blue">
 				<a href="/index" class="brand-logo">SolarPlus</a>
-				<ul id="nav-mobile" class="right hide-on-med-and-down">
+				<a href="#" data-target="mobile-demo" class="sidenav-trigger"><i class="material-icons">menu</i></a>
+				<ul  class="right hide-on-med-and-down">
+					<li>
+						<div id="intelligent-control"></div>
+					</li>
+					<li>
+							<a id="intelligence-control-on-off">Intelligent Control off</a>
+					</li>
 					<li><a href="/dashboard">Dashboard</a></li>
 					<li><a href="/setpoints">Setpoints</a></li>
 					<li class="active"><a href="#">Weather</a></li>
@@ -44,6 +58,15 @@
 					<li><a href="/contact">Contact</a></li>
 					<li><a id="logout-button" href="/logout">Logout</a></li>
 				</ul>
+				<ul class="sidenav" id="mobile-demo">
+
+						<li><a href="/dashboard">Dashboard</a></li>
+						<li><a href="/setpoints">Setpoints</a></li>
+						<li><a href="/weather">Weather</a></li>
+						<li><a href="/intelligence">Intelligence</a></li>
+						<li><a href="/contact">Contact</a></li>
+						<li><a id="logout-button" href="/logout">Logout</a></li>
+					</ul>
 			</div>
 			<div id="DRBG" class="row center-align pulse z-depth-1 scale-transition scale-out" style="line-height: 2;">
 				<a id="DRTXT" href="html/DR.html">"</a>
@@ -187,9 +210,13 @@
 
 <script src="https://cdn.rawgit.com/maxdow/skycons/master/skycons.js"></script>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
+<script type="text/javascript" src="{{url_for('static', filename='assets/js/lib/jquery.js') }}"></script>
+<script type="text/javascript" src="{{url_for('static', filename='assets/js/lib/materialize.js') }}"></script>
 <script type="text/javascript" src="{{url_for('static', filename='assets/js/weather/home.js') }}"></script>
 <script type="text/javascript" src="{{url_for('static', filename='assets/js/weather/doppler.js') }}"></script>
 <script type="text/javascript" src="{{url_for('static', filename='assets/js/particles.js') }}"></script>
 <script type="text/javascript" src="{{url_for('static', filename='assets/js/app.js') }}"></script>
 <script type="text/javascript" src="{{url_for('static', filename='assets/js/logout.js') }}"></script>
+<script type="text/javascript" src="{{url_for('static', filename='assets/js/navbar.js') }}"></script>
+
 </html>

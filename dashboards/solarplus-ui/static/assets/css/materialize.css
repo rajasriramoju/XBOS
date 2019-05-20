@@ -1,4 +1,28 @@
+.preloader {
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background-color: #0E1E2F;
+  z-index: 9999;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
 
+::placeholder { /* Chrome, Firefox, Opera, Safari 10.1+ */
+  color: white;
+  opacity: 1; /* Firefox */
+}
+
+:-ms-input-placeholder { /* Internet Explorer 10-11 */
+  color: white;
+}
+
+::-ms-input-placeholder { /* Microsoft Edge */
+  color: white;
+}
 
 .dashe-blue{
   background-color: #2d3b6a;
@@ -2794,11 +2818,12 @@ a {
   width: 15px;
   height: 15px;
   margin-top: 165%;
-  margin-right: 100%;
-  -webkit-border-radius: 25px;
-  -moz-border-radius: 25px;
+  /* margin-right: 100%;
+  padding-right: 50%; */
+  /* -webkit-border-radius: 25px;
+  -moz-border-radius: 25px; */
   border-radius: 25px;
-  background: red;
+  background-color: red;
 
 }
 
@@ -2809,6 +2834,12 @@ a {
   /*font-family: sans-serif;*/
   padding-left: 1%;
 
+}
+
+#intelligence-control-on-off{
+  
+
+  /*font-family: sans-serif;*/
 }
 
 .hoverable {
@@ -3060,6 +3091,19 @@ ul.staggered-list li {
   .hide-on-med-and-down {
     display: none !important;
   }
+  #intelligent-control {
+    width: 15px;
+    height: 15px;
+    /* margin-top: 165%; */
+    /* margin-right: 100%;
+    padding-right: 50%; */
+    -webkit-border-radius: 25px;
+    -moz-border-radius: 25px;
+    border-radius: 25px;
+    background-color: red;
+  
+  }
+
 }
 
 @media only screen and (min-width: 601px) {
@@ -6402,21 +6446,7 @@ label {
   color: #9e9e9e;
 }
 
-/* Text Inputs + Textarea
-   ========================================================================== */
-/* Style Placeholders */
-::-webkit-input-placeholder {
-  color: #d1d1d1;
-}
-::-moz-placeholder {
-  color: #d1d1d1;
-}
-:-ms-input-placeholder {
-  color: #d1d1d1;
-}
-::placeholder {
-  color: gray;
-}
+
 
 /* Text inputs */
 input:not([type]),
