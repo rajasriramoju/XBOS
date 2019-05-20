@@ -2818,10 +2818,10 @@ a {
   width: 15px;
   height: 15px;
   margin-top: 165%;
-  margin-right: 100%;
-  padding-right: 50%;
-  -webkit-border-radius: 25px;
-  -moz-border-radius: 25px;
+  /* margin-right: 100%;
+  padding-right: 50%; */
+  /* -webkit-border-radius: 25px;
+  -moz-border-radius: 25px; */
   border-radius: 25px;
   background-color: red;
 
@@ -2838,7 +2838,7 @@ a {
 
 #intelligence-control-on-off{
   
-  color: #ffff;
+
   /*font-family: sans-serif;*/
 }
 
@@ -3091,6 +3091,19 @@ ul.staggered-list li {
   .hide-on-med-and-down {
     display: none !important;
   }
+  #intelligent-control {
+    width: 15px;
+    height: 15px;
+    /* margin-top: 165%; */
+    /* margin-right: 100%;
+    padding-right: 50%; */
+    -webkit-border-radius: 25px;
+    -moz-border-radius: 25px;
+    border-radius: 25px;
+    background-color: red;
+  
+  }
+
 }
 
 @media only screen and (min-width: 601px) {

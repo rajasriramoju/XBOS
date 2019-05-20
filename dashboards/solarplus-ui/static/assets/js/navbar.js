@@ -1,4 +1,5 @@
 $(document).ready(function () {
+    $('.sidenav').sidenav();
     var intelligenceText = sessionStorage.getItem('text');
     var intelligenceColor = sessionStorage.getItem('color');
     console.log(intelligenceColor);

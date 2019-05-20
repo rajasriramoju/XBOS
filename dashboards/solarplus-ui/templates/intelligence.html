@@ -19,15 +19,16 @@
 </head>
 
 <body id="body" class="">
-		<div class="preloader">
-				<img src="{{ url_for('static', filename='assets/img/preloader.gif') }}" alt="preloader">
-		</div>
+	<div class="preloader">
+		<img src="{{ url_for('static', filename='assets/img/preloader.gif') }}" alt="preloader">
+	</div>
 	<div id="particles-js"></div>
 	<div class="">
 		<nav>
 			<div class="nav-wrapper dashe-blue">
 				<a href="/index" class="brand-logo">SolarPlus</a>
-				<ul id="nav-mobile" class="right hide-on-med-and-down">
+				<a href="#" data-target="mobile-demo" class="sidenav-trigger"><i class="material-icons">menu</i></a>
+				<ul class="right hide-on-med-and-down">
 					<li>
 						<div id="intelligent-control"></div>
 					</li>
@@ -41,6 +42,17 @@
 					<li class="active"><a href="#">Intelligence</a></li>
 					<li><a href="/contact">Contact</a></li>
 					<li><a id="logout-button" href="/logout">Logout</a></li>
+				</ul>
+				<ul class="sidenav" id="mobile-demo">
+						<li>
+						  <a id="intelligence-control-on-off">Intelligent Control off</a>
+						</li>
+						<li><a href="/dashboard">Dashboard</a></li>
+						<li><a href="/setpoints">Setpoints</a></li>
+						<li><a href="/weather">Weather</a></li>
+						<li><a href="/intelligence">Intelligence</a></li>
+						<li><a href="/contact">Contact</a></li>
+						<li><a id="logout-button" href="/logout">Logout</a></li>
 				</ul>
 			</div>
 		</nav>
@@ -73,13 +85,18 @@
 
 
 </body>
-
-<script type="text/javascript" src="{{url_for('static', filename='assets/js/lib/materialize.js') }}"></script>
 <script type="text/javascript" src="{{url_for('static', filename='assets/js/lib/jquery.js') }}"></script>
+<script type="text/javascript" src="{{url_for('static', filename='assets/js/lib/materialize.js') }}"></script>
+
 <!-- <script type="text/javascript" src="{{url_for('static', filename='assets/js/script.js') }}"></script>--->
 <script type="text/javascript" src="{{url_for('static', filename='assets/js/intelligence/intelligence.js') }}"></script>
 <script type="text/javascript" src="{{url_for('static', filename='assets/js/particles.js') }}"></script>
 <script type="text/javascript" src="{{url_for('static', filename='assets/js/app.js') }}"></script>
 <script type="text/javascript" src="{{url_for('static', filename='assets/js/logout.js') }}"></script>
+<script>
+	$(document).ready(function () {
+		$('.sidenav').sidenav();
+	});
+</script>
 
 </html>
