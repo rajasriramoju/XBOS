@@ -34,8 +34,8 @@ def createDataTable():
 
 	nextEntryIndex_power = df_PVPower.index[0]
 	df_model = pd.DataFrame() #creating an epty dataframe that feeds to model
-	df_model = pd.DataFrame(columns=['date', 'AirTemp_degC_Max', 'PVPower_kW_Sum'])
-	#df_model = pd.DataFrame(columns=['AirTemp_degC_Max', 'PVPower_kW_Sum'])
+	#df_model = pd.DataFrame(columns=['date', 'AirTemp_degC_Max', 'PVPower_kW_Sum'])
+	df_model = pd.DataFrame(columns=['AirTemp_degC_Max', 'PVPower_kW_Sum'])
 
 	#print(dataInRange_temperature)
 	#print(dataInRange_power)
@@ -57,22 +57,45 @@ def createDataTable():
 		currDateEntries_power = dataInRange_power[dataInRange_power['Date_PT'].str.contains(currDate)].PVPower_kW
 		currDateEntriesPowerSum = sum(currDateEntries_power)
 
-		df_model.loc[len(df_model)] = [currDate, currDateEntriesTempMax, currDateEntriesPowerSum]
-		#df_model.loc[len(df_model)] = [currDateEntriesTempMax, currDateEntriesPowerSum]
+		#df_model.loc[len(df_model)] = [currDate, currDateEntriesTempMax, currDateEntriesPowerSum]
+		df_model.loc[len(df_model)] = [currDateEntriesTempMax, currDateEntriesPowerSum]
 
 		dataInRange_power = dataInRange_power[~dataInRange_power.Date_PT.str.contains(currDate)]
-		print(dataInRange_power)
-		print("going onto next iteration")
-		print(df_model)
+		#print(dataInRange_power)
+		#print(df_model)
+
+		# bug when the dataframe reaches 24th April - 16th March entry still exists in the dataframe, so exit the
+		# loop for now when creating the data matrix for rlstm
+		if "04-24" in currDate:
+			break
 
 		# finding the next date to perform the same operations on, as long as the dataframe is not alraedy empty
 		if not dataInRange_power.empty:
 			nextEntryIndex_power = dataInRange_power.index[0]
 			print("next entry = ", nextEntryIndex_power)
 	
-	print(df_model)
+	return df_model
+
+def regression_model():
+	#fetching the data table
+	df_temperature_power = createDataTable()
+	temperature_xvals = np.array(df_temperature_power['AirTemp_degC_Max']).reshape((-1, 1))
+	power_yvals = np.array(df_temperature_power['PVPower_kW_Sum'])
+
+	print(df_temperature_power)
+	#print(temperature_xvals)
+	#print(power_yvals)
+
+	linear_model = LinearRegression()
+	linear_model.fit(temperature_xvals,power_yvals)
+	print('intercept:', linear_model.intercept_)
+	print('slope:', linear_model.coef_)
+
+	x_pred = [[17]]
+	y_pred = linear_model.predict(x_pred)
+
+	print("y-values = ", y_pred)
 
 
 
-
-createDataTable()
+regression_model()
