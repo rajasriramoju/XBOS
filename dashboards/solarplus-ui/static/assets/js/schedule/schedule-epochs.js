@@ -154,7 +154,7 @@ $(document).ready(function() {
 		var sets = new Object();
 		sets.Time = sliderModes[0];
 		console.log(sliderModes[0]);
-		sessionStorage.setItem('slider',JSON.stringify(sliderColors[0]));
+		// sessionStorage.setItem('slider',JSON.stringify(sliderColors[0]));
 		// var temp = sessionStorage.getItem('slider');
 		// var temp2 = JSON.parse(temp);
 		// console.log(temp2);
