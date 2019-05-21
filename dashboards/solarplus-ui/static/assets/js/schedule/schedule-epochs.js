@@ -1,6 +1,6 @@
 $(document).ready(function() {
 	M.AutoInit();
-	console.log(sessionStorage.getItem("modesToGroup"));
+
 	let c = ["pink", "deep-orange", "green", "teal", "blue", "deep-purple", "tp-blue"];
 	let pipvals = ["12am", "2am", "4am", "6am", "8am", "10am", "12pm", "2pm", "4pm", "6pm", "8pm", "10pm", "12am"];
 	let piprev = ["12am", "10pm", "8pm", "6pm", "4pm", "2pm", "12pm", "10am", "8am", "6am", "4am", "2am", "12am"];
@@ -104,20 +104,36 @@ $(document).ready(function() {
 				if (row == 0) { var col = i; } else { var col = i - sum + counts[row]; }
 				if (!edit) {
 					if (sliderColors[row][col] == curColor) {
+						console.log("here")
 						$(this).css("background", "#CCC");
 						sliderColors[row][col] = "#CCC";
 						sliderModes[row][col] = null;
+						
+
 					} else {
+						console.log("here2")
 						$(this).css("background", curColor);
 						sliderColors[row][col] = curColor;
 						sliderModes[row][col] = curMode;
 					}
-					console.log(sliderColors);
+					sessionStorage.setItem('slider',JSON.stringify(sliderColors[0]));
+					var temp = sessionStorage.getItem('slider');
+					var temp2 = JSON.parse(temp);
+					console.log(temp2);
+					console.log(sliderColors[0][0]);
 				}
 				console.log(row, col);
 			});
 		});
 	} getConnect();
+
+	var temp = sessionStorage.getItem('slider');
+	var temp2 = JSON.parse(temp);
+	console.log(temp2);
+	console.log(sliderColors[0].length)
+	for(let i = 0;i<sliderColors[0].length;i++){
+		sliderColors[0][i] = temp2[i]
+	}
 
 	var location;
 	function readIn() {
@@ -137,7 +153,12 @@ $(document).ready(function() {
 		arr.push(obj.times);
 		var sets = new Object();
 		sets.Time = sliderModes[0];
-
+		console.log(sliderModes[0]);
+		// sessionStorage.setItem('slider',JSON.stringify(sliderColors[0]));
+		// var temp = sessionStorage.getItem('slider');
+		// var temp2 = JSON.parse(temp);
+		// console.log(temp2);
+		// console.log(sliderColors[0].length)
 		obj.settings = sets;
 		arr.push(obj.settings);
 		console.log(arr);

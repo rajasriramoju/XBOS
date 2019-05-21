@@ -1,124 +1,107 @@
-<!DOCTYPE html>
+<!DOCTYPE HTML>
+<!--
+	Spectral by HTML5 UP
+	html5up.net | @ajlkn
+	Free for personal and commercial use under the CCA 3.0 license (html5up.net/license)
+-->
 <html>
+	<head>
+		<title>Solarplus</title>
+		<meta charset="utf-8" />
+		<meta name="viewport" content="width=device-width, initial-scale=1, user-scalable=no" />
+		<link rel="stylesheet"  href="{{ url_for('static', filename='assets/css/main.css') }}">
+		<link rel="stylesheet" type="text/css" media="screen" href="{{ url_for('static', filename='assets/css/particles.css') }}">
+		<!-- <link rel="stylesheet" type="text/css" href="{{ url_for('static', filename='assets/css/noscript.css') }}"> -->
+		<!-- <link rel="stylesheet" href="assets/css/main.css" />
+		<link rel="stylesheet" media="screen" href="assets/css/style.css">
+		<noscript><link rel="stylesheet" href="assets/css/noscript.css" /></noscript> -->
+	</head>
+	<body class="landing is-preload">
 
-<head>
-  <title>Welcome to Solarplus!</title>
-  <meta charset='utf-8'>
-  <meta name='viewport' content='width=device-width,initial-scale=1.0'>
-  <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
-  <link rel="shortcut icon" type="image/png" href="{{ url_for('static', filename='assets/img/logo.png') }}">
-  <link rel="stylesheet" type="text/css" href="{{ url_for('static', filename='assets/css/particle-style.css') }}">
-  <link rel="stylesheet" type="text/css" href="{{ url_for('static', filename='assets/css/style.css') }}">
+		<!-- Page Wrapper -->
+			<div id="page-wrapper">
+			<div id="particles-js"></div>
 
+				<!-- Header -->
+					<!-- <header id="header" class="alt">
+						<h1><a href="index.html">Spectral</a></h1>
+					</header> -->
 
-  <script type="text/javascript" src="{{url_for('static', filename='assets/js/login/jquery-1.9.1.min.js') }}"></script>
-  <script type="text/javascript" src="{{url_for('static', filename='assets/js/login/jquery.leanModal.min.js') }}"></script>
+				<!-- Banner -->
+					<section id="banner">
+						<div class="inner">
+							<h2>Solarplus</h2>
+							<ul class="actions special">
+								<li><a href="/login" class="button primary">Login / Signup</a></li>
+							</ul>
+						</div>
+						<a href="#one" class="more scrolly">Learn More</a>
+					</section>
 
-  <link href="https://fonts.googleapis.com/css?family=Roboto" rel="stylesheet">
-  <!-- jQuery plugin leanModal under MIT License http://leanmodal.finelysliced.com.au/ -->
-</head>
+				<!-- One -->
+					<section id="one" class="wrapper style1 special">
+						<div class="inner">
+							<header class="major">
+								<h2>Solarplus<br /></h2>
+								<p>Location: Humbolt County</p>
+							</header>
+							<iframe src="https://snazzymaps.com/embed/156887" width="100%" height="500px" style="border:none;"></iframe>
+						</div>
+					</section>
 
-<body id="body">
-
-  <div id="w">
-    <div id="content">
-      <h1>Welcome to Solarplus-Dev!</h1>
-      <p>Click this to sign up/login to the Solarplus portal</p>
-      <center>
-        <a href="/login" class="flatbtn" id="newmodaltrigger">Login / Sign Up</a>
-        <!-- <a href="#loginmodal" class="flatbtn" id="modaltrigger">Login</a> -->
-      </center>
-
-    </div>
-  </div>
-
-  <!-- <div id="loginmodal" style="display:none;">
-    <h1>Employee Login</h1>
-
-    <form id="loginform" name="loginform" method="post">
-      <label for="username">Username:</label>
-      <input type="text" name="username" id="username" class="txtfield" tabindex="1">
-
-      <label for="password">Password:</label>
-      <input type="password" name="password" id="password" class="txtfield" tabindex="2">
-
-      <a href="login.html">New User?</a>
-
-      <div class="center"><input type="submit" name="loginbtn" id="loginbtn" class="flatbtn-blu hidemodal"
-          value="Log In" tabindex="3" onclick="window.location.href='index.html'"></div>
-    </form>
-
-  </div>
-
-  <div id="regmodal" style="display:none;">
-    <h1>Employee Sign Up</h1>
-
-    <form id="registerform" name="registerform" method="post">
-      <label for="firstname">First Name:</label>
-      <input type="text" name="firstname" id="firstname" class="txtfield" tabindex="1">
-
-      <label for="lastname">Last Name:</label>
-      <input type="text" name="lastname" id="lastname" class="txtfield" tabindex="2">
-
-      <label for="email">Email:</label>
-      <input type="email" name="email" id="email" class="txtfield" tabindex="3">
-
-      <label for="username">Username:</label>
-      <input type="text" name="username" id="username" class="txtfield" tabindex="4">
-
-      <label for="password">Password:</label>
-      <input type="password" name="password" id="password" class="txtfield" tabindex="5">
-
-      <label for="conpassword">Confirm Password:</label>
-      <input type="password" name="conpassword" id="conpassword" class="txtfield" tabindex="6">
-
-      <a href="login.html">Back to Login?</a>
-      <div id="key" class="g-recaptcha" data-sitekey="key" ></div>
-
-      <div class="center"><input type="submit" name="loginbtn" id="loginbtn" class="flatbtn-blu showmodal"
-          value="Sign Up" tabindex="7"></div>
-    </form>
-
-  </div> -->
+				<!-- Two -->
+					<section id="two" class="wrapper alt style2">
+						<section class="spotlight">
+							<div class="image"><img src="static/assets/img/pic01.jpg" alt="" /></div><div class="content">
+								<h2>Data Visualization<br /></h2>
+								<p>Aliquam ut ex ut augue consectetur interdum. Donec hendrerit imperdiet. Mauris eleifend fringilla nullam aenean mi ligula.</p>
+							</div>
+						</section>
+						<section class="spotlight">
+							<div class="image"><img src="static/assets/img/pic02.jpg" alt="" /></div><div class="content">
+								<h2>Data Analysis<br /></h2>
+								<p>Aliquam ut ex ut augue consectetur interdum. Donec hendrerit imperdiet. Mauris eleifend fringilla nullam aenean mi ligula.</p>
+							</div>
+						</section>
+						<section class="spotlight">
+							<div class="image"><img src="static/assets/img/pic03.jpg" alt="" /></div><div class="content">
+								<h2>Hardware Configuration Management<br /></h2>
+								<p>Aliquam ut ex ut augue consectetur interdum. Donec hendrerit imperdiet. Mauris eleifend fringilla nullam aenean mi ligula.</p>
+							</div>
+						</section>
+					</section>
 
 
-  <div id="particles-js">
-    <canvas class="particles-js-canvas-el" width="3730" height="2416" style="width: 100%; height: 100%;"></canvas>
-  </div>
+				<!-- CTA -->
+					<section id="cta" class="wrapper style4">
+						<div class="inner">
+							<header>
+								<h2>Find Out More</h2>
+							</header>
+							<ul class="actions stacked">
+								<li><a href="/login" class="button fit primary">Register</a></li>
 
-  <!-- <script type="text/javascript">
-    $(function () {
-      $('#loginform').submit(function (e) {
-        return false;
-      });
+							</ul>
+						</div>
+					</section>
 
-      $('#modaltrigger').leanModal({
-        top: 110,
-        overlay: 0.45,
-        closeButton: ".hidemodal"
-      });
-    });
-  </script>
-
-  <script type="text/javascript">
-    $(function () {
-      $('#registerform').submit(function (e) {
-        return false;
-      });
-
-      $('#newmodaltrigger').leanModal({
-        top: 110,
-        overlay: 0.45,
-        closeButton: ".showmodal"
-      });
-    });
-  </script> -->
-
-  <script type="text/javascript" src="{{url_for('static', filename='assets/js/login/particles.min.js') }}"></script>
-  <script type="text/javascript" src="{{url_for('static', filename='assets/js/login/app.js') }}"></script>
+				<!-- Footer -->
 
 
+			</div>
 
-</body>
+		<!-- Scripts -->
+			<script type="text/javascript" src="{{url_for('static', filename='assets/js/lib/jquery.min.js') }}"></script>
+			<script type="text/javascript" src="{{url_for('static', filename='assets/js/lib/jquery.scrollex.min.js') }}"></script>
+			<script type="text/javascript" src="{{url_for('static', filename='assets/js/lib/jquery.scrolly.min.js') }}"></script>
+			<script type="text/javascript" src="{{url_for('static', filename='assets/js/lib/browser.min.js') }}"></script>
+			<script type="text/javascript" src="{{url_for('static', filename='assets/js/lib/breakpoints.min.js') }}"></script>
 
+			<script type="text/javascript" src="{{url_for('static', filename='assets/js/util.js') }}"></script>
+			<script type="text/javascript" src="{{url_for('static', filename='assets/js/main.js') }}"></script>
+			<script type="text/javascript" src="{{url_for('static', filename='assets/js/particles.js') }}"></script>
+			<script type="text/javascript" src="{{url_for('static', filename='assets/js/app.js') }}"></script>
+			
+
+	</body>
 </html>
