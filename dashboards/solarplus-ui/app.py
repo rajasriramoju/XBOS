@@ -4,10 +4,12 @@ from flask import make_response, request, current_app
 from flask import jsonify, redirect, url_for
 from flask import g, render_template, url_for, session
 from influxdb import InfluxDBClient
+import argparse
 import boto3
 import boto.ses
 import base64
 from urllib.request import urlopen
+import json
 
 from datetime import timedelta
 from functools import update_wrapper
@@ -401,30 +403,34 @@ def extractData_plotTwoQueries(filename, startDate, endDate, feature1, feature2)
     return dataInRange.to_json(orient = 'records')
 
 @app.route('/setpoints/set/<T1Min>/<T1Max>/<T2Min>/<T2Max>/<T3Min>/<T3Max>/<T4Min>/<T4Max>/<username>')
-print("yo")
 @crossdomain(origin="*")
 def setValuesInDB(T1Min, T1Max, T2Min, T2Max, T3Min, T3Max, T4Min, T4Max, username):
-    client = InfluxDBClient(host='127.0.0.1', port=5000)
-    #client.create_database('setpoints_db')
+
+    client = InfluxDBClient('127.0.0.1', 8086, 'setpoints_db')
     client.switch_database('setpoints_db')
 
 
-    json_body = [
-    {
-        "measurement": "temperature",
-        "tags": {
-            "User": username,
-            "Thermostat1_HSP": T1Min,
-            "Thermostat1_CSP": T1Max,
-            "Thermostat2_HSP": T2Min,
-            "Thermostat2_CSP": T2Max,
-            "Refrigerator_SP": T3Min,
-            "Thermostat1_SP+dT": T3Max,
-            "Freezer_SP": T4Min,
-            "Freezer_SP+dT": T4Max
-                }
-    }]
+    json_body = [{
+        'tags': {
+            'User':'username'
+            },
+        'fields': {
+            'Thermostat1_HSP': 'T1Min',
+            'Thermostat1_CSP': 'T1Max',
+            'Thermostat2_HSP': 'T2Min',
+            'Thermostat2_CSP': 'T2Max',
+            'Refrigerator_SP': 'T3Min',
+            'Refrigerator_SP+dT': 'T3Max',
+            'Freezer_SP': 'T4Min',
+            'Freezer_SP+dT': 'T4Max'
+            },
+        'measurement': 'temperature'
+        }]
+
     client.write_points(json_body)
+
+    return
+
 
 """
 @app.route('/setpoints/get/<T1Min>/<T1Max>/<T2Min>/<T2Max>/<T3Min>/<T3Max>/<T4Min>/<T4Max>/<username>')
