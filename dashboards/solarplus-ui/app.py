@@ -302,7 +302,7 @@ def extractData_oneFeature_Control2(feature1):
     filePathString = "./solarplus_sample_data/Control2.csv"
     readDF = pd.read_csv(filePathString)
 
-    df = readDF[:,['Time',feature1]]
+    df = readDF.loc[:,['Time',feature1]]
     return df.to_json(orient = 'records')
 
 # This function extracts data for any 2 features' data from Control.csv data
@@ -314,7 +314,7 @@ def extractData_twoFeatures_Control2(feature1, feature2):
     filePathString = "./solarplus_sample_data/Control2.csv"
     readDF = pd.read_csv(filePathString)
 
-    df = readDF[:,['Time',feature1,feature2]]
+    df = readDF.loc[:,['Time',feature1,feature2]]
     return df.to_json(orient = 'records')
 
 # This function extracts data for solar production values from 
@@ -324,7 +324,7 @@ def extractData_PVPowerGenData():
     filePathString = "./Historic_microgrid_data/PVPowerGenData.csv"
     readDF = pd.read_csv(filePathString)
 
-    df = readDF[:,['Date_PT','PVPower_kW']]
+    df = readDF.loc[:,['Date_PT','PVPower_kW']]
     return df.to_json(orient = 'records')
 
 
