@@ -148,6 +148,14 @@ def weather():
     """
     return render_template("weather.html")
 
+@app.route("/analysis")
+@oidc.require_login
+def analysis():
+    """
+    Render the weather page.
+    """
+    return render_template("analysis.html")
+
 @app.route("/DR")
 @oidc.require_login
 def dr():
@@ -182,7 +190,7 @@ def login():
     bu = oidc.client_secrets['issuer'].split('/oauth2')[0]
     cid = oidc.client_secrets['client_id']
 
-    destination = 'http://127.0.0.1:5000/index'
+    destination = 'http://127.0.0.1:5000/dashboard'
     state = {
         'csrf_token': session['oidc_csrf_token'],
         'destination': oidc.extra_data_serializer.dumps(destination).decode('utf-8')
