@@ -419,7 +419,7 @@ $(document).ready(function () {
         //res_chart1.length
         for (let i = 0; i < 500; i++) {
 
-            let singleElement = res[i];
+            let singleElement = res_chart1[i];
 
             for (let prop in singleElement) {
                 if (prop == 'HVAC1')
@@ -427,7 +427,7 @@ $(document).ready(function () {
                 if (prop == 'HVAC2')
                     feature2Vals.push(singleElement[prop]);
             }
-            labels.push(res[i].Time);
+            labels.push(res_chart1[i].Time);
 
         }
         renderChart2('HVAC1', 'HVAC2', feature1Vals, feature2Vals, labels);
@@ -481,7 +481,7 @@ $(document).ready(function () {
         renderChart3(feature1, feature2, feature1Vals, feature2Vals, labels);
         renderChart4(feature1, feature2, feature1Vals, feature2Vals, labels);
     };
-    render();
-    //graphDataCollection_Chart1();
-    //graphDataCollection_Chart2();
+    //render();
+    graphDataCollection_Chart1();
+    graphDataCollection_Chart2();
 });
