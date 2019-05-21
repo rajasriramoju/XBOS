@@ -124,8 +124,9 @@ def test():
 	X_pred = [[17],[15],[11]]
 	Y_pred =  loaded_model.predict(X_pred)
 	#result = loaded_model.score(X_test, Y_test)
-	print(Y_pred)
+	print("temperature of ", X_pred[0], "C and predicted production of ", Y_pred[0], "kW of power")
+	print("temperature of ", X_pred[1], "C and predicted production of ", Y_pred[1], "kW of power")
+	print("temperature of ", X_pred[2], "C and predicted production of ", Y_pred[2], "kW of power")
 
-
-regression_model()
+#regression_model()
 test()
