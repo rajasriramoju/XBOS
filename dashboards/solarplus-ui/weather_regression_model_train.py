@@ -63,8 +63,6 @@ def createDataTable():
 		df_model.loc[len(df_model)] = [currDateEntriesTempMax, currDateEntriesPowerSum]
 
 		dataInRange_power = dataInRange_power[~dataInRange_power.Date_PT.str.contains(currDate)]
-		#print(dataInRange_power)
-		#print(df_model)
 
 		# bug when the dataframe reaches 24th April - 16th March entry still exists in the dataframe, so exit the
 		# loop for now when creating the data matrix for rlstm
@@ -74,7 +72,6 @@ def createDataTable():
 		# finding the next date to perform the same operations on, as long as the dataframe is not alraedy empty
 		if not dataInRange_power.empty:
 			nextEntryIndex_power = dataInRange_power.index[0]
-			print("next entry = ", nextEntryIndex_power)
 	
 	return df_model
 
@@ -121,12 +118,11 @@ def test():
 	filename = 'trained_model.sav'
 	loaded_model = pickle.load(open(filename, 'rb'))
 
-	X_pred = [[17],[15],[11]]
+	X_pred = [[17],[15],[11],[9], [10]]
 	Y_pred =  loaded_model.predict(X_pred)
-	#result = loaded_model.score(X_test, Y_test)
-	print("temperature of ", X_pred[0], "C and predicted production of ", Y_pred[0], "kW of power")
-	print("temperature of ", X_pred[1], "C and predicted production of ", Y_pred[1], "kW of power")
-	print("temperature of ", X_pred[2], "C and predicted production of ", Y_pred[2], "kW of power")
+
+	print(X_pred)
+	print(Y_pred)
 
 #regression_model()
 test()
