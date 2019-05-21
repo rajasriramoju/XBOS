@@ -1,6 +1,8 @@
 from sklearn.linear_model import LinearRegression
+from sklearn import model_selection
 import numpy as np
 import pandas as pd
+import pickle
 
 def createDataTable():
 	df_temperature =pd.read_csv('./Historic_microgrid_data/AirTemperatureData.csv')
@@ -79,17 +81,33 @@ def createDataTable():
 def regression_model():
 	#fetching the data table
 	df_temperature_power = createDataTable()
+
+	# Format of x values in model always has to be [[] [] []] where there is one column and multiple rows
+	# Hence the reshape function has to be used to allow this 
 	temperature_xvals = np.array(df_temperature_power['AirTemp_degC_Max']).reshape((-1, 1))
 	power_yvals = np.array(df_temperature_power['PVPower_kW_Sum'])
 
 	print(df_temperature_power)
-	#print(temperature_xvals)
-	#print(power_yvals)
 
+	# Performing a train-test split to predict accuracy
+	seed = 7
+	X_train, X_test, Y_train, Y_test = model_selection.train_test_split(temperature_xvals, power_yvals, 
+											test_size=0.05, random_state=seed)
+	model = LinearRegression()
+	model.fit(X_train, Y_train)
+	result = model.score(X_test, Y_test)
+	print("train and test split accuracy = ", result)
+
+
+	# creating linear regression model and training all data values with fit()
+	# X-values are the maximum temperature of the day, Y-values are the sum of power production
 	linear_model = LinearRegression()
 	linear_model.fit(temperature_xvals,power_yvals)
 	print('intercept:', linear_model.intercept_)
 	print('slope:', linear_model.coef_)
+
+	filename = 'trained_model.sav'
+	pickle.dump(linear_model, open(filename, 'wb'))
 
 	x_pred = [[17]]
 	y_pred = linear_model.predict(x_pred)
@@ -97,5 +115,17 @@ def regression_model():
 	print("y-values = ", y_pred)
 
 
+#this will have to go into app.py
+def test():
+
+	filename = 'trained_model.sav'
+	loaded_model = pickle.load(open(filename, 'rb'))
+
+	X_pred = [[17],[15],[11]]
+	Y_pred =  loaded_model.predict(X_pred)
+	#result = loaded_model.score(X_test, Y_test)
+	print(Y_pred)
+
 
 regression_model()
+test()
