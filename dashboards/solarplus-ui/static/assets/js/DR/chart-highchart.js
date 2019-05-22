@@ -1,13 +1,13 @@
 /*chart-highchart.js*/
-$(document).ready(function() {
+$(document).ready(function () {
 
-        function consumption(value){
+    function consumption(value) {
         return (value);
     }
 
     function renderChart(feature1, feature2, feature1Vals, feature2Vals, dates) {
         //var ctx = document.getElementById("myChart").getContext('2d');
-        var highChart = new Highcharts.chart('myChart',{
+        var highChart = new Highcharts.chart('myChart', {
             chart: {
                 //renderTo: "myChart",
                 type: 'bar',
@@ -16,7 +16,7 @@ $(document).ready(function() {
             title: {
                 text: 'Power Consumption'
             },
-            tooltip : {
+            tooltip: {
                 valueSuffix: '\xB0C'
             },
             xAxis: {
@@ -27,28 +27,29 @@ $(document).ready(function() {
                     text: 'Consumption'
                 },
                 plotLines: [{
-                    value:0
+                    value: 0
                 }]
             },
             series: [{
-                name: feature1,
-                data: feature1Vals
-            },
-            {
-                name: feature2,
-                data:feature2Vals
-            }]
+                    name: feature1,
+                    data: feature1Vals
+                },
+                {
+                    name: feature2,
+                    data: feature2Vals
+                }
+            ]
 
         });
     }
 
-    function Get(yourUrl){
+    function Get(yourUrl) {
         var Httpreq = new XMLHttpRequest(); // a new request
-        Httpreq.open("GET",yourUrl,false);
+        Httpreq.open("GET", yourUrl, false);
         Httpreq.send(null);
-        return Httpreq.responseText;          
+        return Httpreq.responseText;
     }
-    
+
     function render() {
         var startDate = document.getElementById("Date1").value;
         var endDate = document.getElementById("Date2").value;

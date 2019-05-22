@@ -17,6 +17,10 @@ import config
 from flask import make_response, request, current_app
 from flask import jsonify, redirect, url_for
 from flask import g, render_template, url_for, session
+import boto3
+import boto.ses
+import base64
+from urllib.request import urlopen
 
 from datetime import timedelta
 from functools import update_wrapper 
@@ -25,19 +29,85 @@ import datetime
 from flask_oidc import OpenIDConnect
 from okta import UsersClient
 
+AWS_ACCESS_KEY = config.aws_access_key
+AWS_SECRET_KEY = config.aws_secret_key
+
 app = Flask(__name__)
-app.config["DEBUG"] = True
-app.config["TEMPLATES_AUTO_RELOAD"] = True
-app.config["OIDC_CLIENT_SECRETS"] = "client_secrets.json"
-app.config["OIDC_COOKIE_SECURE"] = False
-app.config["OIDC_CALLBACK_ROUTE"] = "/oidc/callback"
-app.config["OIDC_SCOPES"] = ["openid", "email", "profile"]
-app.config["SECRET_KEY"] = config.secret_key
-app.config["OIDC_ID_TOKEN_COOKIE_NAME"] = "oidc_token"
+app.config.update({
+    'SECRET_KEY': config.secret_key,
+    'OIDC_CLIENT_SECRETS': './client_secrets.json',
+    'OIDC_DEBUG': True,
+    'OIDC_ID_TOKEN_COOKIE_SECURE': False,
+    'OIDC_SCOPES': ["openid", "profile","email"],
+    'OIDC_CALLBACK_ROUTE': '/authorization-code/callback',
+    "OIDC_ID_TOKEN_COOKIE_NAME": 'oidc_token'
+})
+# app.config["DEBUG"] = True
+# app.config["TEMPLATES_AUTO_RELOAD"] = True
+# app.config["OIDC_CLIENT_SECRETS"] = "client_secrets.json"
+# app.config["OIDC_COOKIE_SECURE"] = False
+# app.config["OIDC_CALLBACK_ROUTE"] = "/oidc/callback"
+# app.config["OIDC_SCOPES"] = ["openid", "email", "profile"]
+# app.config["SECRET_KEY"] = config.secret_key
+# app.config["OIDC_ID_TOKEN_COOKIE_NAME"] = "oidc_token"
+
+
+
+
+
 oidc = OpenIDConnect(app)
 okta_client = UsersClient(config.org_url, config.token)
 
+class Email(object):  
+        def __init__(self, to, subject):
+            self.to = to
+            self.subject = subject
+            self._html = None
+            self._text = None
+            self._format = 'html'
 
+        def html(self, html):
+            self._html = html
+
+        def text(self, text):
+            self._text = text
+
+        def send(self, from_addr=None):
+            body = self._html
+
+            if isinstance(self.to, str):
+                self.to = [self.to]
+            if not from_addr:
+                from_addr = 'webwizards193@gmail.com'
+            if not self._html and not self._text:
+                raise Exception('You must provide a text or html body.')
+            if not self._html:
+                self._format = 'text'
+                body = self._text
+
+            connection = boto.ses.connect_to_region(
+                'us-west-2',
+                aws_access_key_id=AWS_ACCESS_KEY, 
+                aws_secret_access_key=AWS_SECRET_KEY
+            )
+
+            return connection.send_email(
+                from_addr,
+                self.subject,
+                None,
+                self.to,
+                format=self._format,
+                text_body=self._text,
+                html_body=self._html
+            )
+
+# Create an SNS client
+client = boto3.client(
+"sns",
+aws_access_key_id=AWS_ACCESS_KEY,
+aws_secret_access_key=AWS_SECRET_KEY,
+region_name="us-west-2"
+)
 
 @app.before_request
 def before_request():
@@ -62,6 +132,7 @@ def landing():
 @app.route("/index")
 @oidc.require_login
 def index():
+ 
     """
     Render the homepage.
     """
@@ -91,6 +162,14 @@ def weather():
     """
     return render_template("weather.html")
 
+@app.route("/analysis")
+@oidc.require_login
+def analysis():
+    """
+    Render the weather page.
+    """
+    return render_template("analysis.html")
+
 @app.route("/DR")
 @oidc.require_login
 def dr():
@@ -107,23 +186,73 @@ def intelligence():
     """
     return render_template("intelligence.html")
 
+@app.route("/contact")
+@oidc.require_login
+def contact():
+    """
+    Render the intelligence page.
+    """
+    return render_template("contact.html")
+
+@app.errorhandler(404)
+def page_not_found(e):
+    # note that we set the 404 status explicitly
+    return render_template('404.html'), 404
 
 @app.route("/login")
-@oidc.require_login
 def login():
-    """
-    Force the user to login, then redirect them to the dashboard.
-    """
-    return redirect(url_for(".index"))
+    bu = oidc.client_secrets['issuer'].split('/oauth2')[0]
+    cid = oidc.client_secrets['client_id']
+
+    destination = 'http://127.0.0.1:5000/dashboard'
+    state = {
+        'csrf_token': session['oidc_csrf_token'],
+        'destination': oidc.extra_data_serializer.dumps(destination).decode('utf-8')
+    }
+
+    return render_template("login.html", oidc=oidc, baseUri=bu, clientId=cid, state=base64.urlsafe_b64encode(json.dumps(state).encode('UTF-8')).decode('ascii'))
 
 @app.route("/logout")
 def logout():
-    """
-    Log the user out of their account.
-    """
-
     oidc.logout()
+
     return redirect(url_for(".landing"))
+
+
+
+
+# @app.route("/login")
+# @oidc.require_login
+# def login():
+#     """
+#     Force the user to login, then redirect them to the dashboard.
+#     """
+#     return redirect(url_for(".index"))
+
+# @app.route("/logout")
+# def logout():
+#     """
+#     Log the user out of their account.
+#     """
+
+#     oidc.logout()
+#     return redirect(url_for(".landing"))
+
+@app.route('/aws', methods=['POST'])
+def aws():
+    # Send your sms message.
+    client.publish(
+    PhoneNumber="",
+    Message="Your Issue Ticket has been received! Thank you! :)"
+    )
+
+    email = Email(to='webwizards193@gmail.com', subject='New Issue Ticket Posted!')  
+    email.text('This is a text body. Foo bar.')  
+    email.html('<html><body>This is an email highlighting the bugs/issues found in our application. <strong>Will be fixed immediately.</strong></body></html>')  # Optional  
+    email.send()  
+
+    return jsonify({"message": "done"})
+
 
 # @app.before_request
 # def before_request():
@@ -328,7 +457,6 @@ def extractData_PVPowerGenData():
     return df.to_json(orient = 'records')
 
 
-# if __name__ == '__main__':
-#     app.run()
-#     debug=True
-#     TEMPLATES_AUTO_RELOAD=True
+if __name__ == '__main__':
+    app.run(host='0.0.0.0', debug=True)
+

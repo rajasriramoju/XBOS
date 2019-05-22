@@ -9,32 +9,48 @@
 	<!-- <link rel='shortcut icon' type='image/png' href='./assets/img/favicon1.png'/> -->
 	<link rel="shortcut icon" type="image/png" href="{{ url_for('static', filename='assets/img/logo.png') }}">
 	<link rel="stylesheet" type="text/css" href="{{ url_for('static', filename='assets/css/materialize.css') }}">
-
+	<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
+	<script type="text/javascript" src="{{url_for('static', filename='assets/js/preloader.js') }}"></script>
 	<!-- <link rel="stylesheet" type="text/css" href="static/styles/css/materialize.css">
 	<link rel="stylesheet" type="text/css" href="static/styles/css/nouislider.css"> -->
 	<link href="https://fonts.googleapis.com/css?family=Roboto" rel="stylesheet">
-
+	<link rel="stylesheet" type="text/css" media="screen"
+		href="{{ url_for('static', filename='assets/css/particles.css') }}">
 </head>
 
 <body id="body" class="">
-	<div class="navbar-fixed">
+	<div class="preloader">
+		<img src="{{ url_for('static', filename='assets/img/preloader.gif') }}" alt="preloader">
+	</div>
+	<div id="particles-js"></div>
+	<div class="">
 		<nav>
-			<div class="nav-wrapper tp-blue">
+			<div class="nav-wrapper dashe-blue">
 				<a href="/index" class="brand-logo">SolarPlus</a>
-				<ul id="nav-mobile" class="right hide-on-med-and-down">
+				<a href="#" data-target="mobile-demo" class="sidenav-trigger"><i class="material-icons">menu</i></a>
+				<ul class="right hide-on-med-and-down">
 					<li>
 						<div id="intelligent-control"></div>
 					</li>
 					<li>
-						<div id="intelligent-control-text">
-							<h6>Intelligent Control off</h6>
-						</div>
+						<a id="intelligence-control-on-off">Intelligent Control off</a>
 					</li>
 					<li><a href="/dashboard">Dashboard</a></li>
 					<li><a href="/setpoints">Setpoints</a></li>
 					<li><a href="/weather">Weather</a></li>
-					<!-- <li><a href="/DR">DR</a></li> -->
+					<li><a href="/analysis">Analysis</a></li>
 					<li class="active"><a href="#">Intelligence</a></li>
+					<li><a href="/contact">Contact</a></li>
+					<li><a id="logout-button" href="/logout">Logout</a></li>
+				</ul>
+				<ul class="sidenav" id="mobile-demo">
+
+					<li><a href="/dashboard">Dashboard</a></li>
+					<li><a href="/setpoints">Setpoints</a></li>
+					<li><a href="/weather">Weather</a></li>
+					<li><a href="/analysis">Analysis</a></li>
+					<li><a href="/intelligence">Intelligence</a></li>
+					<li><a href="/contact">Contact</a></li>
 					<li><a id="logout-button" href="/logout">Logout</a></li>
 				</ul>
 			</div>
@@ -45,92 +61,41 @@
 		<div class="section">
 			<div class="row valign-wrapper">
 				<div class="col s6">
-					<h4 style="margin-bottom: 0;">Intelligent Control</h4>
+					<h4 class="white-text" style="margin-bottom: 0;">Intelligent Control</h4>
 				</div>
 
 				<div class="col s6 right-align">
-					<!-- <a id="save-modes" onClick="download_csv()" class="waves-effect waves-light btn">save<i  class="material-icons right"  >save</i></a> -->
-					<a id="save-modes" class="waves-effect waves-light btn">save<i
-							class="material-icons right">save</i></a>
+
+					<!-- <a id="save-modes" class="waves-effect waves-light btn">save<i
+							class="material-icons right">save</i></a> -->
 				</div>
 			</div>
 
 		</div>
 		<div class="switch">
 			<label>
-				<span class="swi-text">off</span>
-				<input class="ogswitch" type="checkbox">
+				<span class="white-text" class="swi-text">off</span>
+				<input id="check" class="ogswitch" type="checkbox">
 				<span class="lever"></span>
-				<span class="swi-text">on</span>
+				<span class="white-text" class="swi-text">on</span>
 			</label>
 		</div>
 	</div>
 
 
-	<div id="DRBG" class="row center-align z-depth-1 scale-transition scale-out" style="line-height: 2.25;">
-		<a id="DRTXT" href="html/DR.html">"</a>
-	</div>
-	<!--
-	<div class="container">
-		<span style="font-size: 36px;">Notifications</span>
-		<div id="notif-card" class="section z-depth-1">
-			<div class="row valign-wrapper">
-				<div class="col s4">
-					<label>
-						<input id="dayBefore" type="checkbox" class="filled-in" />
-						<span>1 day before confirmed events</span>
-					</label>
-				</div>
-				<div class="col s4">
-					<label>
-						<input id="5DFC" type="checkbox" class="filled-in" />
-						<span>5-day forecasts</span>
-					</label>
-				</div>
-				<div class="col s4 right-align">
-					<a id="save-notifs" class="waves-effect waves-light btn blue">save<i class="material-icons right">save</i></a>
-				</div>
-			</div>
-			<h6 style="padding-left: 12px;">Enter email addresses to subscribe to notifications. *Note: subscriptions must be confirmed.</h6>
-			<div class="row valign-wrapper">
-				<div class="input-field col s5">
-					<input class="validate" type="email">
-					<label>Email Address</label>
-				</div>
-				<div class="col tiny"></div>
-				<div class="input-field col s5">
-					<input class="validate" type="email">
-					<label>Email Address</label>
-				</div>
-				<div class="col s1-7 center-align">
-					<a id='add-emails' class="btn-floating waves-effect waves-light btn"><i class="material-icons">add</i></a>
-				</div>
-			</div>
-		</div>
-	</div>
--->
-
 </body>
-<script>
-	document.getElementById('logout-button').addEventListener('click', (event) => {
-		event.preventDefault()
-
-		const signoutWindow = window.open(
-			'https://dev-693782.okta.com/login/signout',
-			'okta-signout',
-			//'height=1,width=1',
-			'toolbar=no,status=no,menubar=no,scrollbars=no,resizable=no,left=10000, top=10000, width=10, height=10, visible=none'
-		)
-
-		setTimeout(() => {
-			signoutWindow.close()
-			window.location = document.getElementById('logout-button').href
-		}, 1000)
-	})
-</script>
-<script type="text/javascript" src="{{url_for('static', filename='assets/js/lib/materialize.js') }}"></script>
 <script type="text/javascript" src="{{url_for('static', filename='assets/js/lib/jquery.js') }}"></script>
-<script type="text/javascript" src="{{url_for('static', filename='assets/js/script.js') }}"></script>
-<script type="text/javascript" src="{{url_for('static', filename='assets/js/settings/settings.js') }}"></script>
+<script type="text/javascript" src="{{url_for('static', filename='assets/js/lib/materialize.js') }}"></script>
+
+<!-- <script type="text/javascript" src="{{url_for('static', filename='assets/js/script.js') }}"></script>--->
+<script type="text/javascript" src="{{url_for('static', filename='assets/js/intelligence/intelligence.js') }}"></script>
+<script type="text/javascript" src="{{url_for('static', filename='assets/js/particles.js') }}"></script>
+<script type="text/javascript" src="{{url_for('static', filename='assets/js/app.js') }}"></script>
+<script type="text/javascript" src="{{url_for('static', filename='assets/js/logout.js') }}"></script>
+<script>
+	$(document).ready(function () {
+		$('.sidenav').sidenav();
+	});
+</script>
 
 </html>
