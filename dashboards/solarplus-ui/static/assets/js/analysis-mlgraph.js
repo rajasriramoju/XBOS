@@ -4,15 +4,14 @@ $(document).ready(function () {
         return (value);
     }
 
-    function renderChart(feature1, feature2, feature1Vals, feature2Vals, dates) {
+    function renderChart(feature1, feature1Vals, dates) {
         var highChart = new Highcharts.chart('predictionChart', {
             chart: {
-                //renderTo: "myChart",
                 type: 'line',
                 zoomType: "x"
             },
             title: {
-                text: 'Power Consumption'
+                text: 'Predicted Solar production values'
             },
             tooltip: {
                 valueSuffix: '\xB0C'
@@ -31,10 +30,6 @@ $(document).ready(function () {
             series: [{
                     name: feature1,
                     data: feature1Vals
-                },
-                {
-                    name: feature2,
-                    data: feature2Vals
                 }
             ]
 
@@ -50,33 +45,31 @@ $(document).ready(function () {
 
     function graphData_MLModel() {
 
-        var forecast_TempVals = localStorage.getItem("tempVals");
-        forecast_TempVals = JSON.parse(forecast_TempVals);
-        console.log(forecast_TempVals)
+        // TODO: have to extract daily values instead of static ones for now
+        //var forecast_TempVals = localStorage.getItem("tempVals");
+        //forecast_TempVals = JSON.parse(forecast_TempVals);
+        //console.log(forecast_TempVals)
 
         var tempVals = [15,19,18,17,18,20,22];
-        const uri_chart1 = `http://127.0.0.1:5000/analysis/MLModel/${tempVals}`;
+        const uri_chart1 = `http://127.0.0.1:5000/analysis/MLModel/15/19/18/17/18/20/22`;
         var res_chart1 = JSON.parse(Get(uri_chart1));
+        console.log(res_chart1);
         
-        /*
-        var feature1Vals = [];
-        var feature2Vals = []
+        var predictedSolarVals = [];
         var labels = [];
         
         //res_chart1.length
-        for (let i = 0; i < 1000; i++) {
+        for (let i = 0; i < 7; i++) {
 
             let singleElement = res_chart1[i];
 
             for (let prop in singleElement) {
-                if (prop == 'HVAC2')
-                    feature2Vals.push(singleElement[prop]);
+                if (prop == 'Column1')
+                predictedSolarVals.push(singleElement[prop]);
             }
-            labels.push(res_chart1[i].Time);
-
         }
-        renderChart('HVAC1', 'HVAC2', feature1Vals, feature2Vals, labels);
-        */
+        renderChart('Solar power values', predictedSolarVals, tempVals);
+        
     }
     graphData_MLModel();
 });

@@ -15,6 +15,13 @@ import datetime
 from flask_oidc import OpenIDConnect
 from okta import UsersClient
 
+from sklearn.linear_model import LinearRegression
+from sklearn import model_selection
+import pickle
+import numpy as np
+from json import dumps
+
+
 AWS_ACCESS_KEY = config.aws_access_key
 AWS_SECRET_KEY = config.aws_secret_key
 
@@ -408,22 +415,30 @@ def extractData_plotTwoQueries(filename, startDate, endDate, feature1, feature2)
     return dataInRange.to_json(orient = 'records')
   
 
-@app.route('/analysis/MLModel/<tempVals>')
+@app.route('/analysis/MLModel/<day1>/<day2>/<day3>/<day4>/<day5>/<day6>/<day7>')
 @crossdomain(origin="*")
-def MLPredictionModel(tempVasl):
+def MLPredictionModel(day1, day2, day3, day4, day5, day6, day7):
+    print(day1, day2, day3, day4, day5, day6, day7)
+    filename = 'trained_model.sav'
+    loaded_model = pickle.load(open(filename, 'rb'))
 
-    print(tempVals)
-	filename = 'trained_model.sav'
-	loaded_model = pickle.load(open(filename, 'rb'))
+    X_pred = [[float(day1)],[float(day2)],[float(day3)],[float(day4)],[float(day5)],[float(day6)],[float(day7)]]
+    Y_pred =  loaded_model.predict(X_pred)
 
-	#X_pred = [[17],[15],[11],[9], [10]]
-    X_pred = tempVals.reshape((-1,1))
-	Y_pred =  loaded_model.predict(X_pred)
+    print(X_pred)
+    print(Y_pred)
 
-	print(X_pred)
-	print(Y_pred)
+    X_pred=[float(day1), float(day2), float(day3), float(day4), float(day5), float(day6), float(day7)]
+    dataset = pd.DataFrame({'X_pred': X_pred, 'Column1':Y_pred})
+    #dataset = pd.DataFrame.from_records(Y_pred)
 
-    return Y_pred.to_json(orient = 'records')
+    #print(Y_pred[0])
+    print(dataset)
+    #Y_pred0 = {'temperature': Y_pred[0]}
+
+    #return make_response(dumps(Y_pred))
+
+    return dataset.to_json(orient = 'records')
 
 
 if __name__ == '__main__':
