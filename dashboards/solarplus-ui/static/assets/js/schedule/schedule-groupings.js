@@ -68,7 +68,7 @@ $(document).ready(function() {
 	// 	M.toast({html: 'Current modes successfully updated.', classes:"rounded", displayLength: 2000});
 	// 	console.log(obj);
 	// });
-	
+
 	$("#save-therm").click(function() {
 		//var obj = new Object();
 		modes = [];
@@ -119,7 +119,7 @@ $(document).ready(function() {
             });
             result += lineDelimiter;
 		});
-		
+
 		csv = 'data:text/csv;charset=utf-8,' + result;
 		eCSV = encodeURI(csv);
 
@@ -180,7 +180,7 @@ $(document).ready(function() {
             });
             result += lineDelimiter;
 		});
-		
+
 		csv = 'data:text/csv;charset=utf-8,' + result;
 		eCSV = encodeURI(csv);
 
@@ -196,4 +196,3 @@ $(document).ready(function() {
 		// console.log("name" + modes[0].name);
 	});
 });
-
