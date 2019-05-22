@@ -388,7 +388,7 @@ $(document).ready(function () {
         labels = [];
         
         //res_chart1.length
-        for (let i = 0; i < 500; i++) {
+        for (let i = 0; i < 1000; i++) {
         
             let singleElement = res_chart1[i];
             //console.log(singleElement);
@@ -417,7 +417,7 @@ $(document).ready(function () {
         var labels = [];
         
         //res_chart1.length
-        for (let i = 0; i < 500; i++) {
+        for (let i = 0; i < 1000; i++) {
 
             let singleElement = res_chart1[i];
 
@@ -477,7 +477,7 @@ $(document).ready(function () {
         console.log(feature1Vals);
         console.log(feature2Vals)
         //renderChart1(feature1, feature2, feature1Vals, feature2Vals, labels);
-        renderChart2(feature1, feature2, feature1Vals, feature2Vals, labels);
+        //renderChart2(feature1, feature2, feature1Vals, feature2Vals, labels);
         renderChart3(feature1, feature2, feature1Vals, feature2Vals, labels);
         renderChart4(feature1, feature2, feature1Vals, feature2Vals, labels);
     };
