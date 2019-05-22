@@ -1,4 +1,18 @@
-from flask import Flask, request, send_from_directory, json
+def application(environ, start_response):
+  if environ['REQUEST_METHOD'] == 'OPTIONS':
+    start_response(
+      '200 OK',
+      [
+        ('Content-Type', 'application/json'),
+        ('Access-Control-Allow-Origin', '*'),
+        ('Access-Control-Allow-Credentials', 'true'),
+        ('Access-Control-Allow-Headers', 'Authorization, Content-Type'),
+        ('Access-Control-Allow-Methods', 'POST'),
+      ]
+    )
+    return ''
+
+from flask import Flask, request, send_from_directory
 import config
 from flask import make_response, request, current_app
 from flask import jsonify, redirect, url_for
@@ -284,6 +298,7 @@ def aws():
 
 # Flask boilerplate, 
 # configure CORS to make HTTP requests from javascript
+
 def crossdomain(origin=None, methods=None, headers=None,
                 max_age=21600, attach_to_all=True,
                 automatic_options=True):
@@ -406,41 +421,41 @@ def extractData_plotTwoQueries(filename, startDate, endDate, feature1, feature2)
     dataInRange = dataInRange.loc[:,['Time', feature1, feature2]]
 
     return dataInRange.to_json(orient = 'records')
-  
-'''
-# This function takes in a file name, start and end date and returns json response
-@app.route('/<filename>/<startDate>/<endDate>')
+
+# This function extracts data for any feature's data from Control.csv data
+# of the solarplus sample data -> will be used for total power consumption 
+# values for dashboard
+@app.route('/dashboard/access/<feature1>')
 @crossdomain(origin="*")
-def extractData_anyFile(filename, startDate, endDate):
-    
-    filePathString = "./solarplus_sample_data/" + filename + ".csv"
-    print(filePathString)
+def extractData_oneFeature_Control2(feature1):
+    filePathString = "./solarplus_sample_data/Control2.csv"
     readDF = pd.read_csv(filePathString)
-    
 
-    # check for validity of range of dates
-    startYear,startMonth,startDay=[int(x) for x in startDate.split('-')]
-    endYear,endMonth,endDay=[int(x) for x in endDate.split('-')]
+    df = readDF.loc[:,['Time',feature1]]
+    return df.to_json(orient = 'records')
 
-    if(datetime.datetime(startYear,startMonth,startDay) > datetime.datetime(endYear,endMonth,endDay)):
-        print ('Wrong range of dates given. Start Date = ' ,startDate, "; End Date = ", endDate)
-        return 'Incorrect Range of dates'
+# This function extracts data for any 2 features' data from Control.csv data
+# of the solarplus sample data -> will be used for HVAC1 and HVAC2 
+# values for dashboard
+@app.route('/dashboard/access/<feature1>/<feature2>')
+@crossdomain(origin="*")
+def extractData_twoFeatures_Control2(feature1, feature2):
+    filePathString = "./solarplus_sample_data/Control2.csv"
+    readDF = pd.read_csv(filePathString)
 
-    
-    # This gets all the entries of the specific start date and end date
-    startDateEntries = readDF[readDF['Time'].str.contains(startDate)]
-    endDateEntries = readDF[readDF['Time'].str.contains(endDate)]
+    df = readDF.loc[:,['Time',feature1,feature2]]
+    return df.to_json(orient = 'records')
 
-    # finding the first index of start date entries and last index of the end date entries
-    # so that we can get the range of indices for the data in the specified timeframe
-    startDateIndex = startDateEntries.index[0]
-    endDateIndex = endDateEntries.index[-1]
+# This function extracts data for solar production values from 
+@app.route('/dashboard/PVPowerGenData')
+@crossdomain(origin="*")
+def extractData_PVPowerGenData():
+    filePathString = "./Historic_microgrid_data/PVPowerGenData.csv"
+    readDF = pd.read_csv(filePathString)
 
-    #fetching data in the specific timeframe
-    dataInRange = readDF[startDateIndex:(endDateIndex+1)]
+    df = readDF.loc[:,['Date_PT','PVPower_kW']]
+    return df.to_json(orient = 'records')
 
-    return dataInRange.to_json(orient = 'records')
-''' 
 
 if __name__ == '__main__':
     app.run(host='0.0.0.0', debug=True)
