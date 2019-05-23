@@ -67,74 +67,47 @@
 	<div class="row card-margin">
 
 
-		<div class="col s4 offset-s1">
+		<div class="col s10 offset-s1">
 			<div class="card">
 				<div class="card-content">
 					<span class="card-title">Average Power Consumption</span>
-					<p class="inner-card-padding">Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do
-						eiusmod tempor
-						incididunt ut labore et
-						dolore magna aliqua.</p>
+
+					<div class="chart-container" ; id="chart1">
+						  </div>
 				</div>
 			</div>
 		</div>
 
-		<div class="col s4 offset-s2">
+		<div class="col s10 offset-s1">
 			<div class="card">
 				<div class="card-content">
-					<span class="card-title">Solar Production</span>
-					<p class="inner-card-padding">Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do
-						eiusmod tempor
-						incididunt ut labore et
-						dolore magna aliqua.</p>
+					<span class="card-title">HVAC Power Consumption</span>
+					    <div class="chart-container" ; id="chart2">
+					    </div>
 				</div>
 			</div>
 		</div>
 
 	</div>
 	<div class="row card-margin">
-		<div class="col s4 offset-s2 center-align">
+		<div class="col s10 offset-s1">
+			<div class="card">
+				<div class="card-content">
+					<span class="card-title">Average Power Consumption</span>
 
-			<div class="row valign-wrapper row-padding center-align">
-
-				<p>
-					Price of Electricity:
-				</p>
-				<div class="outline center-align">
-					$ xxx
+					<div class="chart-container" ; id="chart3">
+						  </div>
 				</div>
-
-			</div>
-			<div class="row valign-wrapper row-padding center-align">
-
-				<p>
-					Battery SOC:
-				</p>
-				<div class="outline center-align">
-					xxx %
-				</div>
-
-			</div>
-			<div class="row valign-wrapper row-padding center-align">
-
-				<p>
-					Operating Mode:
-				</p>
-				<div class="outline center-align">
-					MPC on
-				</div>
-
 			</div>
 		</div>
 
-		<div class="col s4 offset-s1">
+		<div class="col s10 offset-s1">
 			<div class="card">
 				<div class="card-content">
-					<span class="card-title">Zone Temperatures and Setpoints</span>
-					<p class="inner-card-padding">Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do
-						eiusmod tempor
-						incididunt ut labore et
-						dolore magna aliqua.</p>
+					<span class="card-title">Average Power Consumption</span>
+
+					<div class="chart-container" ; id="chart4">
+						  </div>
 				</div>
 			</div>
 		</div>
@@ -143,11 +116,13 @@
 </body>
 <!-- <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
 <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.3/jquery.min.js"></script> -->
+<script type="text/javascript" src="{{url_for('static', filename='assets/js/lib/highcharts.js') }}"></script>
 <script type="text/javascript" src="{{url_for('static', filename='assets/js/lib/jquery.js') }}"></script>
 <script type="text/javascript" src="{{url_for('static', filename='assets/js/lib/materialize.js') }}"></script>
 <script type="text/javascript" src="{{url_for('static', filename='assets/js/particles.js') }}"></script>
 <script type="text/javascript" src="{{url_for('static', filename='assets/js/app.js') }}"></script>
 <script type="text/javascript" src="{{url_for('static', filename='assets/js/logout.js') }}"></script>
 <script type="text/javascript" src="{{url_for('static', filename='assets/js/navbar.js') }}"></script>
+<script type="text/javascript" src="{{url_for('static', filename='assets/js/index/dashboard-graphs.js') }}"></script>
 
 </html>
