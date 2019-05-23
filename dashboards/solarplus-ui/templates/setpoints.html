@@ -24,37 +24,48 @@
 	</div>
 	<div id="particles-js"></div>
 	<div class="">
-		<nav>
-			<div class="nav-wrapper dashe-blue">
-				<a href="/index" class="brand-logo">SolarPlus</a>
-				<a href="#" data-target="mobile-demo" class="sidenav-trigger"><i class="material-icons">menu</i></a>
-				<ul class="right hide-on-med-and-down">
-					<li>
-						<div id="intelligent-control"></div>
-					</li>
-					<li>
-						<a id="intelligence-control-on-off">Intelligent Control off</a>
-					</li>
-					<li><a href="/dashboard">Dashboard</a></li>
-					<li class="active"><a href="#">Setpoints</a></li>
-					<li><a href="/weather">Weather</a></li>
-					<li><a href="/analysis">Analysis</a></li>
-					<li><a href="/intelligence">Intelligence</a></li>
-					<li><a href="/contact">Contact</a></li>
+			<ul id="dropdown1" class="dropdown-content">
+					<li><a href="/profile">Profile</a></li>
+					<li class="divider"></li>
 					<li><a id="logout-button" href="/logout">Logout</a></li>
 				</ul>
-				<ul class="sidenav" id="mobile-demo">
-
-					<li><a href="/dashboard">Dashboard</a></li>
-					<li><a href="/setpoints">Setpoints</a></li>
-					<li><a href="/weather">Weather</a></li>
-					<li><a href="/analysis">Analysis</a></li>
-					<li><a href="/intelligence">Intelligence</a></li>
-					<li><a href="/contact">Contact</a></li>
-					<li><a id="logout-button" href="/logout">Logout</a></li>
-				</ul>
-			</div>
-		</nav>
+				<nav>
+					<div class="nav-wrapper dashe-blue">
+						<a href="/dashboard" class="brand-logo">SolarPlus</a>
+						<a href="#" data-target="mobile-demo" class="sidenav-trigger"><i class="material-icons">menu</i></a>
+						<ul class="right hide-on-med-and-down">
+							<li>
+								<div id="intelligent-control"></div>
+							</li>
+							<li>
+								<span id="intelligence-control-on-off"> Intelligent Control off</span>
+							</li>
+							<li><a href="/dashboard">Dashboard</a></li>
+							<li><a href="/setpoints">Setpoints</a></li>
+							<li><a href="/weather">Weather</a></li>
+							<li><a href="/analysis">Analysis</a></li>
+							<li><a href="/intelligence">Intelligence</a></li>
+							<li><a href="/contact">Contact</a></li>
+							<li><a class="dropdown-trigger" href="#!" data-target="dropdown1"><span>
+									Hi, {{g.user.profile.firstName}}
+								</span>
+								<i class="material-icons right">arrow_drop_down</i></a></li>
+						</ul>
+						<ul class="sidenav" id="mobile-demo">
+		
+							<li><a href="/dashboard">Dashboard</a></li>
+							<li><a href="/setpoints">Setpoints</a></li>
+							<li><a href="/weather">Weather</a></li>
+							<li><a href="/analysis">Analysis</a></li>
+							<li><a href="/intelligence">Intelligence</a></li>
+							<li><a href="/contact">Contact</a></li>
+							<li><a class="dropdown-trigger" href="#!" data-target="dropdown1"><span>
+									Hi, {{g.user.profile.firstName}}
+								</span>
+								<i class="material-icons right">arrow_drop_down</i></a></li>
+						</ul>
+					</div>
+				</nav>
 	</div>
 
 

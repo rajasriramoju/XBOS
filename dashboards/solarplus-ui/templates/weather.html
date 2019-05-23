@@ -34,50 +34,58 @@
 </head>
 
 <body id="body">
-		<div class="preloader">
-				<img src="{{ url_for('static', filename='assets/img/preloader.gif') }}" alt="preloader">
-		</div>
+	<div class="preloader">
+		<img src="{{ url_for('static', filename='assets/img/preloader.gif') }}" alt="preloader">
+	</div>
 	<div id="particles-js"></div>
 	<div class="">
+		<ul id="dropdown1" class="dropdown-content">
+			<li><a href="/profile">Profile</a></li>
+			<li class="divider"></li>
+			<li><a id="logout-button" href="/logout">Logout</a></li>
+		</ul>
 		<nav>
 			<div class="nav-wrapper dashe-blue">
-				<a href="/index" class="brand-logo">SolarPlus</a>
+				<a href="/dashboard" class="brand-logo">SolarPlus</a>
 				<a href="#" data-target="mobile-demo" class="sidenav-trigger"><i class="material-icons">menu</i></a>
-				<ul  class="right hide-on-med-and-down">
+				<ul class="right hide-on-med-and-down">
 					<li>
 						<div id="intelligent-control"></div>
 					</li>
 					<li>
-							<a id="intelligence-control-on-off">Intelligent Control off</a>
+						<span id="intelligence-control-on-off"> Intelligent Control off</span>
 					</li>
 					<li><a href="/dashboard">Dashboard</a></li>
 					<li><a href="/setpoints">Setpoints</a></li>
-					<li class="active"><a href="#">Weather</a></li>
+					<li><a href="/weather">Weather</a></li>
 					<li><a href="/analysis">Analysis</a></li>
 					<li><a href="/intelligence">Intelligence</a></li>
 					<li><a href="/contact">Contact</a></li>
-					<li><a id="logout-button" href="/logout">Logout</a></li>
+					<li><a class="dropdown-trigger" href="#!" data-target="dropdown1"><span>
+								Hi, {{g.user.profile.firstName}}
+							</span>
+							<i class="material-icons right">arrow_drop_down</i></a></li>
 				</ul>
 				<ul class="sidenav" id="mobile-demo">
 
-						<li><a href="/dashboard">Dashboard</a></li>
-						<li><a href="/setpoints">Setpoints</a></li>
-						<li><a href="/weather">Weather</a></li>
-						<li><a href="/analysis">Analysis</a></li>
-						<li><a href="/intelligence">Intelligence</a></li>
-						<li><a href="/contact">Contact</a></li>
-						<li><a id="logout-button" href="/logout">Logout</a></li>
-					</ul>
-			</div>
-			<div id="DRBG" class="row center-align pulse z-depth-1 scale-transition scale-out" style="line-height: 2;">
-				<a id="DRTXT" href="html/DR.html">"</a>
+					<li><a href="/dashboard">Dashboard</a></li>
+					<li><a href="/setpoints">Setpoints</a></li>
+					<li><a href="/weather">Weather</a></li>
+					<li><a href="/analysis">Analysis</a></li>
+					<li><a href="/intelligence">Intelligence</a></li>
+					<li><a href="/contact">Contact</a></li>
+					<li><a class="dropdown-trigger" href="#!" data-target="dropdown1"><span>
+							Hi, {{g.user.profile.firstName}}
+						</span>
+						<i class="material-icons right">arrow_drop_down</i></a></li>
+				</ul>
 			</div>
 		</nav>
 	</div>
 
 	<!-- weather! -->
 	<div id="weather-box">
-		<div class="row">
+		<div class="row ">
 			<div class="col-md-5 col-lg-5 col-xl-4 left">
 				<div class="location">
 					<div>
@@ -230,6 +238,7 @@
 	tempVals[6] = document.getElementById("max6");
 	localStorage.setItem("tempVals", JSON.stringify(tempVals));
 	console.log(localStorage.getItem("tempVals"));
-
+	console.log("{{g.user.profile.firstName}}")
 </script>
+
 </html>
