@@ -440,6 +440,41 @@ def MLPredictionModel(day1, day2, day3, day4, day5, day6, day7):
 
     return dataset.to_json(orient = 'records')
 
+# This function extracts data for any feature's data from Control.csv data
+# of the solarplus sample data -> will be used for total power consumption 
+# values for dashboard
+@app.route('/dashboard/access/<feature1>')
+@crossdomain(origin="*")
+def extractData_oneFeature_Control2(feature1):
+    filePathString = "./solarplus_sample_data/Control2.csv"
+    readDF = pd.read_csv(filePathString)
+
+    df = readDF.loc[:,['Time',feature1]]
+    return df.to_json(orient = 'records')
+
+# This function extracts data for any 2 features' data from Control.csv data
+# of the solarplus sample data -> will be used for HVAC1 and HVAC2 
+# values for dashboard
+@app.route('/dashboard/access/<feature1>/<feature2>')
+@crossdomain(origin="*")
+def extractData_twoFeatures_Control2(feature1, feature2):
+    filePathString = "./solarplus_sample_data/Control2.csv"
+    readDF = pd.read_csv(filePathString)
+
+    df = readDF.loc[:,['Time',feature1,feature2]]
+    return df.to_json(orient = 'records')
+
+# This function extracts data for solar production values from 
+@app.route('/dashboard/PVPowerGenData')
+@crossdomain(origin="*")
+def extractData_PVPowerGenData():
+    filePathString = "./Historic_microgrid_data/PVPowerGenData.csv"
+    readDF = pd.read_csv(filePathString)
+
+    df = readDF.loc[:,['Date_PT','PVPower_kW']]
+    return df.to_json(orient = 'records')
+
+
 
 if __name__ == '__main__':
     app.run(host='0.0.0.0', debug=True)
