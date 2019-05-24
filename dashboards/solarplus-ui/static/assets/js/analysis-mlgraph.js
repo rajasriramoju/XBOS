@@ -7,8 +7,8 @@ $(document).ready(function () {
     function renderChart(predictedSolarVals, tempVals, daysArray) {
         var highChart = new Highcharts.chart('predictionChart', {
             chart: {
-                type: 'line',
-                zoomType: "x"
+                //type: 'line',
+                zoomType: "xy"
             },
             title: {
                 text: 'Predicted Solar production values'
@@ -17,17 +17,14 @@ $(document).ready(function () {
                 valueSuffix: '\xB0C'
             },
             xAxis: {
-                categories: daysArray
+                categories: daysArray,
+                crosshair: true
             },
-            yAxis: [{
-                title: {
-                    text: 'Power Production'
-                },
-                plotLines: [{
-                    value: 0
-                }]
-            },
+            yAxis: [
             {
+                labels: {
+                    format:  '{value}°C'
+                },
                 opposite: true,
                 title: {
                     text: 'Forecast Temperature'
@@ -35,16 +32,37 @@ $(document).ready(function () {
                 plotLines:[{
                     values: 0
                 }]
-            }],
-            series: [{
-                    name: 'Solar Power values',
-                    data: predictedSolarVals,
+            },
+            {
+                labels: {
+                    format: '{value} kWh'
                 },
+                title: {
+                    text: 'Power Production'
+                }
+            }],
+            tooltip: {
+                shared: true
+            },
+            series: [
                 {
                     name: "Forecast Temperature",
+                    type: 'column',
                     data: tempVals,
-                    yAxis: 1
+                    tooltip: {
+                        valueSuffix: '°C'
+                    }
+                },
+                {
+                    name: 'Solar Power values',
+                    type: 'spline',
+                    yAxis: 1,
+                    data: predictedSolarVals,
+                    tooltip: {
+                        valueSuffix: ' kWh'
+                    }
                 }
+                
             ]
 
         });
@@ -60,12 +78,14 @@ $(document).ready(function () {
     function graphData_MLModel() {
 
         // TODO: have to extract daily values instead of static ones for now
-        //var forecast_TempVals = localStorage.getItem("tempVals");
-        //forecast_TempVals = JSON.parse(forecast_TempVals);
-        //console.log(forecast_TempVals)
+        var forecast_TempVals = sessionStorage.getItem("temperatureVals");
+        forecast_TempVals = JSON.parse(forecast_TempVals);
+        console.log("Printing vals from weather tab");
+        console.log(forecast_TempVals);
 
-        var tempVals = [14,19,18,17,18,20,22];
-        const uri_chart1 = `http://127.0.0.1:5000/analysis/MLModel/15/19/18/17/18/20/22`;
+        //var tempVals = [14,19,18,17,18,20,22];
+        const uri_chart1 = 
+            `http://127.0.0.1:5000/analysis/MLModel/${forecast_TempVals[0]}/${forecast_TempVals[1]}/${forecast_TempVals[2]}/${forecast_TempVals[3]}/${forecast_TempVals[4]}/${forecast_TempVals[5]}/${forecast_TempVals[6]}`;
         var res_chart1 = JSON.parse(Get(uri_chart1));
         console.log(res_chart1);
 
@@ -110,7 +130,7 @@ $(document).ready(function () {
                 predictedSolarVals.push(singleElement[prop]);
             }
         }
-        renderChart(predictedSolarVals, tempVals, days);
+        renderChart(predictedSolarVals, forecast_TempVals, days);
         
     }
     graphData_MLModel();
