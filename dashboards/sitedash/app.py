@@ -459,6 +459,41 @@ app.config['MONGO_DBNAME'] = 'modes'
 app.config["MONGO_URI"] = "mongodb://localhost:27017/modes"
 mongo = PyMongo(app)
 
+# Building name where this code is locally hosted
+BUILDING = 'avenal-veterans-hall'
+
+def get_building_zone_names(building_name=None):
+    """ Get dict of building and its zone names.
+
+    There are two ways of getting it,
+    1. Get it directly from xbos-services-getter
+    2. In case the first option doesn't work, read in json file
+
+    Returns
+    -------
+    dict
+        key = building name, value = list of zone names
+
+    """
+
+    # # Option 1
+    # import xbos_services_getter
+    # building_zone_names_stub = xbos_services_getter.get_building_zone_names_stub()
+    # building_zone_names = xbos_services_getter.get_all_buildings_zones(building_zone_names_stub)
+    # if building_name:
+    #     return get_building_zone_names[building_name]
+    # else:
+    #     return building_zone_names
+
+    # Option 2
+    with open('building_zone_names.json') as f:
+        data = json.load(f)
+    if building_name:
+        return data[building_name]
+    else:
+        return data
+
+
 @app.route('/')
 @crossdomain(origin="*")
 def index():
@@ -469,9 +504,12 @@ def index():
 def save_mode():
     """ This function saves the settings & times for a particular group in "Schedule" tab. """
 
+    zone_names = get_building_zone_names(building_name=BUILDING)
+
     example_input = {
         'group_name': 'East_Zone',
         'mode': 'closed',
+        'zones': zone_names,
         'settings': {
             'dr': [None, None, None],
             'hol': [None, None, None],
@@ -495,6 +533,8 @@ def save_mode():
             'sat': ["8.00", "18.00"]
         }
     }
+
+    print('example_input: ', example_input['zones'])
 
     # json.dumps converts dict -> str. Convert it to json when inserting in mongodb.
     string_example_input = json.dumps(example_input)
