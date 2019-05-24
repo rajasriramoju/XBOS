@@ -31,6 +31,11 @@
 			<li class="divider"></li>
 			<li><a id="logout-button" href="/logout">Logout</a></li>
 		</ul>
+		<ul id="dropdown2" class="dropdown-content">
+				<li><a href="/profile">Profile</a></li>
+				<li class="divider"></li>
+				<li><a id="logout-button" href="/logout">Logout</a></li>
+			</ul>
 		<nav>
 			<div class="nav-wrapper dashe-blue">
 				<a href="/dashboard" class="brand-logo">SolarPlus</a>
@@ -61,7 +66,7 @@
 					<li><a href="/analysis">Analysis</a></li>
 					<li><a href="/intelligence">Intelligence</a></li>
 					<li><a href="/contact">Contact</a></li>
-					<li><a class="dropdown-trigger" href="#!" data-target="dropdown1"><span>
+					<li><a class="dropdown-trigger2" href="#!" data-target="dropdown2"><span>
 							Hi, {{g.user.profile.firstName}}
 						</span>
 						<i class="material-icons right">arrow_drop_down</i></a></li>
