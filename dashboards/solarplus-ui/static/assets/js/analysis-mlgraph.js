@@ -4,11 +4,11 @@ $(document).ready(function () {
         return (value);
     }
 
-    function renderChart(feature1, feature1Vals, dates) {
+    function renderChart(predictedSolarVals, tempVals, daysArray) {
         var highChart = new Highcharts.chart('predictionChart', {
             chart: {
-                type: 'line',
-                zoomType: "x"
+                //type: 'line',
+                zoomType: "xy"
             },
             title: {
                 text: 'Predicted Solar production values'
@@ -17,20 +17,52 @@ $(document).ready(function () {
                 valueSuffix: '\xB0C'
             },
             xAxis: {
-                categories: dates
+                categories: daysArray,
+                crosshair: true
             },
-            yAxis: {
-                title: {
-                    text: 'Consumption'
+            yAxis: [
+            {
+                labels: {
+                    format:  '{value}°C'
                 },
-                plotLines: [{
-                    value: 0
+                opposite: true,
+                title: {
+                    text: 'Forecast Temperature'
+                },
+                plotLines:[{
+                    values: 0
                 }]
             },
-            series: [{
-                    name: feature1,
-                    data: feature1Vals
+            {
+                labels: {
+                    format: '{value} kWh'
+                },
+                title: {
+                    text: 'Power Production'
                 }
+            }],
+            tooltip: {
+                shared: true
+            },
+            series: [
+                {
+                    name: "Forecast Temperature",
+                    type: 'column',
+                    data: tempVals,
+                    tooltip: {
+                        valueSuffix: '°C'
+                    }
+                },
+                {
+                    name: 'Solar Power values',
+                    type: 'spline',
+                    yAxis: 1,
+                    data: predictedSolarVals,
+                    tooltip: {
+                        valueSuffix: ' kWh'
+                    }
+                }
+                
             ]
 
         });
@@ -46,14 +78,44 @@ $(document).ready(function () {
     function graphData_MLModel() {
 
         // TODO: have to extract daily values instead of static ones for now
-        //var forecast_TempVals = localStorage.getItem("tempVals");
-        //forecast_TempVals = JSON.parse(forecast_TempVals);
-        //console.log(forecast_TempVals)
+        var forecast_TempVals = sessionStorage.getItem("temperatureVals");
+        forecast_TempVals = JSON.parse(forecast_TempVals);
+        console.log("Printing vals from weather tab");
+        console.log(forecast_TempVals);
 
-        var tempVals = [15,19,18,17,18,20,22];
-        const uri_chart1 = `http://127.0.0.1:5000/analysis/MLModel/15/19/18/17/18/20/22`;
+        //var tempVals = [14,19,18,17,18,20,22];
+        const uri_chart1 = 
+            `http://127.0.0.1:5000/analysis/MLModel/${forecast_TempVals[0]}/${forecast_TempVals[1]}/${forecast_TempVals[2]}/${forecast_TempVals[3]}/${forecast_TempVals[4]}/${forecast_TempVals[5]}/${forecast_TempVals[6]}`;
         var res_chart1 = JSON.parse(Get(uri_chart1));
         console.log(res_chart1);
+
+        var d = new Date();
+        var today = d.getDay();
+        var days = [];
+
+        for(let j = 0; j < 7; j++)
+        {
+            switch(today){
+                case 0: days[j] = "Mon";
+                    break;
+                case 1: days[j] = "Tues";
+                    break;
+                case 2: days[j] = "Wed";
+                    break;
+                case 3: days[j] = "Thu";
+                    break;
+                case 4: days[j] = "Fri";
+                    break;
+                case 5: days[j] = "Sat";
+                    break;
+                case 6: days[j] = "Sun";
+                    break;          
+            }
+            if( today == 6)
+                today = 0;
+            else
+                today = today+1;
+        }
         
         var predictedSolarVals = [];
         var labels = [];
@@ -68,7 +130,7 @@ $(document).ready(function () {
                 predictedSolarVals.push(singleElement[prop]);
             }
         }
-        renderChart('Solar power values', predictedSolarVals, tempVals);
+        renderChart(predictedSolarVals, forecast_TempVals, days);
         
     }
     graphData_MLModel();
