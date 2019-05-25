@@ -22,6 +22,7 @@ import numpy as np
 from json import dumps
 
 
+
 AWS_ACCESS_KEY = config.aws_access_key
 AWS_SECRET_KEY = config.aws_secret_key
 
