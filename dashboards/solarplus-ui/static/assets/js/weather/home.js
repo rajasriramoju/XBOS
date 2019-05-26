@@ -128,15 +128,22 @@
   function loadTemperature(data) {
     let today = data.currently,
       future = data.daily.data;
+
+    var temperatureVals = []; //this is for sessionStorage to carry the max temperatures to the analysis tab
+
     // load today's temperature
     currentTemp.textContent = Math.round(today.temperature);
     // load future temperature
     for (let i = 0, len = futureTemp.length; i < len; ++i) {
       // max
       futureTemp[i].max.textContent = Math.round(future[i].temperatureMax) + '°';
+      temperatureVals[i] = Math.round(future[i].temperatureMax);
       // min
       futureTemp[i].min.textContent = Math.round(future[i].temperatureMin) + '°';
     }
+    console.log(temperatureVals);
+    sessionStorage.setItem("temperatureVals", JSON.stringify(temperatureVals));
+
   }
 
   function toCelcius(degrees) {
