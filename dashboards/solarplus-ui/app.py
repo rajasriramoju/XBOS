@@ -22,6 +22,7 @@ import numpy as np
 from json import dumps
 
 
+
 AWS_ACCESS_KEY = config.aws_access_key
 AWS_SECRET_KEY = config.aws_secret_key
 
@@ -186,6 +187,14 @@ def contact():
     Render the intelligence page.
     """
     return render_template("contact.html")
+
+@app.route("/profile")
+@oidc.require_login
+def profile():
+    """
+    Render the intelligence page.
+    """
+    return render_template("profile.html")
 
 @app.errorhandler(404)
 def page_not_found(e):
