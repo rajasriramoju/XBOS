@@ -92,11 +92,26 @@ $(document).ready(function() {
 		sessionStorage.setItem('tempTwo',temp2);
 		sessionStorage.setItem('tempThree',temp3);
 		sessionStorage.setItem('tempFour',temp4);
-		// console.log(temp1);
-		// console.log(temp2);
-		// console.log(temp3);
-		// console.log(temp4);
-		// console.log(temp);
+		
+
+
+		// console.log("name" + modes[0].name);
+	});
+	$("#save-therm-csv").click(function() {
+		//var obj = new Object();
+		modes = [];
+		$(".thermostat-card").each(function(i) {
+			var m = new Object();
+			m.id = i;
+			var inputs = $(this).find("input");
+			m.name = inputs[0].value;
+			m.heating = inputs[1].value;
+			m.cooling = inputs[2].value;
+
+			modes.push(m);
+		});
+		M.toast({html: 'Current setpoints successfully updated.', classes:"rounded", displayLength: 2000});
+
 
 		var result, ctr, keys, columnDelimiter, lineDelimiter, data, csv, eCSV;
 		data = modes;
@@ -159,6 +174,25 @@ $(document).ready(function() {
 		sessionStorage.setItem('tempEight',temp8);
 
 
+		// console.log("name" + modes[0].name);
+	});
+	$("#save-sp-csv").click(function() {
+		//var obj = new Object();
+		modes = [];
+		$(".refrigerator-freezer-card").each(function(i) {
+			var m = new Object();
+			m.id = i;
+			var inputs = $(this).find("input");
+			m.name = inputs[0].value;
+			m.heating = inputs[1].value;
+			m.cooling = inputs[2].value;
+
+			modes.push(m);
+		});
+		M.toast({html: 'Current setpoints successfully updated.', classes:"rounded", displayLength: 2000});
+
+
+
 		var result, ctr, keys, columnDelimiter, lineDelimiter, data, csv, eCSV;
 		data = modes;
         columnDelimiter =  ',';
@@ -183,8 +217,6 @@ $(document).ready(function() {
 		
 		csv = 'data:text/csv;charset=utf-8,' + result;
 		eCSV = encodeURI(csv);
-
-		//console.log(eCSV);
 
 		var hiddenElement = document.createElement('a');
 		hiddenElement.href = 'data:text/csv;charset=utf-8,' + encodeURI(result);
