@@ -103,17 +103,6 @@ aws_secret_access_key=AWS_SECRET_KEY,
 region_name="us-west-2"
 )
 
-@app.before_request
-def before_request():
-    """
-    Load a proper user object using the user ID from the ID token. This way, the
-    `g.user` object can be used at any point.
-    """
-    if oidc.user_loggedin:
-        g.user = okta_client.get_user(oidc.user_getfield("sub"))
-    else:
-        g.user = None
-
 
 
 @app.route("/")
@@ -181,7 +170,6 @@ def intelligence():
     return render_template("intelligence.html")
 
 @app.route("/contact")
-@oidc.require_login
 def contact():
     """
     Render the intelligence page.
@@ -200,26 +188,6 @@ def profile():
 def page_not_found(e):
     # note that we set the 404 status explicitly
     return render_template('404.html'), 404
-
-@app.route("/login")
-def login():
-    bu = oidc.client_secrets['issuer'].split('/oauth2')[0]
-    cid = oidc.client_secrets['client_id']
-
-    destination = 'http://127.0.0.1:5000/dashboard'
-    state = {
-        'csrf_token': session['oidc_csrf_token'],
-        'destination': oidc.extra_data_serializer.dumps(destination).decode('utf-8')
-    }
-
-    return render_template("login.html", oidc=oidc, baseUri=bu, clientId=cid, state=base64.urlsafe_b64encode(json.dumps(state).encode('UTF-8')).decode('ascii'))
-
-@app.route("/logout")
-def logout():
-    oidc.logout()
-
-    return redirect(url_for(".landing"))
-
 
 
 

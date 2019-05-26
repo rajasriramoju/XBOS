@@ -67,7 +67,7 @@
 							<li><a href="/intelligence">Intelligence</a></li>
 							<li><a href="/contact">Contact</a></li>
 							<li><a class="dropdown-trigger" href="#!" data-target="dropdown1"><span>
-									Hi, {{g.user.profile.firstName}}
+									Hi, {{name}}
 								</span>
 								<i class="material-icons right">arrow_drop_down</i></a></li>
 						</ul>
@@ -80,7 +80,7 @@
 							<li><a href="/intelligence">Intelligence</a></li>
 							<li><a href="/contact">Contact</a></li>
 							<li><a class="dropdown-trigger2" href="#!" data-target="dropdown2"><span>
-									Hi, {{g.user.profile.firstName}}
+									Hi, {{name}}
 								</span>
 								<i class="material-icons right">arrow_drop_down</i></a></li>
 						</ul>
@@ -244,7 +244,7 @@
 	tempVals[6] = document.getElementById("max6");
 	localStorage.setItem("tempVals", JSON.stringify(tempVals));
 	console.log(localStorage.getItem("tempVals"));
-	console.log("{{g.user.profile.firstName}}")
+	
 </script>
 
 
