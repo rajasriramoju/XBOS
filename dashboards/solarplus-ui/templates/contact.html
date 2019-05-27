@@ -85,7 +85,7 @@
       <input type="text" class="fieldemail-contact field-in white-text" id="contact-font"
         value="{{g.user.profile.email}}" />
 
-      <input type="text" class="fieldphone-contact field-in white-text" id="contact-font" placeholder="Phone" />
+      <input id="number" type="text" class="fieldphone-contact field-in white-text" id="contact-font" placeholder="Phone" />
 
       <textarea id="message" class="message-contact field-in white-text" id="contact-font" placeholder="Message"></textarea>
 
@@ -99,13 +99,24 @@
   $(document).ready(function () {
     $('#submit-text-message').click(function () {
       var message = $("#message").val();
+      var number = $("#number").val();
+      var email = "{{g.user.profile.email}}"
+      var name = "{{g.user.profile.firstName}}";
       console.log(message);
+      console.log(number)
+      console.log(name)
+      console.log(email);
       $.ajax({
         type: 'POST',
         url: "aws",
         dataType: "json",
         contentType: "application/json",
-        data: JSON.stringify({"message": message}),
+        data: JSON.stringify({
+          "name": name,
+          "email": email,
+          "number": number,
+          "message": message
+        }),
 
       }).done(function (data) {
         console.log(data);
