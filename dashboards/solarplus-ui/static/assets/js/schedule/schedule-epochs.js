@@ -161,6 +161,28 @@ $(document).ready(function() {
 		// console.log(sliderColors[0].length)
 		obj.settings = sets;
 		arr.push(obj.settings);
+
+	}
+	function readOutCSV() {
+		var obj = new Object();
+		var arr = [];
+		var t = new Object();
+		t.Time = $.extend([], sliders[0].noUiSlider.get());
+
+		//arr.push(t)
+		obj.times = t;
+		console.log(t);
+		arr.push(obj.times);
+		var sets = new Object();
+		sets.Time = sliderModes[0];
+		console.log(sliderModes[0]);
+		// sessionStorage.setItem('slider',JSON.stringify(sliderColors[0]));
+		// var temp = sessionStorage.getItem('slider');
+		// var temp2 = JSON.parse(temp);
+		// console.log(temp2);
+		// console.log(sliderColors[0].length)
+		obj.settings = sets;
+		arr.push(obj.settings);
 		console.log(arr);
 		var result, ctr, keys, columnDelimiter, lineDelimiter, data, csv, eCSV;
 		data = arr;
@@ -187,7 +209,7 @@ $(document).ready(function() {
 		csv = 'data:text/csv;charset=utf-8,' + result;
 		eCSV = encodeURI(csv);
 
-		//console.log(eCSV);
+		console.log(eCSV);
 
 		var hiddenElement = document.createElement('a');
 		hiddenElement.href = 'data:text/csv;charset=utf-8,' + encodeURI(result);
@@ -199,6 +221,10 @@ $(document).ready(function() {
 	$("#apply-modes").click(function() {
 		M.toast({html: 'Preferences saved and modes applied.', classes:"rounded", displayLength: 5000});
 		readOut();
+	});
+	$("#apply-modes-csv").click(function() {
+		M.toast({html: 'Preferences saved and modes applied.', classes:"rounded", displayLength: 5000});
+		readOutCSV();
 	});
 
 	function setColors() {
