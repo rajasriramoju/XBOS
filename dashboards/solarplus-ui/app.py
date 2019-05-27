@@ -258,7 +258,7 @@ def logout():
 def aws():
     # Send your sms message.
     client.publish(
-    PhoneNumber="",
+    PhoneNumber="+14154257327",
     Message="Your Issue Ticket has been received! Thank you! :)"
     )
 
