@@ -123,14 +123,14 @@ def landing():
     """
     return render_template('landing.html')
 
-@app.route("/index")
-@oidc.require_login
-def index():
+# @app.route("/index")
+# @oidc.require_login
+# def index():
  
-    """
-    Render the homepage.
-    """
-    return render_template('index.html')
+#     """
+#     Render the homepage.
+#     """
+#     return render_template('index.html')
 
 @app.route("/dashboard")
 @oidc.require_login
@@ -146,7 +146,10 @@ def setpoints():
     """
     Render the setpoints page.
     """
-    return render_template("setpoints.html")
+    if g.user.id == '00uj9ow24kHWeZLwN356':
+        return render_template("setpoints.html")
+    else:
+        return render_template('404.html'), 404
 
 @app.route("/weather")
 @oidc.require_login
@@ -162,15 +165,19 @@ def analysis():
     """
     Render the weather page.
     """
-    return render_template("analysis.html")
+    if g.user.id == '00uj9ow24kHWeZLwN356':
+        return render_template("analysis.html")
+    else: 
+        return render_template('404.html'), 404
 
-@app.route("/DR")
-@oidc.require_login
-def dr():
-    """
-    Render the DR page.
-    """
-    return render_template("DR.html")
+
+# @app.route("/DR")
+# @oidc.require_login
+# def dr():
+#     """
+#     Render the DR page.
+#     """
+#     return render_template("DR.html")
 
 @app.route("/intelligence")
 @oidc.require_login
@@ -178,7 +185,11 @@ def intelligence():
     """
     Render the intelligence page.
     """
-    return render_template("intelligence.html")
+    if g.user.id == '00uj9ow24kHWeZLwN356':
+        return render_template("intelligence.html")
+    else: 
+        return render_template('404.html'), 404
+        
 
 @app.route("/contact")
 @oidc.require_login
@@ -186,7 +197,10 @@ def contact():
     """
     Render the intelligence page.
     """
-    return render_template("contact.html")
+    if g.user.id == '00uj9ow24kHWeZLwN356':
+        return render_template("contact.html")
+    else: 
+        return render_template('404.html'), 404
 
 @app.route("/profile")
 @oidc.require_login
