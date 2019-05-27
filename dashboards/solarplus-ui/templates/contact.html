@@ -85,7 +85,7 @@
       <input type="text" class="fieldemail-contact field-in white-text" id="contact-font"
         value="{{g.user.profile.email}}" />
 
-      <input id="number" type="text" class="fieldphone-contact field-in white-text" id="contact-font" placeholder="Phone" />
+      <input id="number" type="text" class="fieldphone-contact field-in white-text" id="contact-font" placeholder="Phone: 1234567890" />
 
       <textarea id="message" class="message-contact field-in white-text" id="contact-font" placeholder="Message"></textarea>
 
@@ -96,33 +96,7 @@
 </body>
 
 <script>
-  $(document).ready(function () {
-    $('#submit-text-message').click(function () {
-      var message = $("#message").val();
-      var number = $("#number").val();
-      var email = "{{g.user.profile.email}}"
-      var name = "{{g.user.profile.firstName}}";
-      console.log(message);
-      console.log(number)
-      console.log(name)
-      console.log(email);
-      $.ajax({
-        type: 'POST',
-        url: "aws",
-        dataType: "json",
-        contentType: "application/json",
-        data: JSON.stringify({
-          "name": name,
-          "email": email,
-          "number": number,
-          "message": message
-        }),
 
-      }).done(function (data) {
-        console.log(data);
-      });
-    });
-  });
 </script>
 
 
@@ -136,5 +110,48 @@
 <script type="text/javascript" src="{{url_for('static', filename='assets/js/particles.js') }}"></script>
 <script type="text/javascript" src="{{url_for('static', filename='assets/js/app.js') }}"></script>
 <script type="text/javascript" src="{{url_for('static', filename='assets/js/navbar.js') }}"></script>
+<script>function check(number) {
+  var reg = /^[0-9]{1,10}$/;
+  var checking = reg.test(number);
 
+  if (checking) {
+      return number;
+  } else {
+      alert("Please enter a valid phone number e.g 1234567890");
+      return false;
+  }
+}
+
+
+$(document).ready(function () {
+  $('#submit-text-message').click(function () {
+      var message = $("#message").val();
+      var number = $("#number").val();
+      var email = "{{g.user.profile.email}}"
+      var name = "{{g.user.profile.firstName}}";
+      console.log(message);
+      console.log(number)
+      console.log(name)
+      console.log(email);
+      var valid = check(number)
+      console.log(valid)
+
+
+      $.ajax({
+          type: 'POST',
+          url: "aws",
+          dataType: "json",
+          contentType: "application/json",
+          data: JSON.stringify({
+              "name": name,
+              "email": email,
+              "number": valid,
+              "message": message
+          }),
+
+      }).done(function (data) {
+          console.log(data);
+      });
+  });
+});</script>
 </html>
