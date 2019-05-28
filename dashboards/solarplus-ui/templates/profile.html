@@ -86,7 +86,7 @@
 				<a href="/dashboard" class="brand-logo">SolarPlus</a>
 				<a href="#" data-target="mobile-demo" class="sidenav-trigger"><i class="material-icons">menu</i></a>
 				<ul class="right hide-on-med-and-down">
-					<li><a href="/dashboard">Dashboard</a></li>	
+					<li><a href="/dashboard">Dashboard</a></li>
 					<li><a href="/weather">Weather</a></li>
 					<li><a href="/contact">Contact</a></li>
 					<li><a class="dropdown-trigger" href="#!" data-target="dropdown1"><span>
@@ -120,27 +120,24 @@
 						<!-- <p class="center-align" style="font-size: 100%">{{g.user.id}}</p> -->
 					</div>
 					<div class="divider"></div>
-					<div class="col s12 ">
-						<p class="center-align"><a href="https://dev-693782.okta.com/enduser/settings">
-								Settings
-							</a>
-
+					<div class="col s10 offset-s1">
+						<p>
+							Old Password
 						</p>
-					</div>
-					<!-- <div class="col s10 offset-s1">
+						<input id="old" name="Old Password">
 						<p>
 							New Password
 						</p>
-						<input name="New Password">
+						<input id="new1" name="New Password">
 						<p>
 							Confirm New Password
 						</p>
-						<input name="Confirm Password">
+						<input id="new2" name="Confirm Password">
 						<button id="change" onclick="sendPost()" class="btn waves-effect waves-light col s3 offset-s9"
 							style="margin-bottom:5%;" type="submit" name="action">Submit
 							<i class="material-icons right">send</i>
 						</button>
-					</div> -->
+					</div>
 
 				</div>
 
@@ -165,120 +162,52 @@
 <script type="text/javascript" src="{{url_for('static', filename='assets/js/logout.js') }}"></script>
 <script type="text/javascript" src="{{url_for('static', filename='assets/js/navbar.js') }}"></script>
 
-<!-- <script type="text/javascript">
-	// $(document).ready(function () {
-	// 	const Url =
-	// 		'https://dev-693782.okta.com/api/v1/users/00ujpqg80HFGreEXy356/credentials/change_password'
-	// 	const data = {
-	// 		oldPassword: 'Idontcare1',
-	// 		newPassword: 'Idontcare2'
-	// 	}
-
-	// 	$("#change").click(function () {
-	// 		$.post(Url, data, function (status) {
-	// 			console.log(`${data} and status is ${status}`)
-	// 			console.log(res)
-	// 		})
-	// 	})
-	// });
-	// var data = {
-
-	// 		"oldPassword": "",
-	// 		"newPassword": ""
-	// };
-
-	// function sendPost() {
-	// 	$.ajax({
-	// 		type: "POST",
-	// 		url: 'https://dev-693782.okta.com/api/v1/users/00ujpqg80HFGreEXy356/credentials/change_password',
-	// 		data: {
-	// 			json: JSON.stringify(data)
-	// 		},
-	// 		success: success
-	// 	});
-	// }
-
-	// function success(result) {
-	// 	alert('Process achieved!');
-	// }
+<script type="text/javascript">
 	function sendPost() {
-		// var baseUrl = 'https://dev-693782.okta.com';
-		// var xhr = new XMLHttpRequest();
-		// if ("withCredentials" in xhr) {
-		// 	xhr.onerror = function () {
-		// 		alert('Invalid URL or Cross-Origin Request Blocked.  You must explicitly add this site (' + window
-		// 			.location
-		// 			.origin + ') to the list of allowed websites in the administrator UI');
-		// 	}
-		// 	xhr.onload = function () {
-		// 		alert(this.responseText);
-		// 	};
-		// 	xhr.open('GET', baseUrl + '/api/v1/users/me', true);
-		// 	xhr.withCredentials = true;
-		// 	xhr.send();
-		// } else {
-		// 	alert("CORS is not supported for this browser!")
-		// }
-
-		// var baseUrl = 'https://dev-693782.okta.com';
-		// $.ajax({
-		// 		url: baseUrl + '/api/v1/users/' + '{{g.user.id}}' + '/credentials/change_password',
-		// 		data: {
-		// 			oldPassword: '',
-		// 			newPassword: ''
-		// 		},
-		// 		type: 'GET',
-		// 		beforeSend: function (xhr) {
-		// 			xhr.withCredentials = true;
-		// 		},
-		// 		crossDomain: true,
-		// 		accept: 'application/json'
-		// 	}).done(function (data) {
-		// 		alert(JSON.stringify(data));
-		// 	})
-		// 	.fail(function (xhr, textStatus, error) {
-		// 		var title, message;
-		// 		switch (xhr.status) {
-		// 			case 403:
-		// 				title = xhr.responseJSON.errorSummary;
-		// 				message = 'Please login to your Okta organization before running the test';
-		// 				break;
-		// 			default:
-		// 				title = 'Invalid URL or Cross-Origin Request Blocked';
-		// 				message = 'You must explicitly add this site (' + window.location.origin +
-		// 					') to the list of allowed websites in your administrator UI';
-		// 				break;
-		// 		}
-		// 		alert(title + ': ' + message);
-		// 	});
-
+		var oldPass = $("#old").val();
+		var pass1 = $("#new1").val();
+		var pass2 = $("#new2").val();
+		var newPass = '';
+		if (pass1 != pass2) {
+			alert("New Password is not equivalent");
+		} else {
+			newPass = pass2
+		}
 		var baseUrl = 'https://dev-693782.okta.com';
 		$.ajax({
-				url: baseUrl + '/api/v1/users/' + '{{g.user.id}}' + '/lifecycle/reset_password?sendEmail=false',
-				type: 'GET',
+
+				url: baseUrl + '/api/v1/users/' + '{{g.user.id}}' + '/credentials/change_password',
+				contentType: "application/json",
+				data: JSON.stringify({
+					"oldPassword": oldPass,
+					"newPassword": newPass,
+				}),
+				type: 'POST',
 				xhrFields: {
 					withCredentials: true
 				},
+				contentType: "application/json",
 				accept: 'application/json'
 			}).done(function (data) {
-				alert(JSON.stringify(data));
+				alert('Password Updated');
+				location.reload();
 			})
 			.fail(function (xhr, textStatus, error) {
 				var title, message;
 				switch (xhr.status) {
+
 					case 403:
 						title = xhr.responseJSON.errorSummary;
-						message = 'Please login to your Okta organization before running the test';
+						message = 'Please make sure that you filled out the fields correctly \n1. At least 8 characters\n2. At least 1 number\n3. At least 1 lowercase letter(s)\n4. At least 1 uppercase letter(s)\n5. Does not contain part of username';
 						break;
 					default:
-						title = 'Invalid URL or Cross-Origin Request Blocked';
-						message = 'You must explicitly add this site (' + window.location.origin +
-							') to the list of allowed websites in your administrator UI';
+						title = 'There was an error changing your password';
+						message = 'Please make sure that you filled out the fields correctly \n1. At least 8 characters\n2. At least 1 number\n3. At least 1 lowercase letter(s)\n4. At least 1 uppercase letter(s)\n5. Does not contain part of username';
 						break;
 				}
 				alert(title + ': ' + message);
 			});
 	}
-</script> -->
+</script>
 
 </html>
