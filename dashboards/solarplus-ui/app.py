@@ -197,10 +197,7 @@ def contact():
     """
     Render the intelligence page.
     """
-    if g.user.id == '00uj9ow24kHWeZLwN356':
-        return render_template("contact.html")
-    else: 
-        return render_template('404.html'), 404
+    return render_template("contact.html")
 
 @app.route("/profile")
 @oidc.require_login
