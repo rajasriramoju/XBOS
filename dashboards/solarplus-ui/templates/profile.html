@@ -88,6 +88,7 @@
 				<ul class="right hide-on-med-and-down">
 					<li><a href="/dashboard">Dashboard</a></li>	
 					<li><a href="/weather">Weather</a></li>
+					<li><a href="/contact">Contact</a></li>
 					<li><a class="dropdown-trigger" href="#!" data-target="dropdown1"><span>
 								Hi, {{g.user.profile.firstName}}
 							</span>
@@ -96,6 +97,7 @@
 				<ul class="sidenav" id="mobile-demo">
 					<li><a href="/dashboard">Dashboard</a></li>
 					<li><a href="/weather">Weather</a></li>
+					<li><a href="/contact">Contact</a></li>
 					<li><a class="dropdown-trigger2" href="#!" data-target="dropdown2"><span>
 								Hi, {{g.user.profile.firstName}}
 							</span>
@@ -111,10 +113,10 @@
 			<div class="card horizontal ">
 				<div class="card-stacked hoverable">
 					<div class="col s10 offset-s1 card-content">
-						<p class="center-align" style="font-size: 200%">{{g.user.profile.firstName}}
+						<p class="center-align name flow-text">{{g.user.profile.firstName}}
 							{{g.user.profile.lastName}}</p>
 						<br>
-						<p class="center-align" style="font-size: 100%">{{g.user.profile.email}}</p>
+						<p class="center-align email ">{{g.user.profile.email}}</p>
 						<!-- <p class="center-align" style="font-size: 100%">{{g.user.id}}</p> -->
 					</div>
 					<div class="divider"></div>
