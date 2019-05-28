@@ -3,13 +3,14 @@ import config
 from flask import make_response, request, current_app
 from flask import jsonify, redirect, url_for
 from flask import g, render_template, url_for, session
-from influxdb import InfluxDBClient
+from influxdb import InfluxDBClient, DataFrameClient
 import argparse
 import boto3
 import boto.ses
 import base64
 from urllib.request import urlopen
 import json
+import requests
 
 from datetime import timedelta
 from functools import update_wrapper
@@ -409,8 +410,21 @@ def extractData_plotTwoQueries(filename, startDate, endDate, feature1, feature2)
     dataInRange = dataInRange.loc[:,['Time', feature1, feature2]]
 
     return dataInRange.to_json(orient = 'records')
+"""
+# 5/26/2019 [Eric]
+@app.route("/setpoints/updated", methods=['POST'])
+#@oidc.require_login
+def updated_setpoints():
+    render the updated setpoints page
+    error = None
+    if request.method=='POST':
+        # check if request form is valid
+        # if valid, return the page with updated setpoints values
+"""
 
+#ignore this function for now
 @app.route('/setpoints/set/<T1Min>/<T1Max>/<T2Min>/<T2Max>/<T3Min>/<T3Max>/<T4Min>/<T4Max>/<username>')
+#@app.route('/setpoints/updated')
 @crossdomain(origin="*")
 def setValuesInDB(T1Min, T1Max, T2Min, T2Max, T3Min, T3Max, T4Min, T4Max, username):
 
@@ -423,14 +437,14 @@ def setValuesInDB(T1Min, T1Max, T2Min, T2Max, T3Min, T3Max, T4Min, T4Max, userna
             'User':'username'
             },
         'fields': {
-            'Thermostat1_HSP': 'T1Min',
-            'Thermostat1_CSP': 'T1Max',
-            'Thermostat2_HSP': 'T2Min',
-            'Thermostat2_CSP': 'T2Max',
-            'Refrigerator_SP': 'T3Min',
-            'Refrigerator_SP+dT': 'T3Max',
-            'Freezer_SP': 'T4Min',
-            'Freezer_SP+dT': 'T4Max'
+            'Thermostat1_HSP': therm1,
+            'Thermostat1_CSP': therm2,
+            'Thermostat2_HSP': therm3,
+            'Thermostat2_CSP': therm4,
+            'Refrigerator_SP': therm5,
+            'Refrigerator_SP+dT': therm6,
+            'Freezer_SP': therm7,
+            'Freezer_SP+dT': therm8
             },
         'measurement': 'temperature'
         }]
@@ -440,19 +454,34 @@ def setValuesInDB(T1Min, T1Max, T2Min, T2Max, T3Min, T3Max, T4Min, T4Max, userna
     return
 
 
-"""
-@app.route('/setpoints/get/<T1Min>/<T1Max>/<T2Min>/<T2Max>/<T3Min>/<T3Max>/<T4Min>/<T4Max>/<username>')
+@app.route('/setpoints', methods = ['POST'])
 @crossdomain(origin="*")
 def renderFirstRow():
-    dfClient = influxdb.DataFrameClient(host='127.0.0.1', port=5000)
-    #getting only the first row
-    dfClient.query(SELECT "Thermostat1_HSP", "Thermostat1_CSP", "Thermostat2_HSP",
-                    "Thermostat2_CSP", "Refrigerator_SP", "Thermostat1_SP+dT",
-                    "Freezer_SP", "Freezer_SP+dT" from setpoints_db
-                    ORDER BY DESC LIMIT 1")
-"""
+    if request.method =='POST':
+        content = request.get_json(silent=False, force=True)
+        Thermostat1_HSP = request.form['temp1']
+        Thermostat1_CSP = request.form['temp2']
+        Thermostat2_HSP = request.form['temp3']
+        Thermostat2_CSP = request.form['temp4']
+        Refrigerator_SP = request.form['temp5']
+        Refrigerator_SP+dT = request.form['temp6']
+        Freezer_SP = request.form['temp7']
+        Freezer_SP+dT = request.form['temp8']
+        #update data
+        return "success"
+
+    '''
+    dfClient = DataFrameClient(host='127.0.0.1', port=5000)
+
+    # query the first row of the temperature table
+    firstEntry = dfClient.query('SELECT "Thermostat1_HSP","Thermostat1_CSP","Thermostat2_HSP","Thermostat2_CSP","Refrigerator_SP","Refrigerator_SP+dT","Freezer_SP","Freezer_SP+dT"from temperature ORDER BY DESC LIMIT 1')
+
+    #print(firstEntry)
+
+    return firstEntry
 
 # pass in as json (to-json)
+'''
 
 '''
 # This function takes in a file name, start and end date and returns json response

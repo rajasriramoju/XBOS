@@ -3,6 +3,13 @@ $(document).ready(function() {
 	var zoneSel = 0;
 	var zoneArr = [];
 
+	/*const url = 'http://127.0.0.1:5000/setpoints/getEntry';
+	var Httpreq = new XMLHttpRequest(); // a new request
+	Httpreq.open(“POST”, yourUrl, false);
+	Httpreq.send(null);
+	var entry = JSON.parse(Httpreq.responseText);*/
+
+
 	document.getElementById('temp1').value = sessionStorage.getItem('tempOne');
 	document.getElementById('temp2').value = sessionStorage.getItem('tempTwo');
 	document.getElementById('temp3').value = sessionStorage.getItem('tempThree');
@@ -88,15 +95,71 @@ $(document).ready(function() {
 		var temp3 = document.getElementById('temp3').value;
 		var temp4 = document.getElementById('temp4').value;
 
+		// the finalized elements
 		sessionStorage.setItem('tempOne',temp1);
 		sessionStorage.setItem('tempTwo',temp2);
 		sessionStorage.setItem('tempThree',temp3);
 		sessionStorage.setItem('tempFour',temp4);
+
+		// post request
+		$.ajax({
+			type: 'POST',
+			url: '/setpoints',
+			dataType: "json",
+			data: JSON.stringify({
+				//TODO: figure out what to do with the key (next step)
+				temp1: $('temp1').val(),
+				temp2: $('temp2').val(),
+				temp3: $('temp3').val(),
+				temp4: $('temp4').val(),
+				temp5: $('temp5').val(),
+				temp6: $('temp6').val(),
+				temp7: $('temp7').val(),
+				temp8: $('temp8').val()
+			}),
+			success: function(data) {
+				console.log(data);
+			},
+			failure: function(err) {
+				console.log(err);
+			}
+		})
+
+
+
 		// console.log(temp1);
 		// console.log(temp2);
 		// console.log(temp3);
 		// console.log(temp4);
 		// console.log(temp);
+
+		// asynchronous http get request
+		/*function httpGetAsync(theUrl, callback)
+		{
+    	var xmlHttp = new XMLHttpRequest();
+    	xmlHttp.onreadystatechange = function() {
+        if (xmlHttp.readyState == 4 && xmlHttp.status == 200)
+            callback(xmlHttp.responseText);
+			}
+    	xmlHttp.open("POST", theUrl, true); // true for asynchronous
+    	xmlHttp.send();
+		}*/
+
+
+		/*
+		using jquery post request:
+		(brower) frontend -> (flask) backend
+		1. turn values into json object (ex: {therm1: temp1}) -> javascript
+		2. send the request to the backend using $.post() following the rest of the API -> javascript
+		3. write the code for the route backend in flask (python) / method is post only -> python
+
+		(flask) backend -> database
+		1. convert the json object to python dictionary
+		2. save the python dictionary into the database (influxdb)
+
+		flask -> browser
+		1. reply to the request object
+		*/
 
 		var result, ctr, keys, columnDelimiter, lineDelimiter, data, csv, eCSV;
 		data = modes;
@@ -157,6 +220,12 @@ $(document).ready(function() {
 		sessionStorage.setItem('tempSix',temp6);
 		sessionStorage.setItem('tempSeven',temp7);
 		sessionStorage.setItem('tempEight',temp8);
+
+	// requesting the new new url page & sending the json obj
+	/*
+	$.post("/setpoints/updated", { therm1: temp1, therm2: temp2, therm3: temp3,
+																therm4: temp4, therm5: temp5, therm6: temp6,
+															 	therm7: temp7, therm8: temp8 });*/
 
 
 		var result, ctr, keys, columnDelimiter, lineDelimiter, data, csv, eCSV;
