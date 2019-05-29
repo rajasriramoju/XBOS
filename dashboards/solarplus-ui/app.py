@@ -197,7 +197,7 @@ def contact():
     """
     Render the intelligence page.
     """
-    return render_template("contact.html")
+    return render_template("contact.html", email=g.user.profile.email)
 
 @app.route("/profile")
 @oidc.require_login
@@ -205,7 +205,7 @@ def profile():
     """
     Render the intelligence page.
     """
-    return render_template("profile.html")
+    return render_template("profile.html", user=g.user.id)
 
 @app.errorhandler(404)
 def page_not_found(e):
