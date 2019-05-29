@@ -1,0 +1,106 @@
+$(document).ready(function () {
+
+    var myInput = document.getElementById("psw");
+    var letter = document.getElementById("letter");
+    var capital = document.getElementById("capital");
+    var number = document.getElementById("number");
+    var length = document.getElementById("length");
+
+    // When the user clicks on the password field, show the message box
+    myInput.onfocus = function () {
+        document.getElementById("message").style.display = "block";
+    }
+
+    // When the user clicks outside of the password field, hide the message box
+    myInput.onblur = function () {
+        document.getElementById("message").style.display = "none";
+    }
+
+    // When the user starts to type something inside the password field
+    myInput.onkeyup = function () {
+        // Validate lowercase letters
+        var lowerCaseLetters = /[a-z]/g;
+        if (myInput.value.match(lowerCaseLetters)) {
+            letter.classList.remove("invalid");
+            letter.classList.add("valid");
+        } else {
+            letter.classList.remove("valid");
+            letter.classList.add("invalid");
+        }
+
+        // Validate capital letters
+        var upperCaseLetters = /[A-Z]/g;
+        if (myInput.value.match(upperCaseLetters)) {
+            capital.classList.remove("invalid");
+            capital.classList.add("valid");
+        } else {
+            capital.classList.remove("valid");
+            capital.classList.add("invalid");
+        }
+
+        // Validate numbers
+        var numbers = /[0-9]/g;
+        if (myInput.value.match(numbers)) {
+            number.classList.remove("invalid");
+            number.classList.add("valid");
+        } else {
+            number.classList.remove("valid");
+            number.classList.add("invalid");
+        }
+
+        // Validate length
+        if (myInput.value.length >= 8) {
+            length.classList.remove("invalid");
+            length.classList.add("valid");
+        } else {
+            length.classList.remove("valid");
+            length.classList.add("invalid");
+        }
+    }
+
+    function sendPost() {
+        var oldPass = $("#old").val();
+        var pass1 = $("#new1").val();
+        var pass2 = $("#new2").val();
+        var newPass = '';
+        console.log(user);
+        if (pass1 != pass2) {
+            alert("New Password is not equivalent");
+        } else {
+            newPass = pass2
+        }
+        var baseUrl = 'https://dev-693782.okta.com';
+        $.ajax({
+
+                url: baseUrl + '/api/v1/users/' + user + '/credentials/change_password',
+                contentType: "application/json",
+                data: JSON.stringify({
+                    "oldPassword": oldPass,
+                    "newPassword": newPass,
+                }),
+                type: 'POST',
+                xhrFields: {
+                    withCredentials: true
+                },
+                contentType: "application/json",
+                accept: 'application/json'
+            }).done(function (data) {
+                alert('Password Updated');
+                // setTimeout(function () {
+                //     location.reload();
+                // }, 1000);
+
+            })
+            .fail(function (xhr, textStatus, error) {
+                var title, message;
+                switch (xhr.status) {
+                    default:
+                        title = 'There was an error changing your password';
+                        message =
+                            'Please make sure that you filled out the fields correctly \n1. At least 8 characters\n2. At least 1 number\n3. At least 1 lowercase letter(s)\n4. At least 1 uppercase letter(s)\n5. Does not contain part of username';
+                        break;
+                }
+                alert(title + ': ' + message);
+            });
+    }
+});

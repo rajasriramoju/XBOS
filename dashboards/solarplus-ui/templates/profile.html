@@ -10,6 +10,7 @@
 	<link rel="shortcut icon" type="image/png" href="{{ url_for('static', filename='assets/img/logo.png') }}">
 	<link rel="stylesheet" type="text/css" href="{{ url_for('static', filename='assets/css/materialize.css') }}">
 	<link rel="stylesheet" type="text/css" href="{{ url_for('static', filename='assets/css/nouislider.css') }}">
+	<link rel="stylesheet" type="text/css" href="{{ url_for('static', filename='assets/css/profile.css') }}">
 	<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
 	<script type="text/javascript" src="{{url_for('static', filename='assets/js/preloader.js') }}"></script>
 	<link rel="stylesheet" type="text/css" media="screen"
@@ -108,106 +109,71 @@
 		{% endif %}
 
 	</div>
-	<div class="row " style="margin-top:10%">
-		<div class="col s4 offset-s4">
-			<div class="card horizontal ">
-				<div class="card-stacked hoverable">
-					<div class="col s10 offset-s1 card-content">
-						<p class="center-align name flow-text">{{g.user.profile.firstName}}
-							{{g.user.profile.lastName}}</p>
-						<br>
-						<p class="center-align email ">{{g.user.profile.email}}</p>
-						<!-- <p class="center-align" style="font-size: 100%">{{g.user.id}}</p> -->
-					</div>
+	<div class="valign-wrapper row login-box" style="margin-top:5%;">
+		<div class="col card hoverable s10 pull-s1 m6 pull-m3 l4 pull-l4">
+			<form>
+				<div class="card-content">
+					<p class="center-align name flow-text">{{g.user.profile.firstName}}
+						{{g.user.profile.lastName}}</p>
+					<br>
+					<p class="center-align email" style="margin-bottom:5%;">{{g.user.profile.email}}</p>
 					<div class="divider"></div>
-					<div class="col s10 offset-s1">
-						<p>
-							Old Password
-						</p>
-						<input id="old" name="Old Password">
-						<p>
-							New Password
-						</p>
-						<input id="new1" name="New Password">
-						<p>
-							Confirm New Password
-						</p>
-						<input id="new2" name="Confirm Password">
-						<button id="change" onclick="sendPost()" class="btn waves-effect waves-light col s3 offset-s9"
-							style="margin-bottom:5%;" type="submit" name="action">Submit
-							<i class="material-icons right">send</i>
-						</button>
-					</div>
+					<div class="row">
+						<div class="input-field col s12">
 
+							<input id="old" type="text" name="Old Password">
+							<label for="old">Old Password</label>
+						</div>
+						<div class="input-field col s12">
+
+							<!-- <input id="new1" type="text" name="New Password"> -->
+							<input type="password" id="psw" name="psw" pattern="(?=.*\d)(?=.*[a-z])(?=.*[A-Z]).{8,}"
+								title="Must contain at least one number and one uppercase and lowercase letter, and at least 8 or more characters"
+								required>
+							<label for="psw">New Password</label>
+						</div>
+
+						<!-- <div class="input-field col s12">
+							<input id="new2" type="text" name="Confirm Password">
+							<label for="new2">Confirm New Password</label>
+
+						</div> -->
+					</div>
 				</div>
 
-			</div>
-
-
+				<div class="card-action">
+					<button id="change" onclick="sendPost()"
+						class="btn waves-effect waves-light col s3 m3 offset-s9 offset-m9" style="margin-bottom:5%;"
+						type="submit" value="Submit" name="action">Submit
+						<i class="material-icons right">send</i>
+					</button>
+				</div>
+				<div id="message">
+					<h3>Password must contain the following:</h3>
+					<p id="letter" class="invalid">A <b>lowercase</b> letter</p>
+					<p id="capital" class="invalid">A <b>capital (uppercase)</b> letter</p>
+					<p id="number" class="invalid">A <b>number</b></p>
+					<p id="length" class="invalid">Minimum <b>8 characters</b></p>
+				  </div>
+			</form>
 		</div>
 	</div>
-
 
 </body>
 
 <script src="https://cdn.rawgit.com/maxdow/skycons/master/skycons.js"></script>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
 <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.3/jquery.min.js"></script>
-
 <script type="text/javascript" src="{{url_for('static', filename='assets/js/lib/jquery.js') }}"></script>
 <script type="text/javascript" src="{{url_for('static', filename='assets/js/lib/materialize.js') }}"></script>
-<script type="text/javascript" src="{{url_for('static', filename='assets/js/DR/chart-highchart.js') }}"></script>
 <script type="text/javascript" src="{{url_for('static', filename='assets/js/particles.js') }}"></script>
 <script type="text/javascript" src="{{url_for('static', filename='assets/js/app.js') }}"></script>
 <script type="text/javascript" src="{{url_for('static', filename='assets/js/logout.js') }}"></script>
 <script type="text/javascript" src="{{url_for('static', filename='assets/js/navbar.js') }}"></script>
-
-<script type="text/javascript">
-	function sendPost() {
-		var oldPass = $("#old").val();
-		var pass1 = $("#new1").val();
-		var pass2 = $("#new2").val();
-		var newPass = '';
-		if (pass1 != pass2) {
-			alert("New Password is not equivalent");
-		} else {
-			newPass = pass2
-		}
-		var baseUrl = 'https://dev-693782.okta.com';
-		$.ajax({
-
-				url: baseUrl + '/api/v1/users/' + '{{g.user.id}}' + '/credentials/change_password',
-				contentType: "application/json",
-				data: JSON.stringify({
-					"oldPassword": oldPass,
-					"newPassword": newPass,
-				}),
-				type: 'POST',
-				xhrFields: {
-					withCredentials: true
-				},
-				contentType: "application/json",
-				accept: 'application/json'
-			}).done(function (data) {
-				alert('Password Updated');
-				location.reload();
-			})
-			.fail(function (xhr, textStatus, error) {
-				var title, message;
-				switch (xhr.status) {
-
-					case 403:
-						title = xhr.responseJSON.errorSummary;
-						message = 'Please make sure that you filled out the fields correctly \n1. At least 8 characters\n2. At least 1 number\n3. At least 1 lowercase letter(s)\n4. At least 1 uppercase letter(s)\n5. Does not contain part of username';
-						break;
-					default:
-						title = 'There was an error changing your password';
-						message = 'Please make sure that you filled out the fields correctly \n1. At least 8 characters\n2. At least 1 number\n3. At least 1 lowercase letter(s)\n4. At least 1 uppercase letter(s)\n5. Does not contain part of username';
-						break;
-				}
-				alert(title + ': ' + message);
-			});
-	}
+<script>
+	var user = "{{user}}";
 </script>
+<script type="text/javascript" src="{{url_for('static', filename='assets/js/profile.js') }}"></script>
+
 
 </html>

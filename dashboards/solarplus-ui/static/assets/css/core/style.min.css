@@ -2243,6 +2243,8 @@ body,
 html {
     margin: 0;
     padding: 0;
+    height:100vh;
+    overflow:none;
     -webkit-tap-highlight-color: rgba(0, 0, 0, 0)
 }
 
@@ -2261,7 +2263,11 @@ body {
     line-height: 1.77;
     -webkit-font-smoothing: antialiased;
     -moz-osx-font-smoothing: grayscale;
-    min-height: 100vh
+    min-height: 100vh;
+    margin: 0;
+    padding: 0;
+    height:100%;
+    overflow-y:none;
 }
 
 @media screen and (max-width: 768px) {
@@ -2561,7 +2567,8 @@ pre code {
     display: -webkit-box;
     display: -webkit-flex;
     display: -ms-flexbox;
-    display: flex
+    display: flex;
+    margin-bottom: 0px;
 }
 
 .row>[class*='col-'] {
@@ -2683,6 +2690,32 @@ img,
 }
 
 @media only screen and (max-width: 768px) {
+
+    .doppler {
+        position: relative;
+        display: flex;
+        margin-top:38%;
+        padding-bottom: 0;
+        width: 100%;
+    
+    }
+    
+    img.doppler {
+        position: absolute;
+        width: 100%;
+        filter: grayscale(100%);
+        clip-path: circle(25%);
+        bottom: 0;
+        right: 0;
+    }
+    
+    .doppler-gif {
+        position: absolute;
+        width: 100%;
+        clip-path: circle(25%);
+        bottom: 0;
+        right: 0;
+    }
     .list.icon {
         padding-top: 60px;
         padding-bottom: 60px
@@ -4305,6 +4338,31 @@ img.doppler {
 @media (max-width: 991px) {
     .row {
         margin: 0
+    }
+    .doppler {
+        position: relative;
+        display: flex;
+        margin-top:38%;
+        padding-bottom: 0;
+        width: 100%;
+    
+    }
+    
+    img.doppler {
+        position: absolute;
+        width: 100%;
+        filter: grayscale(100%);
+        clip-path: circle(25%);
+        bottom: 0;
+        right: 0;
+    }
+    
+    .doppler-gif {
+        position: absolute;
+        width: 100%;
+        clip-path: circle(25%);
+        bottom: 0;
+        right: 0;
     }
     
 .fit{
