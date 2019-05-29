@@ -6,6 +6,7 @@ from flask import g, render_template, url_for, session
 import boto3
 import boto.ses
 import base64
+from venstar_driver import Venstar_Driver 
 from urllib.request import urlopen
 
 from datetime import timedelta
@@ -25,6 +26,8 @@ from json import dumps
 
 AWS_ACCESS_KEY = config.aws_access_key
 AWS_SECRET_KEY = config.aws_secret_key
+
+obj = Venstar_Driver("config.yaml")
 
 app = Flask(__name__)
 app.config.update({
@@ -147,6 +150,7 @@ def setpoints():
     Render the setpoints page.
     """
     if g.user.id == '00uj9ow24kHWeZLwN356':
+        obj.controls(heattemp=53,cooltemp=82)
         return render_template("setpoints.html")
     else:
         return render_template('404.html'), 404
