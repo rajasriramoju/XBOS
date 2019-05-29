@@ -422,9 +422,8 @@ def updated_setpoints():
         # if valid, return the page with updated setpoints values
 """
 
-#ignore this function for now
+
 @app.route('/setpoints/set/<T1Min>/<T1Max>/<T2Min>/<T2Max>/<T3Min>/<T3Max>/<T4Min>/<T4Max>/<username>')
-#@app.route('/setpoints/updated')
 @crossdomain(origin="*")
 def setValuesInDB(T1Min, T1Max, T2Min, T2Max, T3Min, T3Max, T4Min, T4Max, username):
 
@@ -454,21 +453,112 @@ def setValuesInDB(T1Min, T1Max, T2Min, T2Max, T3Min, T3Max, T4Min, T4Max, userna
     return
 
 
-@app.route('/setpoints', methods = ['POST'])
-@crossdomain(origin="*")
-def renderFirstRow():
-    if request.method =='POST':
-        content = request.get_json(silent=False, force=True)
-        Thermostat1_HSP = request.form['temp1']
-        Thermostat1_CSP = request.form['temp2']
-        Thermostat2_HSP = request.form['temp3']
-        Thermostat2_CSP = request.form['temp4']
-        Refrigerator_SP = request.form['temp5']
-        Refrigerator_SP+dT = request.form['temp6']
-        Freezer_SP = request.form['temp7']
-        Freezer_SP+dT = request.form['temp8']
-        #update data
-        return "success"
+@app.route('/setpoints/getEntry1', methods = ['POST'])
+def renderFirstRow1():
+    content = request.get_json(silent=False, force=True)
+    Thermostat1_HSP = content['temp1']
+    print("Thermostat1_HSP: ", Thermostat1_HSP)
+
+    Thermostat1_CSP = content['temp2']
+    print("Thermostat1_CSP: ", Thermostat1_CSP)
+
+    Thermostat2_HSP = content['temp3']
+    print("Thermostat2_HSP: ", Thermostat2_HSP)
+
+    Thermostat2_CSP = content['temp4']
+    print("Thermostat2_CSP: ", Thermostat2_CSP)
+
+
+
+    client = InfluxDBClient('127.0.0.1', 8086, 'setpoints_db')
+    client.switch_database('setpoints_db')
+
+    json_body = [{
+        'tags': {
+            'User':'username'
+            },
+        'fields': {
+            'Thermostat1_HSP': Thermostat1_HSP,
+            'Thermostat1_CSP': Thermostat1_CSP,
+            'Thermostat2_HSP': Thermostat2_HSP,
+            'Thermostat2_CSP': Thermostat2_CSP
+            },
+        'measurement': 'temperature'
+        }]
+
+    client.write_points(json_body)
+
+    return "success"
+
+
+
+@app.route('/setpoints/getEntry2', methods = ['POST'])
+def renderFirstRow2():
+    content = request.get_json(silent=False, force=True)
+    Refrigerator_SP = content['temp5']
+    print("Refrigerator_SP: ", Refrigerator_SP)
+
+    Refrigerator_SP_Plus_dT = content['temp6']
+    print("Refrigerator_SP_Plus_dT: ", Refrigerator_SP_Plus_dT)
+
+    Freezer_SP = content['temp7']
+    print("Freezer_SP: ", Freezer_SP)
+
+    Freezer_SP_Plus_dT = content['temp8']
+    print("Freezer_SP_Plus_dT: ", Freezer_SP_Plus_dT)
+
+
+
+
+    client = InfluxDBClient('127.0.0.1', 8086, 'setpoints_db')
+    client.switch_database('setpoints_db')
+
+    json_body = [{
+        'tags': {
+            'User':'username'
+            },
+        'fields': {
+            'Refrigerator_SP': Refrigerator_SP,
+            'Refrigerator_SP+dT': Refrigerator_SP_Plus_dT,
+            'Freezer_SP': Freezer_SP,
+            'Freezer_SP+dT': Freezer_SP_Plus_dT
+            },
+        'measurement': 'temperature'
+        }]
+
+    client.write_points(json_body)
+
+    return "success"
+
+    #update data
+
+
+def insertValuesInDB():
+
+    client = InfluxDBClient('127.0.0.1', 8086, 'setpoints_db')
+    client.switch_database('setpoints_db')
+
+
+    json_body = [{
+        'tags': {
+            'User':'username'
+            },
+        'fields': {
+            'Thermostat1_HSP': Thermostat1_HSP,
+            'Thermostat1_CSP': Thermostat1_CSP,
+            'Thermostat2_HSP': Thermostat2_HSP,
+            'Thermostat2_CSP': Thermostat2_CSP,
+            'Refrigerator_SP': Refrigerator_SP,
+            'Refrigerator_SP+dT': Refrigerator_SP_Plus_dT,
+            'Freezer_SP': Freezer_SP,
+            'Freezer_SP+dT': Freezer_SP_Plus_dT
+            },
+        'measurement': 'temperature'
+        }]
+
+    client.write_points(json_body)
+
+    return
 
     '''
     dfClient = DataFrameClient(host='127.0.0.1', port=5000)

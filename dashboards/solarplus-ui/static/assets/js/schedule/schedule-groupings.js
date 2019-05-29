@@ -104,18 +104,14 @@ $(document).ready(function() {
 		// post request
 		$.ajax({
 			type: 'POST',
-			url: '/setpoints',
+			url: '/setpoints/getEntry1',
 			dataType: "json",
 			data: JSON.stringify({
 				//TODO: figure out what to do with the key (next step)
-				temp1: $('temp1').val(),
-				temp2: $('temp2').val(),
-				temp3: $('temp3').val(),
-				temp4: $('temp4').val(),
-				temp5: $('temp5').val(),
-				temp6: $('temp6').val(),
-				temp7: $('temp7').val(),
-				temp8: $('temp8').val()
+				'temp1': temp1,
+				'temp2': temp2,
+				'temp3': temp3,
+				'temp4': temp4
 			}),
 			success: function(data) {
 				console.log(data);
@@ -220,6 +216,27 @@ $(document).ready(function() {
 		sessionStorage.setItem('tempSix',temp6);
 		sessionStorage.setItem('tempSeven',temp7);
 		sessionStorage.setItem('tempEight',temp8);
+
+		// post request
+		$.ajax({
+			type: 'POST',
+			url: '/setpoints/getEntry2',
+			dataType: "json",
+			data: JSON.stringify({
+				//TODO: figure out what to do with the key (next step)
+				
+				'temp5': temp5,
+				'temp6': temp6,
+				'temp7': temp7,
+				'temp8': temp8
+			}),
+			success: function(data) {
+				console.log(data);
+			},
+			failure: function(err) {
+				console.log(err);
+			}
+		})
 
 	// requesting the new new url page & sending the json obj
 	/*
