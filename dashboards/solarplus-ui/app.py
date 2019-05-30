@@ -151,6 +151,22 @@ def setpoints():
     else:
         return render_template('404.html'), 404
 
+
+@app.route('/setpoints/thermostat', methods=['POST'])
+def thermostat():
+    response = request.get_json()
+    temp1 = response["temp1"]
+    temp2 = response["temp2"]
+    temp3 = response["temp3"]
+    temp4 = response["temp4"]
+
+    print(temp1)
+    print(temp2)
+    print(temp3)
+    print(temp4)
+
+    return jsonify({"message": "done"})
+
 @app.route("/weather")
 @oidc.require_login
 def weather():
@@ -217,7 +233,7 @@ def login():
     bu = oidc.client_secrets['issuer'].split('/oauth2')[0]
     cid = oidc.client_secrets['client_id']
 
-    destination = 'http://127.0.0.1:5000/dashboard'
+    destination = 'https://solarplus.herokuapp.com/dashboard'
     state = {
         'csrf_token': session['oidc_csrf_token'],
         'destination': oidc.extra_data_serializer.dumps(destination).decode('utf-8')
