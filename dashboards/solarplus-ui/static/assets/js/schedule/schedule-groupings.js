@@ -2,23 +2,22 @@ $(document).ready(function() {
 	M.AutoInit();
 	var zoneSel = 0;
 	var zoneArr = [];
-
+	console.log(temperature6)
 	/*const url = 'http://127.0.0.1:5000/setpoints/getEntry';
 	var Httpreq = new XMLHttpRequest(); // a new request
 	Httpreq.open(“POST”, yourUrl, false);
 	Httpreq.send(null);
 	var entry = JSON.parse(Httpreq.responseText);*/
 
+	document.getElementById('temp1').value = temperature1;
+	document.getElementById('temp2').value = temperature2;
+	document.getElementById('temp3').value = temperature3;
+	document.getElementById('temp4').value = temperature4;
 
-	document.getElementById('temp1').value = sessionStorage.getItem('tempOne');
-	document.getElementById('temp2').value = sessionStorage.getItem('tempTwo');
-	document.getElementById('temp3').value = sessionStorage.getItem('tempThree');
-	document.getElementById('temp4').value = sessionStorage.getItem('tempFour');
-
-	document.getElementById('temp5').value = sessionStorage.getItem('tempFive');
-	document.getElementById('temp6').value = sessionStorage.getItem('tempSix');
-	document.getElementById('temp7').value = sessionStorage.getItem('tempSeven');
-	document.getElementById('temp8').value = sessionStorage.getItem('tempEight');
+	document.getElementById('temp5').value = temperature5;
+	document.getElementById('temp6').value = temperature6;
+	document.getElementById('temp7').value = temperature7;
+	document.getElementById('temp8').value = temperature8;
 
 	$(".filled-in").each(function() {
 		$(this).click(function() {
@@ -107,7 +106,6 @@ $(document).ready(function() {
 			url: '/setpoints/getEntry1',
 			dataType: "json",
 			data: JSON.stringify({
-				//TODO: figure out what to do with the key (next step)
 				'temp1': temp1,
 				'temp2': temp2,
 				'temp3': temp3,
@@ -224,7 +222,7 @@ $(document).ready(function() {
 			dataType: "json",
 			data: JSON.stringify({
 				//TODO: figure out what to do with the key (next step)
-				
+
 				'temp5': temp5,
 				'temp6': temp6,
 				'temp7': temp7,

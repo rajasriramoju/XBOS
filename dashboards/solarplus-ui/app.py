@@ -142,7 +142,55 @@ def setpoints():
     """
     Render the setpoints page.
     """
-    return render_template("setpoints.html")
+    # create the client for influxdb
+    client = InfluxDBClient('127.0.0.1', 8086,'setpoints_db')
+    client.switch_database('setpoints_db')
+
+    queryTemp1 = client.query('SELECT "Thermostat1_HSP" from temperature ORDER BY DESC LIMIT 1')
+    points1 = queryTemp1.get_points()
+    for item in points1:
+            result1 = item['Thermostat1_HSP']
+
+    queryTemp2 = client.query('SELECT "Thermostat1_CSP" from temperature ORDER BY DESC LIMIT 1')
+    points2 = queryTemp2.get_points()
+    for item in points2:
+            result2 = item['Thermostat1_CSP']
+
+    queryTemp3 = client.query('SELECT "Thermostat2_HSP" from temperature ORDER BY DESC LIMIT 1')
+    points3 = queryTemp3.get_points()
+    for item in points3:
+            result3 = item['Thermostat2_HSP']
+
+    queryTemp4 = client.query('SELECT "Thermostat2_CSP" from temperature ORDER BY DESC LIMIT 1')
+    points4 = queryTemp4.get_points()
+    for item in points4:
+            result4 = item['Thermostat2_CSP']
+
+    queryTemp5 = client.query('SELECT "Refrigerator_SP" from temperature ORDER BY DESC LIMIT 1')
+    points5 = queryTemp5.get_points()
+    for item in points5:
+            result5 = item['Refrigerator_SP']
+
+    queryTemp6 = client.query('SELECT "Refrigerator_SP+dT" from temperature ORDER BY DESC LIMIT 1')
+    points6 = queryTemp6.get_points()
+    for item in points6:
+            result6 = item['Refrigerator_SP+dT']
+            print(result6)
+
+    queryTemp7 = client.query('SELECT "Freezer_SP" from temperature ORDER BY DESC LIMIT 1')
+    points7 = queryTemp7.get_points()
+    for item in points7:
+            result7 = item['Freezer_SP']
+
+    queryTemp8 = client.query('SELECT "Freezer_SP+dT" from temperature ORDER BY DESC LIMIT 1')
+    points8 = queryTemp8.get_points()
+    for item in points8:
+            result8 = item['Freezer_SP+dT']
+
+    return render_template("setpoints.html",temperature1=result1,temperature2=result2,
+                            temperature3=result3,temperature4=result4,temperature5=result5,
+                            temperature6=result6,temperature7=result7,temperature8=result8)
+
 
 @app.route("/weather")
 @oidc.require_login
@@ -457,19 +505,19 @@ def setValuesInDB(T1Min, T1Max, T2Min, T2Max, T3Min, T3Max, T4Min, T4Max, userna
 def renderFirstRow1():
     content = request.get_json(silent=False, force=True)
     Thermostat1_HSP = content['temp1']
-    print("Thermostat1_HSP: ", Thermostat1_HSP)
+    #print("Thermostat1_HSP: ", Thermostat1_HSP)
 
     Thermostat1_CSP = content['temp2']
-    print("Thermostat1_CSP: ", Thermostat1_CSP)
+    #print("Thermostat1_CSP: ", Thermostat1_CSP)
 
     Thermostat2_HSP = content['temp3']
-    print("Thermostat2_HSP: ", Thermostat2_HSP)
+    #print("Thermostat2_HSP: ", Thermostat2_HSP)
 
     Thermostat2_CSP = content['temp4']
-    print("Thermostat2_CSP: ", Thermostat2_CSP)
+    #print("Thermostat2_CSP: ", Thermostat2_CSP)
 
 
-
+    # inserting data into the database
     client = InfluxDBClient('127.0.0.1', 8086, 'setpoints_db')
     client.switch_database('setpoints_db')
 
@@ -489,23 +537,37 @@ def renderFirstRow1():
     client.write_points(json_body)
 
     return "success"
+'''
+@app.route('/setpoints/getEntry1')
+def updateSetpoints1():
 
+    dfClient = DataFrameClient(host='127.0.0.1', port=5000)
+
+    queriedData = dfClient.query('SELECT "Thermostat1_HSP","Thermostat1_CSP",
+                                         "Thermostat2_HSP","Thermostat2_CSP"
+                                         from temperature ORDER BY DESC LIMIT 1')
+
+    data ={'Thermostat1_HSP': Thermostat1_HSP, 'Thermostat1_CSP': Thermostat1_CSP,
+            'Thermostat2_HSP': Thermostat2_HSP, 'Thermostat2_CSP': Thermostat2_CSP}
+
+    return render_template('setpoints.html', data = data)
+'''
 
 
 @app.route('/setpoints/getEntry2', methods = ['POST'])
 def renderFirstRow2():
     content = request.get_json(silent=False, force=True)
     Refrigerator_SP = content['temp5']
-    print("Refrigerator_SP: ", Refrigerator_SP)
+    #print("Refrigerator_SP: ", Refrigerator_SP)
 
     Refrigerator_SP_Plus_dT = content['temp6']
-    print("Refrigerator_SP_Plus_dT: ", Refrigerator_SP_Plus_dT)
+    #print("Refrigerator_SP_Plus_dT: ", Refrigerator_SP_Plus_dT)
 
     Freezer_SP = content['temp7']
-    print("Freezer_SP: ", Freezer_SP)
+    #print("Freezer_SP: ", Freezer_SP)
 
     Freezer_SP_Plus_dT = content['temp8']
-    print("Freezer_SP_Plus_dT: ", Freezer_SP_Plus_dT)
+    #print("Freezer_SP_Plus_dT: ", Freezer_SP_Plus_dT)
 
 
 
@@ -529,9 +591,20 @@ def renderFirstRow2():
     client.write_points(json_body)
 
     return "success"
+'''
+@app.route('/setpoints')
+def updateSetpoints2():
 
-    #update data
+    dfClient = DataFrameClient(host='127.0.0.1', port=5000)
 
+    queriedData = dfClient.query('SELECT "Refrigerator_SP","Refrigerator_SP+dT",
+                                         "Freezer_SP","Freezer_SP+dT"
+                                         from temperature ORDER BY DESC LIMIT 1')
+
+    data ={'Refrigerator_SP': Refrigerator_SP, 'Refrigerator_SP+dT': Refrigerator_SP_Plus_dT,
+            'Freezer_SP': Freezer_SP, 'Freezer_SP+dT': Freezer_SP_Plus_dT}
+
+    return render_template('setpoints.html', data = data)
 
 def insertValuesInDB():
 
@@ -559,21 +632,8 @@ def insertValuesInDB():
     client.write_points(json_body)
 
     return
-
-    '''
-    dfClient = DataFrameClient(host='127.0.0.1', port=5000)
-
-    # query the first row of the temperature table
-    firstEntry = dfClient.query('SELECT "Thermostat1_HSP","Thermostat1_CSP","Thermostat2_HSP","Thermostat2_CSP","Refrigerator_SP","Refrigerator_SP+dT","Freezer_SP","Freezer_SP+dT"from temperature ORDER BY DESC LIMIT 1')
-
-    #print(firstEntry)
-
-    return firstEntry
-
-# pass in as json (to-json)
 '''
 
-'''
 # This function takes in a file name, start and end date and returns json response
 @app.route('/<filename>/<startDate>/<endDate>')
 @crossdomain(origin="*")
@@ -606,7 +666,7 @@ def extractData_anyFile(filename, startDate, endDate):
     dataInRange = readDF[startDateIndex:(endDateIndex+1)]
 
     return dataInRange.to_json(orient = 'records')
-'''
+
 
 if __name__ == '__main__':
     app.run(host='0.0.0.0', debug=True)
