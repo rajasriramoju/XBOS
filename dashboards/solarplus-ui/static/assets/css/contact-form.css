@@ -19,9 +19,7 @@
   }
   .form-animated {
     text-align: center; 
-    -webkit-animation: bounce 1.5s infinite;
-    -moz-animation: bounce 1.5s infinite;
-    animation: bounce 1.5s infinite;
+
   }
   .shadow-animated {
     box-shadow: 0px 0px 20px 5px #AAA;
