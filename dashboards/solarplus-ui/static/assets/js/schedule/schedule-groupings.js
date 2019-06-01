@@ -2,16 +2,22 @@ $(document).ready(function () {
 	M.AutoInit();
 	var zoneSel = 0;
 	var zoneArr = [];
+	console.log(temperature6)
+	/*const url = 'http://127.0.0.1:5000/setpoints/getEntry';
+	var Httpreq = new XMLHttpRequest(); // a new request
+	Httpreq.open(“POST”, yourUrl, false);
+	Httpreq.send(null);
+	var entry = JSON.parse(Httpreq.responseText);*/
 
-	document.getElementById('temp1').value = sessionStorage.getItem('tempOne');
-	document.getElementById('temp2').value = sessionStorage.getItem('tempTwo');
-	document.getElementById('temp3').value = sessionStorage.getItem('tempThree');
-	document.getElementById('temp4').value = sessionStorage.getItem('tempFour');
+	document.getElementById('temp1').value = temperature1;
+	document.getElementById('temp2').value = temperature2;
+	document.getElementById('temp3').value = temperature3;
+	document.getElementById('temp4').value = temperature4;
 
-	document.getElementById('temp5').value = sessionStorage.getItem('tempFive');
-	document.getElementById('temp6').value = sessionStorage.getItem('tempSix');
-	document.getElementById('temp7').value = sessionStorage.getItem('tempSeven');
-	document.getElementById('temp8').value = sessionStorage.getItem('tempEight');
+	document.getElementById('temp5').value = temperature5;
+	document.getElementById('temp6').value = temperature6;
+	document.getElementById('temp7').value = temperature7;
+	document.getElementById('temp8').value = temperature8;
 
 	$(".filled-in").each(function () {
 		$(this).click(function () {
@@ -73,7 +79,7 @@ $(document).ready(function () {
 	// 	console.log(obj);
 	// });
 
-	$("#save-therm").click(function () {
+	$("#save-therm").click(function() {
 		//var obj = new Object();
 		modes = [];
 		$(".thermostat-card").each(function (i) {
@@ -96,10 +102,6 @@ $(document).ready(function () {
 		var temp3 = document.getElementById('temp3').value;
 		var temp4 = document.getElementById('temp4').value;
 
-		sessionStorage.setItem('tempOne', temp1);
-		sessionStorage.setItem('tempTwo', temp2);
-		sessionStorage.setItem('tempThree', temp3);
-		sessionStorage.setItem('tempFour', temp4);
 
 
 		$.ajax({
@@ -117,6 +119,25 @@ $(document).ready(function () {
 		}).done(function (data) {
 			console.log(data);
 		});
+
+		// post request
+		$.ajax({
+			type: 'POST',
+			url: '/setpoints/getEntry1',
+			dataType: "json",
+			data: JSON.stringify({
+				'temp1': temp1,
+				'temp2': temp2,
+				'temp3': temp3,
+				'temp4': temp4
+			}),
+			success: function(data) {
+				console.log(data);
+			},
+			failure: function(err) {
+				console.log(err);
+			}
+		})
 
 
 		// console.log("name" + modes[0].name);
@@ -140,6 +161,33 @@ $(document).ready(function () {
 			displayLength: 2000
 		});
 
+		// asynchronous http get request
+		/*function httpGetAsync(theUrl, callback)
+		{
+    	var xmlHttp = new XMLHttpRequest();
+    	xmlHttp.onreadystatechange = function() {
+        if (xmlHttp.readyState == 4 && xmlHttp.status == 200)
+            callback(xmlHttp.responseText);
+			}
+    	xmlHttp.open("POST", theUrl, true); // true for asynchronous
+    	xmlHttp.send();
+		}*/
+
+
+		/*
+		using jquery post request:
+		(brower) frontend -> (flask) backend
+		1. turn values into json object (ex: {therm1: temp1}) -> javascript
+		2. send the request to the backend using $.post() following the rest of the API -> javascript
+		3. write the code for the route backend in flask (python) / method is post only -> python
+
+		(flask) backend -> database
+		1. convert the json object to python dictionary
+		2. save the python dictionary into the database (influxdb)
+
+		flask -> browser
+		1. reply to the request object
+		*/
 
 		var result, ctr, keys, columnDelimiter, lineDelimiter, data, csv, eCSV;
 		data = modes;
@@ -200,10 +248,27 @@ $(document).ready(function () {
 		var temp7 = document.getElementById('temp7').value;
 		var temp8 = document.getElementById('temp8').value;
 
-		sessionStorage.setItem('tempFive', temp5);
-		sessionStorage.setItem('tempSix', temp6);
-		sessionStorage.setItem('tempSeven', temp7);
-		sessionStorage.setItem('tempEight', temp8);
+
+		// post request
+		$.ajax({
+			type: 'POST',
+			url: '/setpoints/getEntry2',
+			dataType: "json",
+			data: JSON.stringify({
+				//TODO: figure out what to do with the key (next step)
+
+				'temp5': temp5,
+				'temp6': temp6,
+				'temp7': temp7,
+				'temp8': temp8
+			}),
+			success: function(data) {
+				console.log(data);
+			},
+			failure: function(err) {
+				console.log(err);
+			}
+		})
 
 
 		// console.log("name" + modes[0].name);
@@ -227,6 +292,13 @@ $(document).ready(function () {
 			displayLength: 2000
 		});
 
+
+
+	// requesting the new new url page & sending the json obj
+	/*
+	$.post("/setpoints/updated", { therm1: temp1, therm2: temp2, therm3: temp3,
+																therm4: temp4, therm5: temp5, therm6: temp6,
+															 	therm7: temp7, therm8: temp8 });*/
 
 
 		var result, ctr, keys, columnDelimiter, lineDelimiter, data, csv, eCSV;
