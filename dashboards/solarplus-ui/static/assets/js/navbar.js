@@ -1,5 +1,8 @@
 $(document).ready(function () {
     $('.sidenav').sidenav();
+    $(".dropdown-trigger").dropdown();
+    $(".dropdown-trigger2").dropdown();
+    $('.collapsible').collapsible();
     var intelligenceText = sessionStorage.getItem('text');
     var intelligenceColor = sessionStorage.getItem('color');
     console.log(intelligenceColor);

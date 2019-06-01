@@ -19,6 +19,14 @@ import datetime
 from flask_oidc import OpenIDConnect
 from okta import UsersClient
 
+from sklearn.linear_model import LinearRegression
+from sklearn import model_selection
+import pickle
+import numpy as np
+from json import dumps
+
+
+
 AWS_ACCESS_KEY = config.aws_access_key
 AWS_SECRET_KEY = config.aws_secret_key
 
@@ -119,14 +127,14 @@ def landing():
     """
     return render_template('landing.html')
 
-@app.route("/index")
-@oidc.require_login
-def index():
+# @app.route("/index")
+# @oidc.require_login
+# def index():
 
-    """
-    Render the homepage.
-    """
-    return render_template('index.html')
+#     """
+#     Render the homepage.
+#     """
+#     return render_template('index.html')
 
 @app.route("/dashboard")
 @oidc.require_login
@@ -187,10 +195,15 @@ def setpoints():
     for item in points8:
             result8 = item['Freezer_SP+dT']
 
-    return render_template("setpoints.html",temperature1=result1,temperature2=result2,
+    '''return render_template("setpoints.html",temperature1=result1,temperature2=result2,
                             temperature3=result3,temperature4=result4,temperature5=result5,
-                            temperature6=result6,temperature7=result7,temperature8=result8)
-
+                            temperature6=result6,temperature7=result7,temperature8=result8)'''
+    if g.user.id == '00uj9ow24kHWeZLwN356':
+        return render_template("setpoints.html",temperature1=result1,temperature2=result2,
+                                temperature3=result3,temperature4=result4,temperature5=result5,
+                                temperature6=result6,temperature7=result7,temperature8=result8)
+    else:
+        return render_template('404.html'), 404
 
 @app.route("/weather")
 @oidc.require_login
@@ -206,15 +219,19 @@ def analysis():
     """
     Render the weather page.
     """
-    return render_template("analysis.html")
+    if g.user.id == '00uj9ow24kHWeZLwN356':
+        return render_template("analysis.html")
+    else:
+        return render_template('404.html'), 404
 
-@app.route("/DR")
-@oidc.require_login
-def dr():
-    """
-    Render the DR page.
-    """
-    return render_template("DR.html")
+
+# @app.route("/DR")
+# @oidc.require_login
+# def dr():
+#     """
+#     Render the DR page.
+#     """
+#     return render_template("DR.html")
 
 @app.route("/intelligence")
 @oidc.require_login
@@ -222,7 +239,11 @@ def intelligence():
     """
     Render the intelligence page.
     """
-    return render_template("intelligence.html")
+    if g.user.id == '00uj9ow24kHWeZLwN356':
+        return render_template("intelligence.html")
+    else:
+        return render_template('404.html'), 404
+
 
 @app.route("/contact")
 @oidc.require_login
@@ -230,7 +251,15 @@ def contact():
     """
     Render the intelligence page.
     """
-    return render_template("contact.html")
+    return render_template("contact.html", email=g.user.profile.email)
+
+@app.route("/profile")
+@oidc.require_login
+def profile():
+    """
+    Render the intelligence page.
+    """
+    return render_template("profile.html", user=g.user.id)
 
 @app.errorhandler(404)
 def page_not_found(e):
@@ -279,14 +308,20 @@ def logout():
 @app.route('/aws', methods=['POST'])
 def aws():
     # Send your sms message.
+    response = request.get_json()
+    print(response)
+    print(response["name"])
+    print(response["email"])
+    print(response["number"])
+    print(response["message"])
     client.publish(
-    PhoneNumber="",
-    Message="Your Issue Ticket has been received! Thank you! :)"
+    PhoneNumber="+1" + str(response["number"]),
+    Message="Hi, " + str(response["name"]) + ": Your Solarplus Issue Ticket has been received!  Thank you! :)"
     )
 
     email = Email(to='webwizards193@gmail.com', subject='New Issue Ticket Posted!')
     email.text('This is a text body. Foo bar.')
-    email.html('<html><body>This is an email highlighting the bugs/issues found in our application. <strong>Will be fixed immediately.</strong></body></html>')  # Optional
+    email.html('<html><body>''Dear Admin <br>' + str(response["name"]) + ' says:<br>' + '<strong>' + str(response["message"]) +'</strong> </body></html>')  # Optional
     email.send()
 
     return jsonify({"message": "done"})
@@ -458,47 +493,7 @@ def extractData_plotTwoQueries(filename, startDate, endDate, feature1, feature2)
     dataInRange = dataInRange.loc[:,['Time', feature1, feature2]]
 
     return dataInRange.to_json(orient = 'records')
-"""
-# 5/26/2019 [Eric]
-@app.route("/setpoints/updated", methods=['POST'])
-#@oidc.require_login
-def updated_setpoints():
-    render the updated setpoints page
-    error = None
-    if request.method=='POST':
-        # check if request form is valid
-        # if valid, return the page with updated setpoints values
-"""
 
-
-@app.route('/setpoints/set/<T1Min>/<T1Max>/<T2Min>/<T2Max>/<T3Min>/<T3Max>/<T4Min>/<T4Max>/<username>')
-@crossdomain(origin="*")
-def setValuesInDB(T1Min, T1Max, T2Min, T2Max, T3Min, T3Max, T4Min, T4Max, username):
-
-    client = InfluxDBClient('127.0.0.1', 8086, 'setpoints_db')
-    client.switch_database('setpoints_db')
-
-
-    json_body = [{
-        'tags': {
-            'User':'username'
-            },
-        'fields': {
-            'Thermostat1_HSP': therm1,
-            'Thermostat1_CSP': therm2,
-            'Thermostat2_HSP': therm3,
-            'Thermostat2_CSP': therm4,
-            'Refrigerator_SP': therm5,
-            'Refrigerator_SP+dT': therm6,
-            'Freezer_SP': therm7,
-            'Freezer_SP+dT': therm8
-            },
-        'measurement': 'temperature'
-        }]
-
-    client.write_points(json_body)
-
-    return
 
 
 @app.route('/setpoints/getEntry1', methods = ['POST'])
@@ -537,21 +532,6 @@ def renderFirstRow1():
     client.write_points(json_body)
 
     return "success"
-'''
-@app.route('/setpoints/getEntry1')
-def updateSetpoints1():
-
-    dfClient = DataFrameClient(host='127.0.0.1', port=5000)
-
-    queriedData = dfClient.query('SELECT "Thermostat1_HSP","Thermostat1_CSP",
-                                         "Thermostat2_HSP","Thermostat2_CSP"
-                                         from temperature ORDER BY DESC LIMIT 1')
-
-    data ={'Thermostat1_HSP': Thermostat1_HSP, 'Thermostat1_CSP': Thermostat1_CSP,
-            'Thermostat2_HSP': Thermostat2_HSP, 'Thermostat2_CSP': Thermostat2_CSP}
-
-    return render_template('setpoints.html', data = data)
-'''
 
 
 @app.route('/setpoints/getEntry2', methods = ['POST'])
@@ -568,9 +548,6 @@ def renderFirstRow2():
 
     Freezer_SP_Plus_dT = content['temp8']
     #print("Freezer_SP_Plus_dT: ", Freezer_SP_Plus_dT)
-
-
-
 
     client = InfluxDBClient('127.0.0.1', 8086, 'setpoints_db')
     client.switch_database('setpoints_db')
@@ -591,81 +568,67 @@ def renderFirstRow2():
     client.write_points(json_body)
 
     return "success"
-'''
-@app.route('/setpoints')
-def updateSetpoints2():
-
-    dfClient = DataFrameClient(host='127.0.0.1', port=5000)
-
-    queriedData = dfClient.query('SELECT "Refrigerator_SP","Refrigerator_SP+dT",
-                                         "Freezer_SP","Freezer_SP+dT"
-                                         from temperature ORDER BY DESC LIMIT 1')
-
-    data ={'Refrigerator_SP': Refrigerator_SP, 'Refrigerator_SP+dT': Refrigerator_SP_Plus_dT,
-            'Freezer_SP': Freezer_SP, 'Freezer_SP+dT': Freezer_SP_Plus_dT}
-
-    return render_template('setpoints.html', data = data)
-
-def insertValuesInDB():
-
-    client = InfluxDBClient('127.0.0.1', 8086, 'setpoints_db')
-    client.switch_database('setpoints_db')
 
 
-    json_body = [{
-        'tags': {
-            'User':'username'
-            },
-        'fields': {
-            'Thermostat1_HSP': Thermostat1_HSP,
-            'Thermostat1_CSP': Thermostat1_CSP,
-            'Thermostat2_HSP': Thermostat2_HSP,
-            'Thermostat2_CSP': Thermostat2_CSP,
-            'Refrigerator_SP': Refrigerator_SP,
-            'Refrigerator_SP+dT': Refrigerator_SP_Plus_dT,
-            'Freezer_SP': Freezer_SP,
-            'Freezer_SP+dT': Freezer_SP_Plus_dT
-            },
-        'measurement': 'temperature'
-        }]
-
-    client.write_points(json_body)
-
-    return
-'''
-
-# This function takes in a file name, start and end date and returns json response
-@app.route('/<filename>/<startDate>/<endDate>')
+@app.route('/analysis/MLModel/<day1>/<day2>/<day3>/<day4>/<day5>/<day6>/<day7>')
 @crossdomain(origin="*")
-def extractData_anyFile(filename, startDate, endDate):
+def MLPredictionModel(day1, day2, day3, day4, day5, day6, day7):
+    print(day1, day2, day3, day4, day5, day6, day7)
+    filename = 'trained_model.sav'
+    loaded_model = pickle.load(open(filename, 'rb'))
 
-    filePathString = "./solarplus_sample_data/" + filename + ".csv"
-    print(filePathString)
+    X_pred = [[float(day1)],[float(day2)],[float(day3)],[float(day4)],[float(day5)],[float(day6)],[float(day7)]]
+    Y_pred =  loaded_model.predict(X_pred)
+
+    print(X_pred)
+    print(Y_pred)
+
+    X_pred=[float(day1), float(day2), float(day3), float(day4), float(day5), float(day6), float(day7)]
+    dataset = pd.DataFrame({'X_pred': X_pred, 'Column1':Y_pred})
+    #dataset = pd.DataFrame.from_records(Y_pred)
+
+    #print(Y_pred[0])
+    print(dataset)
+    #Y_pred0 = {'temperature': Y_pred[0]}
+
+    #return make_response(dumps(Y_pred))
+
+    return dataset.to_json(orient = 'records')
+
+# This function extracts data for any feature's data from Control.csv data
+# of the solarplus sample data -> will be used for total power consumption
+# values for dashboard
+@app.route('/dashboard/access/<feature1>')
+@crossdomain(origin="*")
+def extractData_oneFeature_Control2(feature1):
+    filePathString = "./solarplus_sample_data/Control2.csv"
     readDF = pd.read_csv(filePathString)
 
+    df = readDF.loc[:,['Time',feature1]]
+    return df.to_json(orient = 'records')
 
-    # check for validity of range of dates
-    startYear,startMonth,startDay=[int(x) for x in startDate.split('-')]
-    endYear,endMonth,endDay=[int(x) for x in endDate.split('-')]
+# This function extracts data for any 2 features' data from Control.csv data
+# of the solarplus sample data -> will be used for HVAC1 and HVAC2
+# values for dashboard
+@app.route('/dashboard/access/<feature1>/<feature2>')
+@crossdomain(origin="*")
+def extractData_twoFeatures_Control2(feature1, feature2):
+    filePathString = "./solarplus_sample_data/Control2.csv"
+    readDF = pd.read_csv(filePathString)
 
-    if(datetime.datetime(startYear,startMonth,startDay) > datetime.datetime(endYear,endMonth,endDay)):
-        print ('Wrong range of dates given. Start Date = ' ,startDate, "; End Date = ", endDate)
-        return 'Incorrect Range of dates'
+    df = readDF.loc[:,['Time',feature1,feature2]]
+    return df.to_json(orient = 'records')
 
+# This function extracts data for solar production values from
+@app.route('/dashboard/PVPowerGenData')
+@crossdomain(origin="*")
+def extractData_PVPowerGenData():
+    filePathString = "./Historic_microgrid_data/PVPowerGenData.csv"
+    readDF = pd.read_csv(filePathString)
 
-    # This gets all the entries of the specific start date and end date
-    startDateEntries = readDF[readDF['Time'].str.contains(startDate)]
-    endDateEntries = readDF[readDF['Time'].str.contains(endDate)]
+    df = readDF.loc[:,['Date_PT','PVPower_kW']]
+    return df.to_json(orient = 'records')
 
-    # finding the first index of start date entries and last index of the end date entries
-    # so that we can get the range of indices for the data in the specified timeframe
-    startDateIndex = startDateEntries.index[0]
-    endDateIndex = endDateEntries.index[-1]
-
-    #fetching data in the specific timeframe
-    dataInRange = readDF[startDateIndex:(endDateIndex+1)]
-
-    return dataInRange.to_json(orient = 'records')
 
 
 if __name__ == '__main__':

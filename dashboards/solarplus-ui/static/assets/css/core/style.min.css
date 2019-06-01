@@ -2243,6 +2243,8 @@ body,
 html {
     margin: 0;
     padding: 0;
+    height:100vh;
+    overflow:none;
     -webkit-tap-highlight-color: rgba(0, 0, 0, 0)
 }
 
@@ -2261,7 +2263,11 @@ body {
     line-height: 1.77;
     -webkit-font-smoothing: antialiased;
     -moz-osx-font-smoothing: grayscale;
-    min-height: 100vh
+    min-height: 100vh;
+    margin: 0;
+    padding: 0;
+    height:100%;
+    overflow-y:none;
 }
 
 @media screen and (max-width: 768px) {
@@ -2561,7 +2567,8 @@ pre code {
     display: -webkit-box;
     display: -webkit-flex;
     display: -ms-flexbox;
-    display: flex
+    display: flex;
+    
 }
 
 .row>[class*='col-'] {
@@ -2683,6 +2690,124 @@ img,
 }
 
 @media only screen and (max-width: 768px) {
+    #weather-box {
+        position: relative;
+        width: 100%;
+        height: 100vh;
+        background: #2196f3;
+    }
+    
+    #weather-box .left {
+        height: 100vh;
+        text-shadow: 0 1px 0 rgba(0, 0, 0, 0.5);
+        color: white;
+        -webkit-box-shadow: inset 0 14px 24px rgba(62, 57, 107, 0.1);
+        -moz-box-shadow: inset 0 14px 24px rgba(62, 57, 107, 0.1);
+        box-shadow: inset 0 14px 24px rgba(62, 57, 107, 0.1)
+    }
+    
+    #weather-box .left .location {
+        display: flex;
+        flex-direction: column;
+        justify-content: center;
+        height: 30%;
+        font-size: 25px;
+        padding: 30px;
+        text-align: center
+    }
+    
+    #weather-box .left .location #location,
+    #weather-box .left .location #time,
+    #weather-box .left .location #summary {
+        width: 100%
+    }
+    
+    #weather-box .left .location #location {
+        font-size: 30px
+    }
+    
+    #weather-box .left .temperature {
+        height: 40%;
+        font-size: 20px;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        padding: 15px 30px;
+        text-align: center;
+        color: white
+    }
+    
+    #weather-box .left .temperature #temperature-holder {
+        margin-left: 1em;
+        display: inline-block
+    }
+    
+    #weather-box .left .temperature #temperature-holder #temperature {
+        display: inline-block;
+        font-size: 202.5px;
+        line-height: 1
+    }
+    
+    #weather-box .left .temperature #temperature-holder #temperature-format {
+        padding-top: 15px;
+        vertical-align: top;
+        font-size: 22px;
+        display: inline-block
+    }
+    
+    #weather-box .left .temperature #temperature-holder #changeFormat {
+        text-decoration: none;
+        color: white;
+        font-size: 45px
+    }
+    
+    #weather-box .left #additional {
+        height: 30%;
+        display: flex;
+        flex-direction: column;
+        justify-content: center
+    }
+    
+    #weather-box .left #additional div {
+        text-align: center
+    }
+    
+    #weather-box .bottom {
+        display: block;
+        height: 100vh;
+        padding: 0;
+        background: #F8FAFD
+    }
+    
+    #weather-box .bottom .wrapper2 {
+        display: flex;
+        align-items: flex-end;
+        position: absolute;
+        bottom: 0;
+        width: 100%;
+        height: 100%
+    }
+    
+
+
+    
+    .doppler {
+
+        display: none;
+
+    
+    }
+    
+    img.doppler {
+
+        display: none;
+
+    }
+    
+    .doppler-gif {
+        display: none;
+ 
+    }
     .list.icon {
         padding-top: 60px;
         padding-bottom: 60px
@@ -4224,14 +4349,7 @@ img.doppler {
     justify-content: center
 }
 
-.fit{
-    position: relative;
-    width: 100%;
-    min-height: 1px;
-    padding-right: 15px;
-    padding-left: 15px;
-    padding-bottom: 80px;
-}
+
 
 #weather-box .left #additional div {
     text-align: center
@@ -4306,15 +4424,19 @@ img.doppler {
     .row {
         margin: 0
     }
+    .doppler {
+        display: none;
     
-.fit{
-    position: relative;
-    width: 100%;
-    min-height: 1px;
-    padding-right: 15px;
-    padding-left: 15px;
-    padding-bottom: 80px;
-}
+    }
+    
+    img.doppler {
+        display: none;
+    }
+    
+    .doppler-gif {
+        display: none;
+    }
+
 
     #weather-box {
         height: auto;
