@@ -34,43 +34,71 @@
             <li class="divider"></li>
             <li><a id="logout-button" href="/logout">Logout</a></li>
           </ul>
-        <nav>
-          <div class="nav-wrapper dashe-blue">
-            <a href="/dashboard" class="brand-logo">SolarPlus</a>
-            <a href="#" data-target="mobile-demo" class="sidenav-trigger"><i class="material-icons">menu</i></a>
-            <ul class="right hide-on-med-and-down">
-              <li>
-                <div id="intelligent-control"></div>
-              </li>
-              <li>
-                <span id="intelligence-control-on-off"> Intelligent Control off</span>
-              </li>
-              <li><a href="/dashboard">Dashboard</a></li>
-              <li><a href="/setpoints">Setpoints</a></li>
-              <li><a href="/weather">Weather</a></li>
-              <li><a href="/analysis">Analysis</a></li>
-              <li><a href="/intelligence">Intelligence</a></li>
-              <li><a href="/contact">Contact</a></li>
-              <li><a class="dropdown-trigger" href="#!" data-target="dropdown1"><span>
-                  Hi, {{name}}
-                </span>
-                <i class="material-icons right">arrow_drop_down</i></a></li>
-            </ul>
-            <ul class="sidenav" id="mobile-demo">
-    
-              <li><a href="/dashboard">Dashboard</a></li>
-              <li><a href="/setpoints">Setpoints</a></li>
-              <li><a href="/weather">Weather</a></li>
-              <li><a href="/analysis">Analysis</a></li>
-              <li><a href="/intelligence">Intelligence</a></li>
-              <li><a href="/contact">Contact</a></li>
-              <li><a class="dropdown-trigger2" href="#!" data-target="dropdown2"><span>
-                  Hi, {{ name }}
-                </span>
-                <i class="material-icons right">arrow_drop_down</i></a></li>
-            </ul>
-          </div>
-        </nav>
+          {% if id in admin %}
+          <nav>
+            <div class="nav-wrapper dashe-blue">
+              <a href="/dashboard" class="brand-logo">SolarPlus</a>
+              <a href="#" data-target="mobile-demo" class="sidenav-trigger"><i class="material-icons">menu</i></a>
+              <ul class="right hide-on-med-and-down">
+      
+                <li>
+                  <div id="intelligent-control"></div>
+                </li>
+                <li>
+                  <span id="intelligence-control-on-off"> Intelligent Control off</span>
+                </li>
+                <li><a href="/dashboard">Dashboard</a></li>
+                <li><a href="/setpoints">Setpoints</a></li>
+                <li><a href="/weather">Weather</a></li>
+                <li><a href="/analysis">Analysis</a></li>
+                <li><a href="/intelligence">Intelligence</a></li>
+                <li><a href="/contact">Contact</a></li>
+                <li><a class="dropdown-trigger" href="#!" data-target="dropdown1"><span>
+                      Hi, {{name}}
+                    </span>
+                    <i class="material-icons right">arrow_drop_down</i></a></li>
+              </ul>
+              <ul class="sidenav" id="mobile-demo">
+      
+                <li><a href="/dashboard">Dashboard</a></li>
+                <li><a href="/setpoints">Setpoints</a></li>
+                <li><a href="/weather">Weather</a></li>
+                <li><a href="/analysis">Analysis</a></li>
+                <li><a href="/intelligence">Intelligence</a></li>
+                <li><a href="/contact">Contact</a></li>
+                <li><a class="dropdown-trigger2" href="#!" data-target="dropdown2"><span>
+                      Hi, {{name}}
+                    </span>
+                    <i class="material-icons right">arrow_drop_down</i></a></li>
+              </ul>
+            </div>
+          </nav>
+          {% else %}
+          <nav>
+            <div class="nav-wrapper dashe-blue">
+              <a href="/dashboard" class="brand-logo">SolarPlus</a>
+              <a href="#" data-target="mobile-demo" class="sidenav-trigger"><i class="material-icons">menu</i></a>
+              <ul class="right hide-on-med-and-down">
+                <li><a href="/dashboard">Dashboard</a></li>	
+                <li><a href="/weather">Weather</a></li>
+                <li><a href="/contact">Contact</a></li>
+                <li><a class="dropdown-trigger" href="#!" data-target="dropdown1"><span>
+                      Hi, {{name}}
+                    </span>
+                    <i class="material-icons right">arrow_drop_down</i></a></li>
+              </ul>
+              <ul class="sidenav" id="mobile-demo">
+                <li><a href="/dashboard">Dashboard</a></li>
+                <li><a href="/weather">Weather</a></li>
+                <li><a href="/contact">Contact</a></li>
+                <li><a class="dropdown-trigger2" href="#!" data-target="dropdown2"><span>
+                      Hi, {{name}}
+                    </span>
+                    <i class="material-icons right">arrow_drop_down</i></a></li>
+              </ul>
+            </div>
+          </nav>
+          {% endif %}
   </div>
 
 
@@ -80,14 +108,20 @@
       Need Help?
     </div>
     <form class="form-animated">
-      <input type="text" class="field-in white-text" id="contact-font" placeholder="Your Name" />
+      <input id="name" type="text" class="field-in white-text" id="contact-font"
+        value="{{name}}" />
+        <label style="color: white;" for="name">Name</label>
 
-      <input type="text" class="fieldemail-contact field-in white-text" id="contact-font"
-        placeholder="webdevwizards193@gmail.com" />
+      <input id="email" type="text" class="fieldemail-contact field-in white-text" id="contact-font"
+        value="{{email}}"/>
+        <label style="color: white;" for="email">Email</label>
 
-      <input type="text" class="fieldphone-contact field-in white-text" id="contact-font" placeholder="Phone" />
+      <input id="number" type="text" class="fieldphone-contact field-in white-text" id="contact-font"
+        placeholder="Phone: 1234567890" />
+        <label style="color: white;" for="number">Phone Number</label>
 
-      <textarea class="message-contact field-in white-text" id="contact-font" placeholder="Message"></textarea>
+      <textarea id="message" class="message-contact field-in white-text" id="contact-font"
+        placeholder="Message"></textarea>
 
       <button class="submit-contact" id="submit-text-message">Submit</button>
     </form>
@@ -96,15 +130,51 @@
 </body>
 
 <script>
-  $('#submit-text-message').click(function () {
-    $.ajax({
-      type: 'POST',
-      url: "aws",
-      dataType: "text",
-      success: function (response) {
-        console.log(response);
-        alert(response);
-      }
+function check(number) {
+    var reg = /^[0-9]{1,10}$/;
+    var checking = reg.test(number);
+
+    if(number.length < 10){
+      alert("Please enter a valid phone number e.g 1234567890");
+      return false;
+    }
+    else if (checking) {
+      return number;
+    } else {
+      alert("Please enter a valid phone number e.g 1234567890");
+      return false;
+    }
+  }
+
+
+  $(document).ready(function () {
+    $('#submit-text-message').click(function () {
+      var message = $("#message").val();
+      var number = $("#number").val();
+      var name = $("#name").val();;
+      console.log(message);
+      console.log(number)
+      console.log(name)
+      console.log(email);
+      var valid = check(number)
+      console.log(valid)
+
+
+      $.ajax({
+        type: 'POST',
+        url: "aws",
+        dataType: "json",
+        contentType: "application/json",
+        data: JSON.stringify({
+          "name": name,
+          "email": email,
+          "number": valid,
+          "message": message
+        }),
+
+      }).done(function (data) {
+        console.log(data);
+      });
     });
   });
 </script>

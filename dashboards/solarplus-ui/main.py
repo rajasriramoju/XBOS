@@ -27,6 +27,8 @@ from flask_login import login_required, current_user
 AWS_ACCESS_KEY = config.aws_access_key
 AWS_SECRET_KEY = config.aws_secret_key
 
+admin = [3]
+
 main = Blueprint('main', __name__)
 
 class Email(object):  
@@ -97,14 +99,6 @@ def landing():
     """
     return render_template('landing.html')
 
-@main.route("/index")
-@login_required
-def index():
- 
-    """
-    Render the homepage.
-    """
-    return render_template('index.html')
 
 @main.route("/dashboard")
 @login_required
@@ -112,7 +106,7 @@ def dashboard():
     """
     Render the dashboard page.
     """
-    return render_template("dashboard.html",name=current_user.name)
+    return render_template("dashboard.html",name=current_user.name, admin = admin, id = current_user.id)
 
 @main.route("/setpoints")
 @login_required
@@ -120,7 +114,10 @@ def setpoints():
     """
     Render the setpoints page.
     """
-    return render_template("setpoints.html",name=current_user.name)
+    if current_user.id in admin:
+        return render_template("setpoints.html",name=current_user.name)
+    else:
+        return render_template('404.html'), 404
 
 @main.route("/weather")
 @login_required
@@ -128,7 +125,7 @@ def weather():
     """
     Render the weather page.
     """
-    return render_template("weather.html",name=current_user.name)
+    return render_template("weather.html",name=current_user.name, admin = admin, id = current_user.id)
 
 @main.route("/analysis")
 @login_required
@@ -136,7 +133,10 @@ def analysis():
     """
     Render the weather page.
     """
-    return render_template("analysis.html",name=current_user.name)
+    if current_user.id in admin:
+        return render_template("analysis.html",name=current_user.name)
+    else:
+        return render_template('404.html'), 404
 
 @main.route("/DR")
 @login_required
@@ -152,7 +152,10 @@ def intelligence():
     """
     Render the intelligence page.
     """
-    return render_template("intelligence.html",name=current_user.name)
+    if current_user.id in admin:
+        return render_template("intelligence.html",name=current_user.name)
+    else:
+        return render_template('404.html'), 404
 
 @main.route("/contact")
 @login_required
@@ -160,7 +163,7 @@ def contact():
     """
     Render the intelligence page.
     """
-    return render_template("contact.html",name=current_user.name)
+    return render_template("contact.html",name=current_user.name, admin = admin, id = current_user.id, email= current_user.email)
 
 @main.route("/profile")
 @login_required
@@ -181,14 +184,20 @@ def page_not_found(e):
 @main.route('/aws', methods=['POST'])
 def aws():
     # Send your sms message.
+    response = request.get_json()
+    print(response)
+    print(response["name"])
+    print(response["email"])
+    print(response["number"])
+    print(response["message"])
     client.publish(
-    PhoneNumber="+14154257327",
-    Message="Your Issue Ticket has been received! Thank you! :)"
+    PhoneNumber="+1" + str(response["number"]),
+    Message="Hi, " + str(response["name"]) + ": Your Solarplus Issue Ticket has been received!  Thank you! :)"
     )
 
     email = Email(to='webwizards193@gmail.com', subject='New Issue Ticket Posted!')  
     email.text('This is a text body. Foo bar.')  
-    email.html('<html><body>This is an email highlighting the bugs/issues found in our application. <strong>Will be fixed immediately.</strong></body></html>')  # Optional  
+    email.html('<html><body>''Dear Admin <br>' + str(response["name"]) + ' says:<br>' + '<strong>' + str(response["message"]) +'</strong> </body></html>')  # Optional  
     email.send()  
 
     return jsonify({"message": "done"})
