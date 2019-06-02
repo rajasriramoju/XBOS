@@ -305,6 +305,21 @@ def logout():
 #     oidc.logout()
 #     return redirect(url_for(".landing"))
 
+@app.route('/setpoints/thermostat', methods=['POST'])
+def thermostat():
+    response = request.get_json()
+    temp1 = response["temp1"]
+    temp2 = response["temp2"]
+    temp3 = response["temp3"]
+    temp4 = response["temp4"]
+
+    print(temp1)
+    print(temp2)
+    print(temp3)
+    print(temp4)
+
+    return jsonify({"message": "done"})
+
 @app.route('/aws', methods=['POST'])
 def aws():
     # Send your sms message.
