@@ -468,7 +468,7 @@ def MLPredictionModel(day1, day2, day3, day4, day5, day6, day7):
 @main.route('/dashboard/access/<feature1>')
 @crossdomain(origin="*")
 def extractData_oneFeature_Control2(feature1):
-    filePathString = "./solarplus_sample_data/Control2.csv"
+    filePathString = "./solarplus-ui/solarplus_sample_data/Control2.csv"
     readDF = pd.read_csv(filePathString)
 
     df = readDF.loc[:,['Time',feature1]]
@@ -480,7 +480,7 @@ def extractData_oneFeature_Control2(feature1):
 @main.route('/dashboard/access/<feature1>/<feature2>')
 @crossdomain(origin="*")
 def extractData_twoFeatures_Control2(feature1, feature2):
-    filePathString = "./solarplus_sample_data/Control2.csv"
+    filePathString = "./solarplus-ui/solarplus_sample_data/Control2.csv"
     readDF = pd.read_csv(filePathString)
 
     df = readDF.loc[:,['Time',feature1,feature2]]
