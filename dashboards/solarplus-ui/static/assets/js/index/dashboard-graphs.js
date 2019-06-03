@@ -14,7 +14,7 @@ $(document).ready(function () {
                 text: 'Total Power Consumption'
             },
             tooltip: {
-                valueSuffix: '\xB0C'
+                valueSuffix: ' kWh'
             },
             xAxis: {
                 categories: dates
@@ -25,7 +25,10 @@ $(document).ready(function () {
                 },
                 plotLines: [{
                     value: 0
-                }]
+                }],
+                labels: {
+                    format: '{value} kWh'
+                }
             },
             series: [{
                     name: yValsTitle,
@@ -36,7 +39,6 @@ $(document).ready(function () {
         });
     }
     function renderChart2(feature1, feature2, feature1Vals, feature2Vals, dates) {
-        //var ctx = document.getElementById("myChart").getContext('2d');
         var highChart = new Highcharts.chart('chart2', {
             chart: {
                 //renderTo: "myChart",
@@ -47,7 +49,7 @@ $(document).ready(function () {
                 text: 'HVAC Power Consumption'
             },
             tooltip: {
-                valueSuffix: '\xB0C'
+                valueSuffix: ' kWh'
             },
             xAxis: {
                 categories: dates
@@ -58,7 +60,10 @@ $(document).ready(function () {
                 },
                 plotLines: [{
                     value: 0
-                }]
+                }],
+                labels: {
+                    format: '{value} kWh'
+                }
             },
             series: [{
                     name: feature1,
@@ -73,7 +78,6 @@ $(document).ready(function () {
         });
     }
     function renderChart3(feature1, feature2, feature1Vals, feature2Vals, dates) {
-        //var ctx = document.getElementById("myChart").getContext('2d');
         var highChart = new Highcharts.chart('chart3', {
             chart: {
                 //renderTo: "myChart",
@@ -84,7 +88,7 @@ $(document).ready(function () {
                 text: 'Power Consumption'
             },
             tooltip: {
-                valueSuffix: '\xB0C'
+                valueSuffix: ' kWh'
             },
             xAxis: {
                 categories: dates
@@ -109,38 +113,36 @@ $(document).ready(function () {
 
         });
     }
-    function renderChart4(feature1, feature2, feature1Vals, feature2Vals, dates) {
-        //var ctx = document.getElementById("myChart").getContext('2d');
+    function renderChart4(yVals, yValsTitle, dates) {
         var highChart = new Highcharts.chart('chart4', {
             chart: {
-                //renderTo: "myChart",
                 type: 'line',
                 zoomType: "x"
             },
             title: {
-                text: 'Power Consumption'
+                text: 'Total Power Generated'
             },
             tooltip: {
-                valueSuffix: '\xB0C'
+                valueSuffix: ' kWh'
             },
             xAxis: {
                 categories: dates
             },
             yAxis: {
                 title: {
-                    text: 'Consumption'
+                    text: 'Power Generated'
                 },
                 plotLines: [{
                     value: 0
-                }]
+                }],
+                labels: {
+                    format: '{value} kWh'
+                }
+
             },
             series: [{
-                    name: feature1,
-                    data: feature1Vals
-                },
-                {
-                    name: feature2,
-                    data: feature2Vals
+                    name: yValsTitle,
+                    data: yVals
                 }
             ]
 
@@ -212,54 +214,37 @@ $(document).ready(function () {
 
     }
 
-    function render() {
+    function graphDataCollection_Chart4() {
 
-        var startDate = '2018-06-01';
-        var endDate = '2018-06-02';
-
-        var filename = 'Control2';
-        var feature1 = 'HVAC2';
-        var feature2 = 'HVAC1';
-
-        console.log(startDate);
-        console.log(endDate);
-        console.log(filename);
-        console.log(feature1);
-        console.log(feature2);
-
-        const uri = `http://127.0.0.1:5000/${filename}/${startDate}/${endDate}/${feature1}/${feature2}`;
-        //const uri = 'http://127.0.0.1:5000/dashboard/access/HVAC1/HVAC2';
-        var res = JSON.parse(Get(uri)); 
-        console.log(res);
-
-        var feature1Vals = [];
-        var feature2Vals = []
-        var labels = [];
-
-
+        // will have to include code here about fetching data from the 
+        // selected features for the specific features on dashboard
+        //const feature = 'Building'
+        const uri_chart1 = `http://127.0.0.1:5000/dashboard/PVPowerGenData`;
+        var res_chart1 = JSON.parse(Get(uri_chart1));
+        
+        var PVGenVals = [];
+        labels = [];
+        
+        //res_chart1.length
         for (let i = 0; i < 500; i++) {
-
-            let singleElement = res[i];
-
+        
+            let singleElement = res_chart1[i];
+            //console.log(singleElement);
+        
             for (let prop in singleElement) {
-                if (prop == feature1)
-                    feature1Vals.push(singleElement[prop]);
-                if (prop == feature2)
-                    feature2Vals.push(singleElement[prop]);
-            }
-            labels.push(res[i].Time);
-
+                if (prop == 'PVPower_kW')
+                {
+                    PVGenVals.push(singleElement[prop]);
+                }
+                labels.push(res_chart1[i].Date_PT);
+            }           
         }
+        renderChart4(PVGenVals, 'Total Power Generated Values', labels);
 
-        console.log(labels);
-        console.log(feature1Vals);
-        console.log(feature2Vals)
-        //renderChart1(feature1, feature2, feature1Vals, feature2Vals, labels);
-        renderChart2(feature1, feature2, feature1Vals, feature2Vals, labels);
-        renderChart3(feature1, feature2, feature1Vals, feature2Vals, labels);
-        renderChart4(feature1, feature2, feature1Vals, feature2Vals, labels);
-    };
-    //render();
+    }
+
     graphDataCollection_Chart1();
     graphDataCollection_Chart2();
+    graphDataCollection_Chart4();
+
 });

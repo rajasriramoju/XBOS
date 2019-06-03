@@ -516,6 +516,25 @@ def extractData_PVPowerGenData():
     df = readDF.loc[:,['Date_PT','PVPower_kW']]
     return df.to_json(orient = 'records')
 
+# This function extracts data for any feature's data from Control.csv data
+# of the solarplus sample data -> will be used for average power consumption
+# values
+@app.route('/dashboard/access/<feature1>/average')
+@crossdomain(origin="*")
+def extractData_oneFeature_Control2(feature1):
+    filePathString = "./solarplus_sample_data/Control2.csv"
+    readDF = pd.read_csv(filePathString)
+
+    df = readDF.loc[:,['Time',feature1]]
+
+    #loop here to go through the dataframe and calculate the average
+
+
+
+
+
+
+    return df.to_json(orient = 'records')
 
 
 if __name__ == '__main__':
