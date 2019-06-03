@@ -25,8 +25,8 @@ from json import dumps
 from flask import Blueprint, render_template
 from flask_login import login_required, current_user
 
-AWS_ACCESS_KEY = "AKIAIMMRUKZZB4PBKJRA"
-AWS_SECRET_KEY = "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"
+AWS_ACCESS_KEY = config.aws_access_key
+AWS_SECRET_KEY = config.aws_secret_key
 
 admin = [3]
 
@@ -244,10 +244,10 @@ def aws():
     Message="Hi, " + str(response["name"]) + ": Your Solarplus Issue Ticket has been received!  Thank you! :)"
     )
 
-    email = Email(to='webwizards193@gmail.com', subject='New Issue Ticket Posted!')  
-    email.text('This is a text body. Foo bar.')  
-    email.html('<html><body>''Dear Admin <br>' + str(response["name"]) + ' says:<br>' + '<strong>' + str(response["message"]) +'</strong> </body></html>')  # Optional  
-    email.send()  
+    email = Email(to='webwizards193@gmail.com', subject='New Issue Ticket Posted!')
+    email.text('This is a text body. Foo bar.')
+    email.html('<html><body>''Dear Admin <br>' + str(response["name"]) + ' says:<br>' + '<strong>' + str(response["message"]) +'</strong> </body></html>')  # Optional
+    email.send()
 
     return jsonify({"message": "done"})
 
