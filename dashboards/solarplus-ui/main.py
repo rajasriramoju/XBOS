@@ -7,11 +7,12 @@ from flask import g, render_template, url_for, session
 import boto3
 import boto.ses
 import base64
+from influxdb import InfluxDBClient
 from urllib.request import urlopen
 
 from datetime import timedelta
-from functools import update_wrapper 
-import pandas as pd 
+from functools import update_wrapper
+import pandas as pd
 import datetime
 from flask_oidc import OpenIDConnect
 from okta import UsersClient
@@ -24,12 +25,12 @@ from json import dumps
 from flask import Blueprint, render_template
 from flask_login import login_required, current_user
 
-AWS_ACCESS_KEY = config.aws_access_key
-AWS_SECRET_KEY = config.aws_secret_key
+AWS_ACCESS_KEY = "AKIAIMMRUKZZB4PBKJRA"
+AWS_SECRET_KEY = "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"
 
 main = Blueprint('main', __name__)
 
-class Email(object):  
+class Email(object):
         def __init__(self, to, subject):
             self.to = to
             self.subject = subject
@@ -58,7 +59,7 @@ class Email(object):
 
             connection = boto.ses.connect_to_region(
                 'us-west-2',
-                aws_access_key_id=AWS_ACCESS_KEY, 
+                aws_access_key_id=AWS_ACCESS_KEY,
                 aws_secret_access_key=AWS_SECRET_KEY
             )
 
@@ -100,7 +101,7 @@ def landing():
 @main.route("/index")
 @login_required
 def index():
- 
+
     """
     Render the homepage.
     """
@@ -120,7 +121,58 @@ def setpoints():
     """
     Render the setpoints page.
     """
-    return render_template("setpoints.html",name=current_user.name)
+    # create the client for influxdb
+    client = InfluxDBClient('127.0.0.1', 8086,'setpoints_db')
+    client.switch_database('setpoints_db')
+
+    queryTemp1 = client.query('SELECT "Thermostat1_HSP" from temperature ORDER BY DESC LIMIT 1')
+    points1 = queryTemp1.get_points()
+    for item in points1:
+            result1 = item['Thermostat1_HSP']
+
+    queryTemp2 = client.query('SELECT "Thermostat1_CSP" from temperature ORDER BY DESC LIMIT 1')
+    points2 = queryTemp2.get_points()
+    for item in points2:
+            result2 = item['Thermostat1_CSP']
+
+    queryTemp3 = client.query('SELECT "Thermostat2_HSP" from temperature ORDER BY DESC LIMIT 1')
+    points3 = queryTemp3.get_points()
+    for item in points3:
+            result3 = item['Thermostat2_HSP']
+
+    queryTemp4 = client.query('SELECT "Thermostat2_CSP" from temperature ORDER BY DESC LIMIT 1')
+    points4 = queryTemp4.get_points()
+    for item in points4:
+            result4 = item['Thermostat2_CSP']
+
+    queryTemp5 = client.query('SELECT "Refrigerator_SP" from temperature ORDER BY DESC LIMIT 1')
+    points5 = queryTemp5.get_points()
+    for item in points5:
+            result5 = item['Refrigerator_SP']
+
+    queryTemp6 = client.query('SELECT "Refrigerator_SP+dT" from temperature ORDER BY DESC LIMIT 1')
+    points6 = queryTemp6.get_points()
+    for item in points6:
+            result6 = item['Refrigerator_SP+dT']
+            print(result6)
+
+    queryTemp7 = client.query('SELECT "Freezer_SP" from temperature ORDER BY DESC LIMIT 1')
+    points7 = queryTemp7.get_points()
+    for item in points7:
+            result7 = item['Freezer_SP']
+
+    queryTemp8 = client.query('SELECT "Freezer_SP+dT" from temperature ORDER BY DESC LIMIT 1')
+    points8 = queryTemp8.get_points()
+    for item in points8:
+            result8 = item['Freezer_SP+dT']
+
+    if g.user.id == '00uj9ow24kHWeZLwN356':
+        return render_template("setpoints.html",temperature1=result1,temperature2=result2,
+                                temperature3=result3,temperature4=result4,temperature5=result5,
+                                temperature6=result6,temperature7=result7,temperature8=result8,
+                                name=current_user.name)
+    else:
+        return render_template('404.html'), 404
 
 @main.route("/weather")
 @login_required
@@ -186,10 +238,10 @@ def aws():
     Message="Your Issue Ticket has been received! Thank you! :)"
     )
 
-    email = Email(to='webwizards193@gmail.com', subject='New Issue Ticket Posted!')  
-    email.text('This is a text body. Foo bar.')  
-    email.html('<html><body>This is an email highlighting the bugs/issues found in our application. <strong>Will be fixed immediately.</strong></body></html>')  # Optional  
-    email.send()  
+    email = Email(to='webwizards193@gmail.com', subject='New Issue Ticket Posted!')
+    email.text('This is a text body. Foo bar.')
+    email.html('<html><body>This is an email highlighting the bugs/issues found in our application. <strong>Will be fixed immediately.</strong></body></html>')  # Optional
+    email.send()
 
     return jsonify({"message": "done"})
 
@@ -277,20 +329,20 @@ def extractData(startDate, endDate):
     return dataInRange.to_json(orient = 'records')
 
 
-# This function takes in a file name, start and end date with the two features that 
+# This function takes in a file name, start and end date with the two features that
 # the user wants plotted on the graph
 @main.route('/<filename>/<startDate>/<endDate>/<feature1>/<feature2>')
 @crossdomain(origin="*")
 def extractData_plotTwoQueries(filename, startDate, endDate, feature1, feature2):
-    
+
     filePathString = "./solarplus_sample_data/" + filename+".csv"
     print(filePathString)
     readDF = pd.read_csv(filePathString)
-    
-    '''The names the columns of the data frame using the first row info - assumes that column names 
+
+    '''The names the columns of the data frame using the first row info - assumes that column names
      are entered correctly in the csv files - which is why the column names are not renamed in this
      function. '''
-    
+
     # check for validity of range of dates
     startYear,startMonth,startDay=[int(x) for x in startDate.split('-')]
     endYear,endMonth,endDay=[int(x) for x in endDate.split('-')]
@@ -299,7 +351,7 @@ def extractData_plotTwoQueries(filename, startDate, endDate, feature1, feature2)
         print ('Wrong range of dates given. Start Date = ' ,startDate, "; End Date = ", endDate)
         return 'Incorrect Range of dates'
 
-    
+
     # This gets all the entries of the specific start date and end date
     startDateEntries = readDF[readDF['Time'].str.contains(startDate)]
     endDateEntries = readDF[readDF['Time'].str.contains(endDate)]
@@ -315,7 +367,65 @@ def extractData_plotTwoQueries(filename, startDate, endDate, feature1, feature2)
     dataInRange = dataInRange.loc[:,['Time', feature1, feature2]]
 
     return dataInRange.to_json(orient = 'records')
-  
+
+@main.route('/setpoints/getEntry1', methods = ['POST'])
+def renderFirstRow1():
+    content = request.get_json(silent=False, force=True)
+    Thermostat1_HSP = content['temp1']
+    Thermostat1_CSP = content['temp2']
+    Thermostat2_HSP = content['temp3']
+    Thermostat2_CSP = content['temp4']
+
+    # inserting data into the database
+    client = InfluxDBClient('127.0.0.1', 8086, 'setpoints_db')
+    client.switch_database('setpoints_db')
+
+    json_body = [{
+        'tags': {
+            'User':'username'
+            },
+        'fields': {
+            'Thermostat1_HSP': Thermostat1_HSP,
+            'Thermostat1_CSP': Thermostat1_CSP,
+            'Thermostat2_HSP': Thermostat2_HSP,
+            'Thermostat2_CSP': Thermostat2_CSP
+            },
+        'measurement': 'temperature'
+        }]
+
+    client.write_points(json_body)
+
+    return "success"
+
+@main.route('/setpoints/getEntry2', methods = ['POST'])
+def renderFirstRow2():
+    content = request.get_json(silent=False, force=True)
+
+    Refrigerator_SP = content['temp5']
+    Refrigerator_SP_Plus_dT = content['temp6']
+    Freezer_SP = content['temp7']
+    Freezer_SP_Plus_dT = content['temp8']
+
+    client = InfluxDBClient('127.0.0.1', 8086, 'setpoints_db')
+    client.switch_database('setpoints_db')
+
+    json_body = [{
+        'tags': {
+            'User':'username'
+            },
+        'fields': {
+            'Refrigerator_SP': Refrigerator_SP,
+            'Refrigerator_SP+dT': Refrigerator_SP_Plus_dT,
+            'Freezer_SP': Freezer_SP,
+            'Freezer_SP+dT': Freezer_SP_Plus_dT
+            },
+        'measurement': 'temperature'
+        }]
+
+    client.write_points(json_body)
+
+    return "success"
+
 
 @main.route('/analysis/MLModel/<day1>/<day2>/<day3>/<day4>/<day5>/<day6>/<day7>')
 @crossdomain(origin="*")
@@ -343,7 +453,7 @@ def MLPredictionModel(day1, day2, day3, day4, day5, day6, day7):
     return dataset.to_json(orient = 'records')
 
 # This function extracts data for any feature's data from Control.csv data
-# of the solarplus sample data -> will be used for total power consumption 
+# of the solarplus sample data -> will be used for total power consumption
 # values for dashboard
 @main.route('/dashboard/access/<feature1>')
 @crossdomain(origin="*")
@@ -355,7 +465,7 @@ def extractData_oneFeature_Control2(feature1):
     return df.to_json(orient = 'records')
 
 # This function extracts data for any 2 features' data from Control.csv data
-# of the solarplus sample data -> will be used for HVAC1 and HVAC2 
+# of the solarplus sample data -> will be used for HVAC1 and HVAC2
 # values for dashboard
 @main.route('/dashboard/access/<feature1>/<feature2>')
 @crossdomain(origin="*")
@@ -366,7 +476,7 @@ def extractData_twoFeatures_Control2(feature1, feature2):
     df = readDF.loc[:,['Time',feature1,feature2]]
     return df.to_json(orient = 'records')
 
-# This function extracts data for solar production values from 
+# This function extracts data for solar production values from
 @main.route('/dashboard/PVPowerGenData')
 @crossdomain(origin="*")
 def extractData_PVPowerGenData():
