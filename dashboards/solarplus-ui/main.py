@@ -118,10 +118,6 @@ def setpoints():
     # create the client for influxdb
     client = InfluxDBClient('127.0.0.1', 8086,'setpoints_db')
     client.switch_database('setpoints_db')
-    if current_user.id in admin:
-        return render_template("setpoints.html",name=current_user.name)
-    else:
-        return render_template('404.html'), 404
 
     queryTemp1 = client.query('SELECT "Thermostat1_HSP" from temperature ORDER BY DESC LIMIT 1')
     points1 = queryTemp1.get_points()
@@ -164,7 +160,7 @@ def setpoints():
     for item in points8:
             result8 = item['Freezer_SP+dT']
 
-    if g.user.id == '00uj9ow24kHWeZLwN356':
+    if current_user.id in admin:
         return render_template("setpoints.html",temperature1=result1,temperature2=result2,
                                 temperature3=result3,temperature4=result4,temperature5=result5,
                                 temperature6=result6,temperature7=result7,temperature8=result8,
