@@ -77,15 +77,14 @@ $(document).ready(function () {
 
         });
     }
-    function renderChart3(feature1, feature2, feature1Vals, feature2Vals, dates) {
+    function renderChart3(yVals, yValsTitle, dates) {
         var highChart = new Highcharts.chart('chart3', {
             chart: {
-                //renderTo: "myChart",
                 type: 'line',
                 zoomType: "x"
             },
             title: {
-                text: 'Power Consumption'
+                text: 'Average Power Consumed'
             },
             tooltip: {
                 valueSuffix: ' kWh'
@@ -95,19 +94,19 @@ $(document).ready(function () {
             },
             yAxis: {
                 title: {
-                    text: 'Consumption'
+                    text: 'Power Consumed'
                 },
                 plotLines: [{
                     value: 0
-                }]
+                }],
+                labels: {
+                    format: '{value} kWh'
+                }
+
             },
             series: [{
-                    name: feature1,
-                    data: feature1Vals
-                },
-                {
-                    name: feature2,
-                    data: feature2Vals
+                    name: yValsTitle,
+                    data: yVals
                 }
             ]
 
@@ -178,7 +177,10 @@ $(document).ready(function () {
                 {
                     buildingVals.push(singleElement[prop]);
                 }
-                labels.push(res_chart1[i].Time);
+                if(prop == 'Time')
+                {
+                    labels.push(res_chart1[i].Time);
+                }
             }           
         }
         renderChart1(buildingVals, 'Total Power Consumption Values', labels);
@@ -214,6 +216,39 @@ $(document).ready(function () {
 
     }
 
+    function graphDataCollection_Chart3() {
+
+        // will have to include code here about fetching data from the 
+        // selected features for the specific features on dashboard
+        //const feature = 'Building'
+        const uri_chart1 = `http://127.0.0.1:5000/dashboard/access/Building/average`;
+        var res_chart1 = JSON.parse(Get(uri_chart1));
+        
+        var avgPowerVals = [];
+        labels = [];
+
+        //res_chart1.length
+        for (let i = 0; i < res_chart1.length; i++) {
+        
+            let singleElement = res_chart1[i];
+        
+            for (let prop in singleElement) {
+                if (prop == 'Building')
+                {
+                    avgPowerVals.push(singleElement[prop]);
+                }
+                if(prop == 'Time')
+                {
+                    labels.push(res_chart1[i].Time);
+                }
+                
+            }           
+        }
+        console.log(labels);
+        renderChart3(avgPowerVals, 'Average Power Consumed Values', labels);
+
+    }
+
     function graphDataCollection_Chart4() {
 
         // will have to include code here about fetching data from the 
@@ -245,6 +280,7 @@ $(document).ready(function () {
 
     graphDataCollection_Chart1();
     graphDataCollection_Chart2();
+    graphDataCollection_Chart3();
     graphDataCollection_Chart4();
 
 });
