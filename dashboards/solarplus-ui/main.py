@@ -330,7 +330,7 @@ def extractData_plotTwoQueries(filename, startDate, endDate, feature1, feature2)
 @crossdomain(origin="*")
 def MLPredictionModel(day1, day2, day3, day4, day5, day6, day7):
     print(day1, day2, day3, day4, day5, day6, day7)
-    filename = 'trained_model.sav'
+    filename = './solarplus-ui/trained_model.sav'
     loaded_model = pickle.load(open(filename, 'rb'))
 
     X_pred = [[float(day1)],[float(day2)],[float(day3)],[float(day4)],[float(day5)],[float(day6)],[float(day7)]]
