@@ -16,6 +16,8 @@
 		href="{{ url_for('static', filename='assets/css/particles.css') }}">
 	<link href="https://fonts.googleapis.com/css?family=Roboto" rel="stylesheet">
 
+
+
 </head>
 
 <body id="body" class="">
@@ -225,6 +227,17 @@
 
 
 </body>
+<script type="text/javascript">
+							temperature1 = "{{temperature1}}";
+							temperature2 = "{{temperature2}}";
+							temperature3 = "{{temperature3}}";
+							temperature4 = "{{temperature4}}";
+							temperature5 = "{{temperature5}}";
+							temperature6 = "{{temperature6}}";
+							temperature7 = "{{temperature7}}";
+							temperature8 = "{{temperature8}}";
+</script>
+<script type="text/javascript" {{ url_for('static', filename='schedule-groupings.js')}}></script>
 <script type="text/javascript" src="{{url_for('static', filename='assets/js/lib/jquery.js') }}"></script>
 <script type="text/javascript" src="{{url_for('static', filename='assets/js/lib/materialize.js') }}"></script>
 
@@ -232,7 +245,7 @@
 <script type="text/javascript" src="{{url_for('static', filename='assets/js/lib/nouislider.js') }}"></script>
 <script type="text/javascript" src="{{url_for('static', filename='assets/js/schedule/schedule-groupings.js') }}">
 </script>
-<script type="text/javascript" src="{{url_for('static', filename='assets/js/schedule/schedule-epochs.js') }}"></script>
+<!--script type="text/javascript" src="{{url_for('static', filename='assets/js/schedule/schedule-epochs.js') }}"></script-->
 <script type="text/javascript" src="{{url_for('static', filename='assets/js/particles.js') }}"></script>
 <script type="text/javascript" src="{{url_for('static', filename='assets/js/app.js') }}"></script>
 <script type="text/javascript" src="{{url_for('static', filename='assets/js/logout.js') }}"></script>
