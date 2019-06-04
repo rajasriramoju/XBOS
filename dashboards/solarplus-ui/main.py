@@ -379,8 +379,47 @@ def extractData_twoFeatures_Control2(feature1, feature2):
 @main.route('/dashboard/PVPowerGenData')
 @crossdomain(origin="*")
 def extractData_PVPowerGenData():
-    filePathString = "./Historic_microgrid_data/PVPowerGenData.csv"
+    filePathString = "./solarplus-ui/Historic_microgrid_data/PVPowerGenData.csv"
     readDF = pd.read_csv(filePathString)
 
     df = readDF.loc[:,['Date_PT','PVPower_kW']]
     return df.to_json(orient = 'records')
+
+# This function extracts data for any feature's data from Control.csv data
+# of the solarplus sample data -> will be used for average power consumption
+# values
+@main.route('/dashboard/access/<feature1>/average')
+@crossdomain(origin="*")
+def extractData_oneFeature_Control3(feature1):
+    filePathString = "./solarplus-ui/solarplus_sample_data/Control2.csv"
+    readDF = pd.read_csv(filePathString)
+
+    df = readDF.loc[:,['Time',feature1]]
+
+    # loop here to go through the dataframe and calculate the average
+    nextEntryIndex = df.index[0]
+    df_model = pd.DataFrame() #creating an epty dataframe that feeds to model
+    df_model = pd.DataFrame(columns=['Time', feature1])
+
+    print(df)
+
+	#having a while loop that runs till the power dataframe is empty since that is shorter
+    while not df.empty:
+        # getting the date of the entry we want to deal with
+        currDateEntry = df.iloc[nextEntryIndex].Time
+        currDate = (currDateEntry.split(' '))[0]
+        print(currDateEntry)
+        
+        #obtaining average power production of a day
+        currDateEntries_power = df[df['Time'].str.contains(currDate)].Building
+        currDateEntriesPowerAverage = sum(currDateEntries_power)/len(currDateEntries_power)
+        df_model.loc[len(df_model)] = [currDate, currDateEntriesPowerAverage]
+        
+        df = df[~df.Time.str.contains(currDate)]
+        # finding the next date to perform the same operations on, as long as the dataframe is not alraedy empty
+        if not df.empty:
+            nextEntryIndex_power = df.index[0]
+        
+    print(df_model)
+
+    return df_model.to_json(orient = 'records')
