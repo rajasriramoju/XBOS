@@ -83,6 +83,10 @@ $(document).ready(function () {
         console.log("Printing vals from weather tab");
         console.log(forecast_TempVals);
 
+        if (forecast_TempVals == null){
+            document.getElementById("predictionChart").innerHTML = "Weather Values have not been obtained for prediction of solar power production. Please visit Weather tab first.";
+        }
+
         //var tempVals = [14,19,18,17,18,20,22];
         const uri_chart1 = 
             `http://127.0.0.1:5000/analysis/MLModel/${forecast_TempVals[0]}/${forecast_TempVals[1]}/${forecast_TempVals[2]}/${forecast_TempVals[3]}/${forecast_TempVals[4]}/${forecast_TempVals[5]}/${forecast_TempVals[6]}`;
