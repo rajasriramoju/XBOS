@@ -202,7 +202,7 @@ def setpoints():
                             temperature3=result3,temperature4=result4,temperature5=result5,
                             temperature6=result6,temperature7=result7,temperature8=result8)'''
     if g.user.id == '00uj9ow24kHWeZLwN356':
-        obj.controls(heattemp=53,cooltemp=82)
+        
         return render_template("setpoints.html",temperature1=result1,temperature2=result2,
                                 temperature3=result3,temperature4=result4,temperature5=result5,
                                 temperature6=result6,temperature7=result7,temperature8=result8)
@@ -321,7 +321,7 @@ def thermostat():
     print(temp2)
     print(temp3)
     print(temp4)
-
+    obj.controls(heattemp=temp1,cooltemp=temp2)
     return jsonify({"message": "done"})
 
 @app.route('/aws', methods=['POST'])
