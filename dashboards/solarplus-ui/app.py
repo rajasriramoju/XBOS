@@ -8,6 +8,7 @@ import argparse
 import boto3
 import boto.ses
 import base64
+from venstar_driver import Venstar_Driver 
 from urllib.request import urlopen
 import json
 import requests
@@ -29,6 +30,8 @@ from json import dumps
 
 AWS_ACCESS_KEY = config.aws_access_key
 AWS_SECRET_KEY = config.aws_secret_key
+
+obj = Venstar_Driver("config.yaml")
 
 app = Flask(__name__)
 app.config.update({
@@ -199,6 +202,7 @@ def setpoints():
                             temperature3=result3,temperature4=result4,temperature5=result5,
                             temperature6=result6,temperature7=result7,temperature8=result8)'''
     if g.user.id == '00uj9ow24kHWeZLwN356':
+        obj.controls(heattemp=53,cooltemp=82)
         return render_template("setpoints.html",temperature1=result1,temperature2=result2,
                                 temperature3=result3,temperature4=result4,temperature5=result5,
                                 temperature6=result6,temperature7=result7,temperature8=result8)
