@@ -1,3 +1,7 @@
+/**
+ * uses session storage to too indicate to the user whether or not intelligent control is on or off
+ * 
+ */
 $(document).ready(function() {
     var intelligenceText = sessionStorage.getItem('text');
     var intelligenceColor = sessionStorage.getItem('color');

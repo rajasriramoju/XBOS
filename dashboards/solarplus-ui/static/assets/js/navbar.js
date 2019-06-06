@@ -1,4 +1,7 @@
-$(document).ready(function () {
+    /**
+     * dropdown on navbar
+     */
+    $(document).ready(function () {
     $('.sidenav').sidenav();
     $(".dropdown-trigger").dropdown();
     $(".dropdown-trigger2").dropdown();
@@ -7,6 +10,9 @@ $(document).ready(function () {
     var intelligenceColor = sessionStorage.getItem('color');
     console.log(intelligenceColor);
     console.log(intelligenceText);
+    /**
+     * shows whether or not intelligent control is on or off on the navbar
+     */
     if((intelligenceText == 'on') && (intelligenceColor == 'on')) {
         console.log('inside on')
         document.getElementById("intelligence-control-on-off").innerText = "Intelligent Control On"
