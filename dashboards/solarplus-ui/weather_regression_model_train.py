@@ -5,8 +5,18 @@ import pandas as pd
 import pickle
 
 def createDataTable():
-	df_temperature =pd.read_csv('./Historic_microgrid_data/AirTemperatureData.csv')
-	df_PVPower = pd.read_csv('./Historic_microgrid_data/PVPowerGenData.csv')
+	"""
+	createDataTable()
+
+	Creates data table by parsing the csv files for Air temperature and power generated data
+
+	Returns
+	-------
+	pandas dataframe
+    The dataframe required to train the regression model.
+	"""
+	df_temperature =pd.read_csv('./solarplus-ui/Historic_microgrid_data/AirTemperatureData.csv')
+	df_PVPower = pd.read_csv('./solarplus-ui/Historic_microgrid_data/PVPowerGenData.csv')
 
 	# eliminating all entries except for the ones in the time range 
 	# we are looking from 14th march to 24th april 2018
@@ -36,17 +46,12 @@ def createDataTable():
 
 	nextEntryIndex_power = df_PVPower.index[0]
 	df_model = pd.DataFrame() #creating an epty dataframe that feeds to model
-	#df_model = pd.DataFrame(columns=['date', 'AirTemp_degC_Max', 'PVPower_kW_Sum'])
 	df_model = pd.DataFrame(columns=['AirTemp_degC_Max', 'PVPower_kW_Sum'])
 
-	#print(dataInRange_temperature)
-	#print(dataInRange_power)
 	
-	#having a while loop that runs till the power dataframe is empty since that is shorter
+	#having a while loop that runs till the power dataframe is empty
 	while not dataInRange_power.empty:
-	#for x in range(4):
 		# getting the date of the entry we want to deal with
-		#print(df_PVPower.iloc[df_PVPower.index[0]]) #[nextEntryIndex_power])
 		currDateEntry = dataInRange_power.iloc[nextEntryIndex_power].Date_PT
 		currDate = (currDateEntry.split(' '))[0]
 		print(currDateEntry)
@@ -59,7 +64,6 @@ def createDataTable():
 		currDateEntries_power = dataInRange_power[dataInRange_power['Date_PT'].str.contains(currDate)].PVPower_kW
 		currDateEntriesPowerSum = sum(currDateEntries_power)
 
-		#df_model.loc[len(df_model)] = [currDate, currDateEntriesTempMax, currDateEntriesPowerSum]
 		df_model.loc[len(df_model)] = [currDateEntriesTempMax, currDateEntriesPowerSum]
 
 		dataInRange_power = dataInRange_power[~dataInRange_power.Date_PT.str.contains(currDate)]
@@ -76,6 +80,13 @@ def createDataTable():
 	return df_model
 
 def regression_model():
+	"""
+	regression_model()
+
+	Creates the regression model, trains it, and saves the model
+	
+	"""
+
 	#fetching the data table
 	df_temperature_power = createDataTable()
 
@@ -83,8 +94,6 @@ def regression_model():
 	# Hence the reshape function has to be used to allow this 
 	temperature_xvals = np.array(df_temperature_power['AirTemp_degC_Max']).reshape((-1, 1))
 	power_yvals = np.array(df_temperature_power['PVPower_kW_Sum'])
-
-	print(df_temperature_power)
 
 	# Performing a train-test split to predict accuracy
 	seed = 7
@@ -103,16 +112,18 @@ def regression_model():
 	print('intercept:', linear_model.intercept_)
 	print('slope:', linear_model.coef_)
 
+	# saving the trained model
 	filename = 'trained_model.sav'
 	pickle.dump(linear_model, open(filename, 'wb'))
 
+	# small test value
 	x_pred = [[17]]
 	y_pred = linear_model.predict(x_pred)
 
 	print("y-values = ", y_pred)
 
 
-#this will have to go into app.py
+#test function
 def test():
 
 	filename = 'trained_model.sav'
@@ -124,5 +135,5 @@ def test():
 	print(X_pred)
 	print(Y_pred)
 
-#regression_model()
+#quick test
 test()
