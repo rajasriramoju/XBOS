@@ -3,15 +3,15 @@ $(document).ready(function() {
 	var zoneSel = 0;
 	var zoneArr = [];
 
-	document.getElementById('temp1').value = sessionStorage.getItem('tempOne');
-	document.getElementById('temp2').value = sessionStorage.getItem('tempTwo');
-	document.getElementById('temp3').value = sessionStorage.getItem('tempThree');
-	document.getElementById('temp4').value = sessionStorage.getItem('tempFour');
+	document.getElementById('temp1').value = temperature1;
+	document.getElementById('temp2').value = temperature2;
+	document.getElementById('temp3').value = temperature3;
+	document.getElementById('temp4').value = temperature4;
 
-	document.getElementById('temp5').value = sessionStorage.getItem('tempFive');
-	document.getElementById('temp6').value = sessionStorage.getItem('tempSix');
-	document.getElementById('temp7').value = sessionStorage.getItem('tempSeven');
-	document.getElementById('temp8').value = sessionStorage.getItem('tempEight');
+	document.getElementById('temp5').value = temperature5;
+	document.getElementById('temp6').value = temperature6;
+	document.getElementById('temp7').value = temperature7;
+	document.getElementById('temp8').value = temperature8;
 
 	$(".filled-in").each(function() {
 		$(this).click(function() {
@@ -68,7 +68,7 @@ $(document).ready(function() {
 	// 	M.toast({html: 'Current modes successfully updated.', classes:"rounded", displayLength: 2000});
 	// 	console.log(obj);
 	// });
-	
+
 	$("#save-therm").click(function() {
 		//var obj = new Object();
 		modes = [];
@@ -88,15 +88,24 @@ $(document).ready(function() {
 		var temp3 = document.getElementById('temp3').value;
 		var temp4 = document.getElementById('temp4').value;
 
-		sessionStorage.setItem('tempOne',temp1);
-		sessionStorage.setItem('tempTwo',temp2);
-		sessionStorage.setItem('tempThree',temp3);
-		sessionStorage.setItem('tempFour',temp4);
-		// console.log(temp1);
-		// console.log(temp2);
-		// console.log(temp3);
-		// console.log(temp4);
-		// console.log(temp);
+		$.ajax({
+			type: 'POST',
+			url: '/setpoints/getEntry1',
+			dataType: "json",
+			data: JSON.stringify({
+				'temp1': temp1,
+				'temp2': temp2,
+				'temp3': temp3,
+				'temp4': temp4
+			}),
+			success: function(data) {
+				console.log(data);
+			},
+			failure: function(err) {
+				console.log(err);
+			}
+		})
+
 
 		var result, ctr, keys, columnDelimiter, lineDelimiter, data, csv, eCSV;
 		data = modes;
@@ -119,7 +128,7 @@ $(document).ready(function() {
             });
             result += lineDelimiter;
 		});
-		
+
 		csv = 'data:text/csv;charset=utf-8,' + result;
 		eCSV = encodeURI(csv);
 
@@ -153,10 +162,24 @@ $(document).ready(function() {
 		var temp7 = document.getElementById('temp7').value;
 		var temp8 = document.getElementById('temp8').value;
 
-		sessionStorage.setItem('tempFive',temp5);
-		sessionStorage.setItem('tempSix',temp6);
-		sessionStorage.setItem('tempSeven',temp7);
-		sessionStorage.setItem('tempEight',temp8);
+		$.ajax({
+			type: 'POST',
+			url: '/setpoints/getEntry2',
+			dataType: "json",
+			data: JSON.stringify({
+
+				'temp5': temp5,
+				'temp6': temp6,
+				'temp7': temp7,
+				'temp8': temp8
+			}),
+			success: function(data) {
+				console.log(data);
+			},
+			failure: function(err) {
+				console.log(err);
+			}
+		})
 
 
 		var result, ctr, keys, columnDelimiter, lineDelimiter, data, csv, eCSV;
@@ -180,7 +203,7 @@ $(document).ready(function() {
             });
             result += lineDelimiter;
 		});
-		
+
 		csv = 'data:text/csv;charset=utf-8,' + result;
 		eCSV = encodeURI(csv);
 
@@ -196,4 +219,3 @@ $(document).ready(function() {
 		// console.log("name" + modes[0].name);
 	});
 });
-

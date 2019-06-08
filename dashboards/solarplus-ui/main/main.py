@@ -4,10 +4,10 @@ import config
 from flask import make_response, request, current_app
 from flask import jsonify, redirect, url_for
 from flask import g, render_template, url_for, session
-from influxdb import InfluxDBClient
 import boto3
 import boto.ses
 import base64
+from influxdb import InfluxDBClient
 from urllib.request import urlopen
 
 from datetime import timedelta
@@ -25,8 +25,8 @@ from json import dumps
 from flask import Blueprint, render_template
 from flask_login import login_required, current_user
 
-AWS_ACCESS_KEY = config.aws_access_key
-AWS_SECRET_KEY = config.aws_secret_key
+AWS_ACCESS_KEY = aws_access_key
+AWS_SECRET_KEY = aws_secret_key
 
 
 admin = [3]
@@ -115,8 +115,34 @@ def dashboard():
 def setpoints():
     """
     Render the setpoints page.
-    """
 
+    Each query result set of a thermometer is saved into
+    a variable queryTemp1 to queryTemp8
+
+    Result set is converted into points and saved into
+    a variable points1 to points8
+
+    The exact measurement value of the temperature is
+    saved into a variable result1 to result8
+
+    -------------------------------------------------------------
+    For example, queryTemp1, points1, and result1 would be
+    for Thermostat1_HSP
+
+    queryTemp2, points2, and result2 would be for Thermostat1_CSP
+
+    And so on...
+
+    Returns
+    -------
+    if the user is admin:
+        setpoints.html
+            setpoints page with each measurement value pased in as temperature
+
+    else:
+        404.html
+            the error page, because only the admin has the access
+    """
     # create the client for influxdb
     client = InfluxDBClient('127.0.0.1', 8086,'setpoints_db')
     client.switch_database('setpoints_db')
@@ -300,7 +326,7 @@ def cieeData():
     ciee = pd.read_csv("./sample_data/ciee.csv")
     ciee.columns = ['TimeStamp', 'ciee', 's0', 's1', 's2', 's3']
 
-    #limiting to 20 entries
+    #limiting to 20 entries like prev demo
     ciee = ciee[:20]
 
     return ciee.to_json(orient='records')
@@ -309,12 +335,6 @@ def cieeData():
 @main.route('/cieeData/<startDate>/<endDate>')
 @crossdomain(origin="*")
 def extractData(startDate, endDate):
-    """
-
-    Not used in the project anymore
-    Extracts data using start date and end date
-
-    """
     cieeDF = pd.read_csv("./sample_data/ciee.csv")
     cieeDF.columns = ['TimeStamp', 'ciee', 's0', 's1', 's2', 's3']
 
@@ -337,34 +357,16 @@ def extractData(startDate, endDate):
 
     #fetching data in the specific timeframe
     dataInRange = cieeDF[startDateIndex:(endDateIndex+1)]
+    #print(dataInRange)
 
     return dataInRange.to_json(orient = 'records')
 
 
+# This function takes in a file name, start and end date with the two features that
+# the user wants plotted on the graph
 @main.route('/<filename>/<startDate>/<endDate>/<feature1>/<feature2>')
 @crossdomain(origin="*")
 def extractData_plotTwoQueries(filename, startDate, endDate, feature1, feature2):
-
-    """
-    Not used in the project anymore
-    extractData_plotTwoQueries(filename, startDate, endDate, feature1, feature2)
-
-    Parameters
-    ----------
-    filename: str,
-    startDate: str (formatted as yyyy-mm-dd),
-    endDate: str (formatted as yyyy-mm-dd),
-    feature1: str,
-    feature2: str
-
-    This function takes in a file name, start and end date with the two features that
-    the user wants plotted on the graph
-
-    Returns
-    -------
-    JSON object
-    pandas dataframe that is converted to JSON object to hold the data of dates and 2 features' values
-    """
 
     filePathString = "./solarplus_sample_data/" + filename+".csv"
     print(filePathString)
@@ -401,14 +403,23 @@ def extractData_plotTwoQueries(filename, startDate, endDate, feature1, feature2)
 
 @main.route('/setpoints/getEntry1', methods = ['POST'])
 def renderFirstRow1():
+    """
+    This method stores the first four temperatures of the
+    setpoints page to the influxdb database called "setpoints_db"
+    """
+
+    # this variable parses and returns the data as JSON
     content = request.get_json(silent=False, force=True)
+
+    # data extracted from schedule-groupings.js stored into these variables
     Thermostat1_HSP = content['temp1']
     Thermostat1_CSP = content['temp2']
     Thermostat2_HSP = content['temp3']
     Thermostat2_CSP = content['temp4']
 
 
-    # inserting data into the database
+
+    # creating client for influxdb
     client = InfluxDBClient('127.0.0.1', 8086, 'setpoints_db')
     client.switch_database('setpoints_db')
 
@@ -425,19 +436,28 @@ def renderFirstRow1():
         'measurement': 'temperature'
         }]
 
+    # inserting data into the database
     client.write_points(json_body)
 
     return
 
-
 @main.route('/setpoints/getEntry2', methods = ['POST'])
 def renderFirstRow2():
+    """
+    This method stores the last four temperatures of the
+    setpoints page to the influxdb database called "setpoints_db"
+    """
+
+    # this variable parses and returns the data as JSON
     content = request.get_json(silent=False, force=True)
+
+    # data extracted from schedule-groupings.js stored into these variables
     Refrigerator_SP = content['temp5']
     Refrigerator_SP_Plus_dT = content['temp6']
     Freezer_SP = content['temp7']
     Freezer_SP_Plus_dT = content['temp8']
 
+    # creating client for influxdb
     client = InfluxDBClient('127.0.0.1', 8086, 'setpoints_db')
     client.switch_database('setpoints_db')
 
@@ -454,6 +474,7 @@ def renderFirstRow2():
         'measurement': 'temperature'
         }]
 
+    # inserting data into the database
     client.write_points(json_body)
 
     return
@@ -462,29 +483,8 @@ def renderFirstRow2():
 @main.route('/analysis/MLModel/<day1>/<day2>/<day3>/<day4>/<day5>/<day6>/<day7>')
 @crossdomain(origin="*")
 def MLPredictionModel(day1, day2, day3, day4, day5, day6, day7):
-
-    """
-    MLPredictionModel(day1, day2, day3, day4, day5, day6, day7)
-
-    Parameters
-    ----------
-    day1 : str
-    day2 : str
-    day3 : str
-    day4 : str
-    day5 : str
-    day6 : str
-    day7 : str
-
-    The function predicts the solar power generated given the temperatures of different days
-
-    Returns
-    -------
-    JSON object
-    pandas dataframe that is converted to JSON object to hold the data of dates and predicted values
-    """
-
-    filename = './solarplus-ui/trained_model.sav'
+    print(day1, day2, day3, day4, day5, day6, day7)
+    filename = 'trained_model.sav'
     loaded_model = pickle.load(open(filename, 'rb'))
 
     X_pred = [[float(day1)],[float(day2)],[float(day3)],[float(day4)],[float(day5)],[float(day6)],[float(day7)]]
@@ -495,122 +495,46 @@ def MLPredictionModel(day1, day2, day3, day4, day5, day6, day7):
 
     X_pred=[float(day1), float(day2), float(day3), float(day4), float(day5), float(day6), float(day7)]
     dataset = pd.DataFrame({'X_pred': X_pred, 'Column1':Y_pred})
+    #dataset = pd.DataFrame.from_records(Y_pred)
+
+    #print(Y_pred[0])
+    print(dataset)
+    #Y_pred0 = {'temperature': Y_pred[0]}
+
+    #return make_response(dumps(Y_pred))
 
     return dataset.to_json(orient = 'records')
 
-
+# This function extracts data for any feature's data from Control.csv data
+# of the solarplus sample data -> will be used for total power consumption
+# values for dashboard
 @main.route('/dashboard/access/<feature1>')
 @crossdomain(origin="*")
 def extractData_oneFeature_Control2(feature1):
-
-    """
-    extractData_oneFeature_Control2(feature1)
-
-    Parameters
-    ----------
-    feature1 : str
-
-    This function extracts data for any feature's data from Control.csv data
-    of the solarplus sample data -> will be used for total power consumption
-    values for dashboard
-
-    Returns
-    -------
-    JSON object
-    pandas dataframe that is converted to JSON object to hold the data of dates and feature1 values
-    """
     filePathString = "./solarplus-ui/solarplus_sample_data/Control2.csv"
     readDF = pd.read_csv(filePathString)
 
     df = readDF.loc[:,['Time',feature1]]
     return df.to_json(orient = 'records')
 
-
+# This function extracts data for any 2 features' data from Control.csv data
+# of the solarplus sample data -> will be used for HVAC1 and HVAC2
+# values for dashboard
 @main.route('/dashboard/access/<feature1>/<feature2>')
 @crossdomain(origin="*")
 def extractData_twoFeatures_Control2(feature1, feature2):
-    """
-
-    Parameters
-    ----------
-    feature1 : str
-    feature2 : str
-
-    This function extracts data for any 2 features' data from Control.csv data
-    of the solarplus sample data -> will be used for HVAC1 and HVAC2
-    values for dashboard
-
-    Returns
-    -------
-    JSON object
-    pandas dataframe that is converted to JSON object to hold the data of dates and feature1 and feature2 values
-    """
     filePathString = "./solarplus-ui/solarplus_sample_data/Control2.csv"
     readDF = pd.read_csv(filePathString)
 
     df = readDF.loc[:,['Time',feature1,feature2]]
     return df.to_json(orient = 'records')
 
+# This function extracts data for solar production values from
 @main.route('/dashboard/PVPowerGenData')
 @crossdomain(origin="*")
 def extractData_PVPowerGenData():
-    """
-    extractData_PVPowerGenData()
-
-    This function extracts data for solar production values from
-
-    """
-    filePathString = "./solarplus-ui/Historic_microgrid_data/PVPowerGenData.csv"
+    filePathString = "./Historic_microgrid_data/PVPowerGenData.csv"
     readDF = pd.read_csv(filePathString)
 
     df = readDF.loc[:,['Date_PT','PVPower_kW']]
     return df.to_json(orient = 'records')
-
-
-@main.route('/dashboard/access/<feature1>/average')
-@crossdomain(origin="*")
-def extractData_oneFeature_Control3(feature1):
-    """
-    extractData_oneFeature_Control3(feature1)
-
-    Parameters
-    ----------
-    feature1 : str
-
-    This function extracts data for any feature's data from Control.csv data
-    of the solarplus sample data -> will be used for average power consumption
-    values
-
-    Returns
-    -------
-    JSON object
-    pandas dataframe that is converted to JSON object to hold the data of dates and average values
-    """
-    filePathString = "./solarplus-ui/solarplus_sample_data/Control2.csv"
-    readDF = pd.read_csv(filePathString)
-
-    df = readDF.loc[:,['Time',feature1]]
-
-    # loop here to go through the dataframe and calculate the average
-    nextEntryIndex = df.index[0]
-    df_model = pd.DataFrame() #creating an epty dataframe that feeds to model
-    df_model = pd.DataFrame(columns=['Time', feature1])
-
-	#having a while loop that runs till the power dataframe is empty since that is shorter
-    while not df.empty:
-        # getting the date of the entry we want to deal with
-        currDateEntry = df.iloc[nextEntryIndex].Time
-        currDate = (currDateEntry.split(' '))[0]
-        print(currDateEntry)
-
-        #obtaining average power production of a day
-        currDateEntries_power = df[df['Time'].str.contains(currDate)].Building
-        currDateEntriesPowerAverage = sum(currDateEntries_power)/len(currDateEntries_power)
-        df_model.loc[len(df_model)] = [currDate, currDateEntriesPowerAverage]
-
-        df = df[~df.Time.str.contains(currDate)]
-        # finding the next date to perform the same operations on, as long as the dataframe is not alraedy empty
-        if not df.empty:
-            nextEntryIndex_power = df.index[0]
-
-    return df_model.to_json(orient = 'records')
