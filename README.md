@@ -1,3 +1,7 @@
+# SolarPlus UI
+
+[User Guide](https://drive.google.com/a/ucdavis.edu/file/d/1hpWrevaOJbeMD6C1f9HyR3-djlFQ60sE/view?usp=sharing)
+
 # XBOS
 The eXtensible Building Operating System
 
