@@ -1,4 +1,4 @@
-# SolarPlus UI
+# Microgrid Research UI for LBNL's SolarPlus Project
 
 [User Guide](https://drive.google.com/a/ucdavis.edu/file/d/1hpWrevaOJbeMD6C1f9HyR3-djlFQ60sE/view?usp=sharing)
 
